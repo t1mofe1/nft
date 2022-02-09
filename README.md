@@ -1,10 +1,7 @@
 nft-marketplace
-============
+===============
 
-NFT Marketplace
-
-## Overview ##
-
+Market place that main customer are developers, mathematicians or anybody who has interest of algorithms to exchange different NFTs that will render with such algorithm. No need to use 3rd party services to store NFT image, although it might be that wallets will not properly show the NFT as they await for such attribute provided in the JSON meta data of the NFT.
 
 
 ## Env variables ##
