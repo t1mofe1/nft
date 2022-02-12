@@ -1,4 +1,3 @@
-import React from "react";
 import { MainScreen } from "./screens/main";
 import { BrowseScreen } from "./screens/browse";
 import { AboutScreen } from "./screens/about";
@@ -10,6 +9,7 @@ import AppAppBar from "./modules/views/AppAppBar";
 import withRoot from "./modules/withRoot";
 
 const etherum = {
+  id : 1,
   name : "etherum",
   logo: "https://storage.opensea.io/files/265128aa51521c90f7905e5a43dcb456_new.svg"
 }
