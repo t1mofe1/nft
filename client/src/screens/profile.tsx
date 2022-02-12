@@ -1,7 +1,8 @@
 import React from "react";
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import Chip from '@mui/material/Chip';
+
+
 import TabContext from '@mui/lab/TabContext';
 import Tab from '@mui/material/Tab';
 import TabList from '@mui/lab/TabList';
@@ -20,13 +21,11 @@ import Typography from '@mui/material/Typography';
 
 
 import  NFTCard from "../modules/components/NFTCard";
+import  ProfileHeader from "../modules/components/ProfileHeader";
 
 import {Profile} from "../modules/types/profile.types"
 
 import BarChartIcon from '@mui/icons-material/BarChart';
-import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
-
-import Avatar from '@mui/material/Avatar';
 
 
 
@@ -92,49 +91,12 @@ export const ProfileScreen = (profile:Profile) => {
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
-  const handleChipClick = () => {
-    console.info('You clicked the Chip.');
-  };
+
+
 
   return (
         <Box>
-          <Grid
-            container
-            spacing={0}
-            direction="column"
-            alignItems="center"
-            justifyContent="center"
-            style={{ minHeight: '10vh', marginTop:'25px' }}
-          >
-            <Grid item xs={3}>
-              <Avatar alt={profile.nickname}  sx={{ width: 74, height: 74 }} src={profile.avatar}/>
-            </Grid>
-           
-          </Grid> 
-          <Grid container  
-             direction="column"
-            alignItems="center"
-            justifyContent="center"
-            spacing={0}
-            style={{ minHeight: '10vh', marginTop:'25px' }}
-            >
-            <Grid item xs={12} md={6}>
-                <Chip icon={<AlternateEmailIcon />} label={profile.address.substr(0,4) + ' ... ' + profile.address.substr(-4)} sx={{px:1}} onClick={handleChipClick} />
-            </Grid>
-          </Grid>
-          <Grid container  
-             direction="row"
-            alignItems="center"
-            justifyContent="center"
-            spacing={0}
-            style={{ minHeight: '10vh' }}
-            >
-            <Grid item xs={12} md={6}>
-                <Typography sx={{mt:2}} variant="body2" gutterBottom component="p">
-                  {profile.description}
-                </Typography> 
-              </Grid>
-          </Grid>
+          <ProfileHeader  {...profile} />
           <TabContext value={value}>
             <TabList value={value} onChange={handleChange} aria-label="icon tabs example" centered>
               <Tab icon={<AppsIcon />} label="Items" iconPosition="start" value="1" aria-label="phone" />
@@ -144,7 +106,7 @@ export const ProfileScreen = (profile:Profile) => {
               <Grid container spacing={2}>
                 {
                   profile.collection.map((nft) => (
-                    <Grid item xs={8} md={3} sx={{mb:1}}>
+                    <Grid item xs={12} md={3} sx={{mb:1}}>
                       <NFTCard {...nft}/>
                     </Grid>
                   ))

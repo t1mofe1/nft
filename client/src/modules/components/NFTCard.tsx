@@ -4,16 +4,17 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { Button, CardActionArea, CardActions } from '@mui/material';
+
 import {NFT} from '../types/nft.types';
 
 const NFTCard = (nft:NFT) => {
     return (
-      <Card sx={{ maxWidth: 400, }}>
+      <Card sx={{ maxWidth: '100%', borderRadius: 5,  mx: {xs:0,md:2}, mb: {xs:0,md:2}}} elevation={2} >
         <CardActionArea>
           <Box sx={{ position: 'relative' }}>
               {
                 nft.status && (
-                    <Chip sx={{position: 'absolute', top:'10px', right:'10px'}} label={nft.status.toUpperCase()} color={(nft.status === 'sale' && 'error') || 'success'} size="small"/>
+                    <Chip sx={{position: 'absolute', top:'10px', right:'10px', borderRadius: 1}} label={nft.status.toUpperCase()} color={(nft.status === 'sale' && 'error') || 'success'} size="small"/>
                 )
             }
             <CardMedia

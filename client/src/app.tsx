@@ -16,6 +16,8 @@ const etherum = {
 const profile = {
   id : 1,
   nickname : 'kingalgo',
+  created : '2019-01-01',
+  cover : "https://newevolutiondesigns.com/images/freebies/hd-facebook-cover-5.jpg  ",
   avatar: "https://www.microstockposts.com/storage/2019/10/000074.jpg",
   address: "0x51A5DAFFF0BC0CB3380DD3FB253F2CC10C39E89D",
   description : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in elementum urna. Sed imperdiet, sem dapibus scelerisque accumsan, nunc erat dignissim arcu, at finibus tellus magna ac erat. Morbi finibus laoreet lectus, nec luctus dui rhoncus id." ,
@@ -43,7 +45,7 @@ const profile = {
       price : 0.0074,
       blockchain: etherum,
       name : 'It\'s melisa',
-      status: ''
+      status: 'new'
     },
     {
       id: 4,
@@ -51,7 +53,7 @@ const profile = {
       price : 0.0087,
       blockchain: etherum,
       name : 'Cool cats',
-      status: ''
+      status: 'sale'
     },
     {
       id: 5,
@@ -59,7 +61,7 @@ const profile = {
       price : 0.0044,
       blockchain: etherum,
       name : 'Monkey tool belt',
-      status: ''
+      status: 'fook'
     },
     {
       id: 6,
