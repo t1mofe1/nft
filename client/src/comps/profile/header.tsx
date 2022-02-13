@@ -17,13 +17,13 @@ import WebIcon from '@mui/icons-material/Web';
 import ShareIcon from '@mui/icons-material/Share';
 import Avatar from '@mui/material/Avatar';
 
-import  ProfileAddress from "./ProfileAddress";
+import  ProfileAddress from "./address";
 
 
-import {ProfileType} from "../types/profile.types"
+import {IProfile} from "../../models/profile"
 
 
-const ProfileHeader = (profile:ProfileType) => {
+const ProfileHeader = (profile:IProfile) => {
 
     const buttons = [
         <Tooltip 

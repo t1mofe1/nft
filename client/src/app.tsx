@@ -2,11 +2,8 @@ import { MainScreen } from "./screens/main";
 import { BrowseScreen } from "./screens/browse";
 import { AboutScreen } from "./screens/about";
 import { ProfileScreen } from "./screens/profile";
-
+import { MainNavigation } from "./comps/navigation";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import AppAppBar from "./modules/views/AppAppBar";
-
-import withRoot from "./modules/withRoot";
 
 const ethereum = {
   id : 1,
@@ -21,10 +18,11 @@ const tron = {
 }
 
 const profile = {
-  id : 1,
-  nickname : 'kingalgo',
-  created : '2019-01-01',
-  cover : "https://newevolutiondesigns.com/images/freebies/hd-facebook-cover-5.jpg  ",
+  id: 1,
+  nickname: "kingalgo",
+  created: "2019-01-01",
+  cover:
+    "https://newevolutiondesigns.com/images/freebies/hd-facebook-cover-5.jpg  ",
   avatar: "https://www.microstockposts.com/storage/2019/10/000074.jpg",
   addresses: [
     {
@@ -253,16 +251,16 @@ const profile = {
     }
   ]
 };
-export default withRoot(() => {
+export default () => {
   return (
     <BrowserRouter>
-      <AppAppBar/>
-        <Routes>
-          <Route path="/" element={<MainScreen />} />
-          <Route path="/browse" element={<BrowseScreen />} />
-          <Route path="/about" element={<AboutScreen />} />
-          <Route path="/profile/:id" element={<ProfileScreen  {...profile}/>} />
-        </Routes>
+      <MainNavigation />
+      <Routes>
+        <Route path="/" element={<MainScreen />} />
+        <Route path="/browse" element={<BrowseScreen />} />
+        <Route path="/about" element={<AboutScreen />} />
+        <Route path="/profile/:id" element={<ProfileScreen {...profile} />} />
+      </Routes>
     </BrowserRouter>
   );
-});
+};

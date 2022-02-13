@@ -2,10 +2,11 @@
 // material
 import { Grid, Card, Paper, Typography, CardHeader, CardContent } from '@mui/material';
 
-import {ProfileStatsType} from '../types/profile.types';
+import { IProfileStats } from "../../models/profile";
 
 
-const  StatsItem = ( statsItem:ProfileStatsType ) => {
+
+const  StatsItem = ( statsItem:IProfileStats) => {
 
   return (
     <Grid item xs={6}>
@@ -19,7 +20,7 @@ const  StatsItem = ( statsItem:ProfileStatsType ) => {
   );
 }
 
-const  ProfileHeaderStats = (statsItems:Array<ProfileStatsType>) => {
+const  ProfileHeaderStats = (statsItems:Array<IProfileStats>) => {
   return (
     <Card>
       <CardHeader title="Traffic by Site" />

@@ -13,9 +13,9 @@ import  Button from '@mui/material/Button';
 import CardActionArea   from '@mui/material/CardActionArea';
 import CardActions  from '@mui/material/CardActions';
 
-import {NFTType} from '../types/nft.types';
+import {INft} from '../models/nft';
 
-const NFTCard = (nft:NFTType) => {
+const NFTCard = (nft:INft) => {
     return (
       <Card sx={{ maxWidth: '100%', borderRadius: 5,  mx: {xs:0,md:2}, mb: {xs:0,md:2}}} elevation={2} >
         <CardActionArea>

@@ -5,9 +5,9 @@ import Tooltip from '@mui/material/Tooltip';
 import Fade from '@mui/material/Fade';
 import Typography from '@mui/material/Typography';
 
-import {ProfileAddressType} from "../types/profile.types"
+import {IProfileAddress} from "../../models/profile"
 
-const ProfileAddress = (address:ProfileAddressType) => {
+const ProfileAddress = (address:IProfileAddress) => {
     const [tooltipCopiedOpen, setTooltipCopiedOpen] = React.useState(false);
     const [tooltipCopyOpen, setTooltipCopyOpen] = React.useState(false);
   
