@@ -43,9 +43,14 @@ const profile = {
       id : 1,
       cover: "https://newsline.news/wp-content/uploads/2021/05/NFT-10-pictures-that-sold-for-hundreds-of-millions-of.jpeg",
       price : 0.0044,
+      priceSale : 0.0040,
       blockchain: ethereum,
       name : 'Monkey tool belt',
-      status: 'sale'
+      status: 'sale',
+      favourite : {
+        count: 3,
+        isFavourite: true
+      }
     },
     {
       id : 2,
@@ -53,7 +58,11 @@ const profile = {
       price : 0.0054,
       blockchain: ethereum,
       name : 'Cool jesus',
-      status: 'new'
+      status: 'new',
+      favourite : {
+        count: 0,
+        isFavourite: false
+      }
 
     },
     {
@@ -62,15 +71,24 @@ const profile = {
       price : 1740,
       blockchain: tron,
       name : 'It\'s melisa',
-      status: 'new'
+      status: 'new',
+      favourite : {
+        count: 10,
+        isFavourite: false
+      }
     },
     {
       id: 4,
       cover: "https://cdn.vox-cdn.com/thumbor/bouCIhEhMramGHZAiQGaa3q43vo=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/22341171/Screen_Shot_2021_03_02_at_3.21.50_PM.png",
       price : 0.0087,
+      priceSale : 0.0085,
       blockchain: ethereum,
       name : 'Cool cats',
-      status: 'sale'
+      status: 'sale',
+      favourite : {
+        count: 3,
+        isFavourite: true
+      }
     },
     {
       id: 5,
@@ -78,7 +96,6 @@ const profile = {
       price : 4400,
       blockchain: tron,
       name : 'Monkey tool belt',
-      status: 'fook'
     },
     {
       id: 6,
@@ -86,7 +103,6 @@ const profile = {
       price : 0.0054,
       blockchain: ethereum,
       name : 'Cool jesus',
-      status: ''
     },
     {
       id: 7,
@@ -94,7 +110,6 @@ const profile = {
       price : 0.0074,
       blockchain: ethereum,
       name : 'It\'s melisa',
-      status: ''
     },
     {
       id: 8,
@@ -102,7 +117,6 @@ const profile = {
       price : 0.0087,
       blockchain: ethereum,
       name : 'Cool cats',
-      status: ''
     },
     {
       id: 9,
@@ -110,7 +124,6 @@ const profile = {
       price : 0.0044,
       blockchain: ethereum,
       name : 'Monkey tool belt',
-      status: ''
     },
     {
       id: 10,
@@ -118,7 +131,6 @@ const profile = {
       price : 0.0054,
       blockchain: ethereum,
       name : 'Cool jesus',
-      status: ''
     },
     {
       id: 11,
@@ -126,7 +138,6 @@ const profile = {
       price : 0.0074,
       blockchain: ethereum,
       name : 'It\'s melisa',
-      status: ''
     },
     {
       id: 12,
@@ -134,107 +145,94 @@ const profile = {
       price : 0.0087,
       blockchain: ethereum,
       name : 'Cool cats',
-      status: ''
     }
 
   ],
   favourite : [
     {
-      id : 1,
+      id : 13,
       cover: "https://static.euronews.com/articles/stories/06/31/78/50/1440x810_cmsv2_01a070e6-3194-5587-8267-772c9ace8dce-6317850.jpg",
       price : 0.0044,
       blockchain: ethereum,
       name : 'Monkey tool belt',
-      status: ''
     },
     {
-      id : 2,
+      id : 14,
       cover: "https://lh3.googleusercontent.com/anz79oXQf9jSTRghT-aMZ4h4aoUW6ohTGoarWjW9Thr4GzvrZI57Cu4C_VzLu_MAWROwQxPVyEbrqgbt7uHX3pp69vqTNxXzOlLc",
       price : 0.0054,
       blockchain: ethereum,
       name : 'Cool camel ',
-      status: ''
 
     },
     {
-      id: 3,
+      id: 15,
       cover: "https://lh3.googleusercontent.com/e4MQoxUe7UVFrxKDMi-qDv9P5h6Aben_2qzOQoObNGpn5M0bK3S9blvWuFzb7yo5Cegm5p3f6HnNvKePsfbuvOREE50AAR-OTCcjmQ=w600",
       price : 0.0074,
       blockchain: ethereum,
       name : 'It\'s melisa',
-      status: ''
     },
     {
-      id: 4,
+      id: 16,
       cover: "https://lh3.googleusercontent.com/3m6rjtJ_mDMVnHA6pmqhBB2OFTTZtHb-ulXCPhjdegn0t_a17D9RCPy485c8k8qKD8ILaTdGzOqoPlk59nibgA7LTd3ClI9Y_czpwJI",
       price : 0.0087,
       blockchain: ethereum,
       name : 'Cool cats',
-      status: ''
     },
     {
-      id: 5,
+      id: 17,
       cover: "https://www.mon-livret.fr/wp-content/uploads/2022/01/Capture-de%CC%81cran-2022-01-01-a%CC%80-09.05.23-696x485.png",
       price : 0.44,
       blockchain: ethereum,
       name : 'Monkey tool belt',
-      status: ''
     },
     {
-      id: 6,
+      id: 18,
       cover: "https://www.cnet.com/a/img/FOblZHSSQ9sBlVbdd0qIxrLRIAI=/940x0/2021/12/13/d319cda7-1ddd-4855-ac55-9dcd9ce0f6eb/unnamed.png",
       price : 0.0054,
       blockchain: ethereum,
       name : 'Cool jesus',
-      status: ''
     },
     {
-      id: 7,
+      id: 19,
       cover: "https://ichef.bbci.co.uk/news/976/cpsprodpb/DBB7/production/_122074265_hi071843849.jpg",
       price : 0.0074,
       blockchain: ethereum,
       name : 'It\'s melisa',
-      status: ''
     },
     {
-      id: 8,
+      id: 20,
       cover: "https://cdn.vox-cdn.com/thumbor/bouCIhEhMramGHZAiQGaa3q43vo=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/22341171/Screen_Shot_2021_03_02_at_3.21.50_PM.png",
       price : 0.0087,
       blockchain: ethereum,
       name : 'Cool cats',
-      status: ''
     },
     {
-      id: 9,
+      id: 21,
       cover: "https://newsline.news/wp-content/uploads/2021/05/NFT-10-pictures-that-sold-for-hundreds-of-millions-of.jpeg",
       price : 0.0044,
       blockchain: ethereum,
       name : 'Monkey tool belt',
-      status: ''
     },
     {
-      id: 10,
+      id: 22,
       cover: "https://www.cnet.com/a/img/FOblZHSSQ9sBlVbdd0qIxrLRIAI=/940x0/2021/12/13/d319cda7-1ddd-4855-ac55-9dcd9ce0f6eb/unnamed.png",
       price : 0.0054,
       blockchain: ethereum,
       name : 'Cool jesus',
-      status: ''
     },
     {
-      id: 11,
+      id: 23,
       cover: "https://ichef.bbci.co.uk/news/976/cpsprodpb/DBB7/production/_122074265_hi071843849.jpg",
       price : 0.0074,
       blockchain: ethereum,
       name : 'It\'s melisa',
-      status: ''
     },
     {
-      id: 12,
+      id: 24,
       cover: "https://cdn.vox-cdn.com/thumbor/bouCIhEhMramGHZAiQGaa3q43vo=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/22341171/Screen_Shot_2021_03_02_at_3.21.50_PM.png",
       price : 0.0087,
       blockchain: ethereum,
       name : 'Cool cats',
-      status: ''
     }
 
   ],

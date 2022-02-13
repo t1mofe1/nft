@@ -89,8 +89,8 @@ export const ProfileScreen = (profile: IProfile) => {
   return (
         <Box>
           <ProfileHeader  {...profile} />
-          <TabContext value={value}>
-            <TabList value={value} onChange={handleChange} aria-label="icon tabs example" centered>
+          <TabContext value={value} >
+            <TabList value={value} sx={{mb:{xs:0,md:4}}} onChange={handleChange} aria-label="icon tabs example" centered>
               <Tab icon={<AppsIcon color="primary"/>}  label="Collection" iconPosition="start" value="1" aria-label="phone" />
               <Tab icon={<FavoriteIcon color="error" />}  label="Favourite" iconPosition="start" value="2" aria-label="phone" />
               <Tab icon={<BarChartIcon color="info" />} label="Data" iconPosition="start"  value="3" aria-label="person" />

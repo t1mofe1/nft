@@ -69,17 +69,19 @@ const ProfileHeader = (profile:IProfile) => {
                 <Grid container spacing={2} sx={{ justifyContent:'center', mt:2}}>
                     {
                         profile.addresses.map((address) => (
-                            <Grid item xs={6} md={3} lg={2} sx={{mb:1}}>
+                            <Grid item xs={4} md={3} lg={2} sx={{mb:1}}>
                                 <ProfileAddress {...address}/>
                             </Grid>
                             ))
                     }
                 </Grid>
-                <Toolbar>
+                <Grid container spacing={2} sx={{ justifyContent:'center', mt:2}}>
+                  <Grid item xs={12} md={10} lg={8} sx={{mb:1}}>
                     <Typography sx={{mt:2,px : {xs : 2}}} variant="body2" gutterBottom component="p">
                         {profile.description}
                     </Typography> 
-                </Toolbar>
+                  </Grid>
+                </Grid>
             </Container>
         </Box>
     )
