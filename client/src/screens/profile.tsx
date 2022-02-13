@@ -17,17 +17,16 @@ import TableRow from '@mui/material/TableRow';
 
 import Paper from '@mui/material/Paper';
 import AppsIcon from '@mui/icons-material/Apps';
-import Typography from '@mui/material/Typography';
 
 
 import  NFTCard from "../modules/components/NFTCard";
 import  ProfileHeader from "../modules/components/ProfileHeader";
 
-import {Profile} from "../modules/types/profile.types"
+import {ProfileType} from "../modules/types/profile.types"
 
 import BarChartIcon from '@mui/icons-material/BarChart';
 
-
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 
 
@@ -84,7 +83,7 @@ const DenseTable = () => {
     </TableContainer>
   );
 }
-export const ProfileScreen = (profile:Profile) => {
+export const ProfileScreen = (profile:ProfileType) => {
 
   const [value, setValue] = React.useState('1');
 
@@ -99,8 +98,9 @@ export const ProfileScreen = (profile:Profile) => {
           <ProfileHeader  {...profile} />
           <TabContext value={value}>
             <TabList value={value} onChange={handleChange} aria-label="icon tabs example" centered>
-              <Tab icon={<AppsIcon />} label="Items" iconPosition="start" value="1" aria-label="phone" />
-              <Tab icon={<BarChartIcon />} label="Data" iconPosition="start"  value="2" aria-label="person" />
+              <Tab icon={<AppsIcon color="primary"/>}  label="Collection" iconPosition="start" value="1" aria-label="phone" />
+              <Tab icon={<FavoriteIcon color="error" />}  label="Favourite" iconPosition="start" value="2" aria-label="phone" />
+              <Tab icon={<BarChartIcon color="info" />} label="Data" iconPosition="start"  value="3" aria-label="person" />
             </TabList>
             <TabPanel value="1" >
               <Grid container spacing={2}>
@@ -114,6 +114,17 @@ export const ProfileScreen = (profile:Profile) => {
               </Grid>
             </TabPanel>
             <TabPanel value="2" >
+              <Grid container spacing={2}>
+                {
+                  profile.favourite.map((nft) => (
+                    <Grid item xs={12} md={3} sx={{mb:1}}>
+                      <NFTCard {...nft}/>
+                    </Grid>
+                  ))
+                }
+              </Grid>
+            </TabPanel>
+            <TabPanel value="3" >
               <DenseTable/>
             </TabPanel>
           </TabContext>

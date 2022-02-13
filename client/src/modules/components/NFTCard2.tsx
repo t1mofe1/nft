@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Card, Link, Typography, Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import {NFT} from '../types/nft.types';
+import {NFTType} from '../types/nft.types';
 
 
 const ProductImgStyle = styled('img')({
@@ -13,7 +13,7 @@ const ProductImgStyle = styled('img')({
   });
 
 
-const NFTCard = (nft:NFT) => {
+const NFTCard = (nft:NFTType) => {
     return (
       <Card>
       <Box sx={{ pt: '100%', position: 'relative' }}>

@@ -1,20 +1,28 @@
-import React from "react";
-import {Grid, Box, Chip} from '@mui/material';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import Chip from '@mui/material/Chip';
+import Tooltip from '@mui/material/Tooltip';
+import Fade from '@mui/material/Fade';
+
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import { Button, CardActionArea, CardActions } from '@mui/material';
 
-import {NFT} from '../types/nft.types';
 
-const NFTCard = (nft:NFT) => {
+import  Button from '@mui/material/Button';
+import CardActionArea   from '@mui/material/CardActionArea';
+import CardActions  from '@mui/material/CardActions';
+
+import {NFTType} from '../types/nft.types';
+
+const NFTCard = (nft:NFTType) => {
     return (
       <Card sx={{ maxWidth: '100%', borderRadius: 5,  mx: {xs:0,md:2}, mb: {xs:0,md:2}}} elevation={2} >
         <CardActionArea>
           <Box sx={{ position: 'relative' }}>
               {
                 nft.status && (
-                    <Chip sx={{position: 'absolute', top:'10px', right:'10px', borderRadius: 1}} label={nft.status.toUpperCase()} color={(nft.status === 'sale' && 'error') || 'success'} size="small"/>
+                    <Chip sx={{position: 'absolute', top:'20px', right:'20px', borderRadius: 1, fontWeight:800, color: "#fff"}} label={nft.status.toUpperCase()} color={(nft.status === 'sale' && 'error') || (nft.status === 'new' && 'success') || 'info'} size="small"/>
                 )
             }
             <CardMedia
@@ -34,7 +42,16 @@ const NFTCard = (nft:NFT) => {
                 flexGrow: 1 ,
                 justifyContent: 'flex-end'
                 }}>
-              <Box component="img" src={nft.blockchain.logo} sx={{width:'9px',mr:1}}/>
+               <Tooltip 
+                  title={nft.blockchain.name} placement="top" arrow
+                  PopperProps={{
+                      disablePortal: true,
+                  }}
+                  TransitionComponent={Fade}
+                  TransitionProps={{ timeout: 200 }}
+                  >    
+                <Box component="img"  src={nft.blockchain.logo} sx={{width:'16px', height:'16px', mr:1, marginTop:'-1px'}}/>
+              </Tooltip>
               <Box  
                 component="span"
                 >{nft.price}</Box>
