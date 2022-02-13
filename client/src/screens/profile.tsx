@@ -1,36 +1,28 @@
 import React from "react";
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 
+import TabContext from "@mui/lab/TabContext";
+import Tab from "@mui/material/Tab";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
 
-import TabContext from '@mui/lab/TabContext';
-import Tab from '@mui/material/Tab';
-import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
 
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
+import Paper from "@mui/material/Paper";
+import AppsIcon from "@mui/icons-material/Apps";
+import Typography from "@mui/material/Typography";
 
-import Paper from '@mui/material/Paper';
-import AppsIcon from '@mui/icons-material/Apps';
-import Typography from '@mui/material/Typography';
+import NFTCard from "../comps/nft-card";
+import ProfileHeader from "../comps/profile/header";
 
-
-import  NFTCard from "../modules/components/NFTCard";
-import  ProfileHeader from "../modules/components/ProfileHeader";
-
-import {Profile} from "../modules/types/profile.types"
-
-import BarChartIcon from '@mui/icons-material/BarChart';
-
-
-
-
-
+import BarChartIcon from "@mui/icons-material/BarChart";
+import { IProfile } from "../models/profile";
 
 //data
 function createData(
@@ -38,17 +30,17 @@ function createData(
   calories: number,
   fat: number,
   carbs: number,
-  protein: number,
+  protein: number
 ) {
   return { name, calories, fat, carbs, protein };
 }
 
 const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
+  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
+  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
+  createData("Eclair", 262, 16.0, 24, 6.0),
+  createData("Cupcake", 305, 3.7, 67, 4.3),
+  createData("Gingerbread", 356, 16.0, 49, 3.9),
 ];
 
 const DenseTable = () => {
@@ -68,7 +60,7 @@ const DenseTable = () => {
           {rows.map((row) => (
             <TableRow
               key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell component="th" scope="row">
                 {row.name}
@@ -83,40 +75,52 @@ const DenseTable = () => {
       </Table>
     </TableContainer>
   );
-}
-export const ProfileScreen = (profile:Profile) => {
-
-  const [value, setValue] = React.useState('1');
+};
+export const ProfileScreen = (profile: IProfile) => {
+  const [value, setValue] = React.useState("1");
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
 
-
-
   return (
-        <Box>
-          <ProfileHeader  {...profile} />
-          <TabContext value={value}>
-            <TabList value={value} onChange={handleChange} aria-label="icon tabs example" centered>
-              <Tab icon={<AppsIcon />} label="Items" iconPosition="start" value="1" aria-label="phone" />
-              <Tab icon={<BarChartIcon />} label="Data" iconPosition="start"  value="2" aria-label="person" />
-            </TabList>
-            <TabPanel value="1" >
-              <Grid container spacing={2}>
-                {
-                  profile.collection.map((nft) => (
-                    <Grid item xs={12} md={3} sx={{mb:1}}>
-                      <NFTCard {...nft}/>
-                    </Grid>
-                  ))
-                }
+    <Box>
+      <ProfileHeader {...profile} />
+      <TabContext value={value}>
+        <TabList
+          value={value}
+          onChange={handleChange}
+          aria-label="icon tabs example"
+          centered
+        >
+          <Tab
+            icon={<AppsIcon />}
+            label="Items"
+            iconPosition="start"
+            value="1"
+            aria-label="phone"
+          />
+          <Tab
+            icon={<BarChartIcon />}
+            label="Data"
+            iconPosition="start"
+            value="2"
+            aria-label="person"
+          />
+        </TabList>
+        <TabPanel value="1">
+          <Grid container spacing={2}>
+            {profile.collection.map((nft) => (
+              <Grid item xs={12} md={3} sx={{ mb: 1 }}>
+                <NFTCard {...nft} />
               </Grid>
-            </TabPanel>
-            <TabPanel value="2" >
-              <DenseTable/>
-            </TabPanel>
-          </TabContext>
-        </Box>
+            ))}
+          </Grid>
+        </TabPanel>
+        <TabPanel value="2">
+          <DenseTable />
+        </TabPanel>
+      </TabContext>
+    </Box>
   );
 };
