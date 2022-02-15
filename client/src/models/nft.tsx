@@ -1,5 +1,5 @@
 export interface IBlockChain {
-  id: number;
+  key: number;
   name: string;
   logo: string;
   //url : string
@@ -10,7 +10,7 @@ export interface IFavourite {
   isFavourite?: boolean;
 }
 export interface INft {
-  id: number;
+  key: number;
   name: string;
   cover: string;
   price: number;

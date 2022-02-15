@@ -1,17 +1,17 @@
 import { INft, IBlockChain } from "./nft";
 
 export interface IProfileStats  {
-  id : number;
+  key : number;
   name : string;
   value : number;
 }
 export interface IProfileAddress  {
-  id : number;
+  key : number;
   blockchain : IBlockChain;
   address : string;
 }
 export interface IProfile {
-  id : number;
+  key : number;
   nickname: string;
   created: string;
   cover: string;

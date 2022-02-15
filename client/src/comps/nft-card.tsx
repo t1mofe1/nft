@@ -52,8 +52,13 @@ const NFTCard = ({nft, showStatus=true}:INftCardComp) => {
     setCardHover(false);
   }
     return (
-      <Card sx={{ maxWidth: '100%', borderRadius: 5,  mx: {xs:0,md:2}, mb: {xs:0,md:2}, marginTop: cardHover ? '-5px' : 0, transition: 'margin-top 0.3s' }} elevation={cardHover ? 8 : 2} >
-        <CardActionArea onMouseEnter={onMouseEnterHandler} onMouseLeave={onMouseLeaveHandler}>
+      <Card 
+        sx={{ maxWidth: '100%', borderRadius: 5,  mx: {xs:0,md:2}, mb: {xs:0,md:2}, marginTop: cardHover ? '-5px' : 0, transition: 'margin-top 0.3s' }} 
+        elevation={cardHover ? 8 : 2} 
+        onMouseEnter={onMouseEnterHandler} 
+        onMouseLeave={onMouseLeaveHandler}
+        >
+        <CardActionArea>
           <Box sx={{ position: 'relative' }}>
                
             {
@@ -70,10 +75,10 @@ const NFTCard = ({nft, showStatus=true}:INftCardComp) => {
           </Box>
           <CardContent>
           <Grid container>
-            <Grid xs={6}>
+            <Grid item xs={6}>
               {nft.name}
             </Grid>
-            <Grid xs={6}  sx={{
+            <Grid item xs={6}  sx={{
                 display: { xs: 'none', md: 'flex' }, 
                 flexGrow: 1 ,
                 justifyContent: 'flex-end'

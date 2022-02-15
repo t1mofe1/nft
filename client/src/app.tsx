@@ -9,19 +9,19 @@ import { IProfile, IProfileStats } from "./models/profile";
 
 
 const ethereum:IBlockChain = {
-  id : 1,
+  key : 1,
   name : "Ethereum",
-  logo: "https://storage.opensea.io/files/265128aa51521c90f7905e5a43dcb456_new.svg"
+  logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Ethereum-icon-purple.svg/480px-Ethereum-icon-purple.svg.png"
 
 }
 const tron:IBlockChain = {
-  id : 2,
+  key : 2,
   name : "Tron",
   logo : "/tron-logo.png"
 }
 const nftItems:Array<INft> = [
   {
-    id : 1,
+    key : 1,
     cover: "https://newsline.news/wp-content/uploads/2021/05/NFT-10-pictures-that-sold-for-hundreds-of-millions-of.jpeg",
     price : 0.0044,
     priceSale : 0.0040,
@@ -36,7 +36,7 @@ const nftItems:Array<INft> = [
 
   },
   {
-    id : 2,
+    key : 2,
     cover: "https://www.cnet.com/a/img/FOblZHSSQ9sBlVbdd0qIxrLRIAI=/940x0/2021/12/13/d319cda7-1ddd-4855-ac55-9dcd9ce0f6eb/unnamed.png",
     price : 0.0054,
     blockchain: ethereum,
@@ -51,7 +51,7 @@ const nftItems:Array<INft> = [
 
   },
   {
-    id: 3,
+    key: 3,
     cover: "https://ichef.bbci.co.uk/news/976/cpsprodpb/DBB7/production/_122074265_hi071843849.jpg",
     price : 1740,
     blockchain: tron,
@@ -65,7 +65,7 @@ const nftItems:Array<INft> = [
 
   },
   {
-    id: 4,
+    key: 4,
     cover: "https://cdn.vox-cdn.com/thumbor/bouCIhEhMramGHZAiQGaa3q43vo=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/22341171/Screen_Shot_2021_03_02_at_3.21.50_PM.png",
     price : 0.0087,
     priceSale : 0.0085,
@@ -81,7 +81,7 @@ const nftItems:Array<INft> = [
 
   },
   {
-    id: 5,
+    key: 5,
     cover: "https://newsline.news/wp-content/uploads/2021/05/NFT-10-pictures-that-sold-for-hundreds-of-millions-of.jpeg",
     price : 4400,
     blockchain: tron,
@@ -90,7 +90,7 @@ const nftItems:Array<INft> = [
 
   },
   {
-    id: 6,
+    key: 6,
     cover: "https://www.cnet.com/a/img/FOblZHSSQ9sBlVbdd0qIxrLRIAI=/940x0/2021/12/13/d319cda7-1ddd-4855-ac55-9dcd9ce0f6eb/unnamed.png",
     price : 0.0054,
     blockchain: ethereum,
@@ -99,7 +99,7 @@ const nftItems:Array<INft> = [
 
   },
   {
-    id: 7,
+    key: 7,
     cover: "https://ichef.bbci.co.uk/news/976/cpsprodpb/DBB7/production/_122074265_hi071843849.jpg",
     price : 0.0074,
     blockchain: ethereum,
@@ -108,7 +108,7 @@ const nftItems:Array<INft> = [
 
   },
   {
-    id: 8,
+    key: 8,
     cover: "https://cdn.vox-cdn.com/thumbor/bouCIhEhMramGHZAiQGaa3q43vo=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/22341171/Screen_Shot_2021_03_02_at_3.21.50_PM.png",
     price : 0.0087,
     blockchain: ethereum,
@@ -117,7 +117,7 @@ const nftItems:Array<INft> = [
 
   },
   {
-    id: 9,
+    key: 9,
     cover: "https://newsline.news/wp-content/uploads/2021/05/NFT-10-pictures-that-sold-for-hundreds-of-millions-of.jpeg",
     price : 0.0044,
     blockchain: ethereum,
@@ -126,7 +126,7 @@ const nftItems:Array<INft> = [
 
   },
   {
-    id: 10,
+    key: 10,
     cover: "https://www.cnet.com/a/img/FOblZHSSQ9sBlVbdd0qIxrLRIAI=/940x0/2021/12/13/d319cda7-1ddd-4855-ac55-9dcd9ce0f6eb/unnamed.png",
     price : 0.0054,
     blockchain: ethereum,
@@ -136,7 +136,7 @@ const nftItems:Array<INft> = [
 
   },
   {
-    id: 10,
+    key: 11,
     cover: "https://backend.esquire.de/sites/esquire.de/files/styles/og_image/public/images/2021-03/animierte-gif-nyan-cat-nft.png?h=1e942333&itok=09QkFeyT",
     price : 0.0054,
     blockchain: ethereum,
@@ -146,7 +146,7 @@ const nftItems:Array<INft> = [
 
   },
   {
-    id: 11,
+    key: 12,
     cover: "https://ichef.bbci.co.uk/news/976/cpsprodpb/DBB7/production/_122074265_hi071843849.jpg",
     price : 0.0074,
     blockchain: ethereum,
@@ -155,7 +155,7 @@ const nftItems:Array<INft> = [
 
   },
   {
-    id: 12,
+    key: 13,
     cover: "https://cdn.vox-cdn.com/thumbor/bouCIhEhMramGHZAiQGaa3q43vo=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/22341171/Screen_Shot_2021_03_02_at_3.21.50_PM.png",
     price : 0.0087,
     blockchain: ethereum,
@@ -165,7 +165,7 @@ const nftItems:Array<INft> = [
 
   },
   {
-    id : 13,
+    key : 14,
     cover: "https://static.euronews.com/articles/stories/06/31/78/50/1440x810_cmsv2_01a070e6-3194-5587-8267-772c9ace8dce-6317850.jpg",
     price : 0.0044,
     blockchain: ethereum,
@@ -175,7 +175,7 @@ const nftItems:Array<INft> = [
 
   },
   {
-    id : 14,
+    key : 15,
     cover: "https://lh3.googleusercontent.com/anz79oXQf9jSTRghT-aMZ4h4aoUW6ohTGoarWjW9Thr4GzvrZI57Cu4C_VzLu_MAWROwQxPVyEbrqgbt7uHX3pp69vqTNxXzOlLc",
     price : 0.0054,
     blockchain: ethereum,
@@ -185,7 +185,7 @@ const nftItems:Array<INft> = [
 
   },
   {
-    id: 15,
+    key: 16,
     cover: "https://cdn.vox-cdn.com/thumbor/bouCIhEhMramGHZAiQGaa3q43vo=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/22341171/Screen_Shot_2021_03_02_at_3.21.50_PM.png",
     price : 0.0187,
     priceSale: 0.177,
@@ -195,7 +195,7 @@ const nftItems:Array<INft> = [
     status: 'sale'
   },
   {
-    id: 16,
+    key: 17,
     cover: "https://newsline.news/wp-content/uploads/2021/05/NFT-10-pictures-that-sold-for-hundreds-of-millions-of.jpeg",
     price : 0.0064,
     blockchain: ethereum,
@@ -204,7 +204,7 @@ const nftItems:Array<INft> = [
 
   },
   {
-    id: 17,
+    key: 18,
     cover: "https://www.mon-livret.fr/wp-content/uploads/2022/01/Capture-de%CC%81cran-2022-01-01-a%CC%80-09.05.23-696x485.png",
     price : 0.44,
     blockchain: ethereum,
@@ -213,7 +213,7 @@ const nftItems:Array<INft> = [
 
   },
   {
-    id: 18,
+    key: 19,
     cover: "https://www.cnet.com/a/img/FOblZHSSQ9sBlVbdd0qIxrLRIAI=/940x0/2021/12/13/d319cda7-1ddd-4855-ac55-9dcd9ce0f6eb/unnamed.png",
     price : 0.0054,
     priceSale : 0.0044,
@@ -225,7 +225,7 @@ const nftItems:Array<INft> = [
 
   },
   {
-    id: 19,
+    key: 20,
     cover: "https://ichef.bbci.co.uk/news/976/cpsprodpb/DBB7/production/_122074265_hi071843849.jpg",
     price : 0.0074,
     blockchain: ethereum,
@@ -234,7 +234,7 @@ const nftItems:Array<INft> = [
     status: 'new'
   },
   {
-    id: 20,
+    key: 21,
     cover: "https://cdn.vox-cdn.com/thumbor/bouCIhEhMramGHZAiQGaa3q43vo=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/22341171/Screen_Shot_2021_03_02_at_3.21.50_PM.png",
     price : 0.0087,
     priceSale : 0.0080,
@@ -245,7 +245,7 @@ const nftItems:Array<INft> = [
 
   },
   {
-    id: 21,
+    key: 22,
     cover: "https://newsline.news/wp-content/uploads/2021/05/NFT-10-pictures-that-sold-for-hundreds-of-millions-of.jpeg",
     price : 0.0044,
     blockchain: ethereum,
@@ -254,7 +254,7 @@ const nftItems:Array<INft> = [
     status: 'trending'
   },
   {
-    id: 22,
+    key: 23,
     cover: "https://www.cnet.com/a/img/FOblZHSSQ9sBlVbdd0qIxrLRIAI=/940x0/2021/12/13/d319cda7-1ddd-4855-ac55-9dcd9ce0f6eb/unnamed.png",
     price : 0.0054,
     blockchain: ethereum,
@@ -265,7 +265,7 @@ const nftItems:Array<INft> = [
 
   },
   {
-    id: 23,
+    key: 24,
     cover: "https://ichef.bbci.co.uk/news/976/cpsprodpb/DBB7/production/_122074265_hi071843849.jpg",
     price : 0.0074,
     blockchain: tron,
@@ -275,7 +275,7 @@ const nftItems:Array<INft> = [
 
   },
   {
-    id: 24,
+    key: 25,
     cover: "https://cdn.vox-cdn.com/thumbor/bouCIhEhMramGHZAiQGaa3q43vo=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/22341171/Screen_Shot_2021_03_02_at_3.21.50_PM.png",
     price : 0.0087,
     blockchain: ethereum,
@@ -285,7 +285,7 @@ const nftItems:Array<INft> = [
 
   },
   {
-    id: 24,
+    key: 26,
     cover: "https://image-cdn.hypb.st/https%3A%2F%2Fhypebeast.com%2Fimage%2F2021%2F10%2Fbored-ape-yacht-club-nft-3-4-million-record-sothebys-metaverse-tw.jpg?w=960&cbr=1&q=90&fit=max",
     price : 2000,
     priceSale: 1800,
@@ -296,7 +296,7 @@ const nftItems:Array<INft> = [
 
   },
   {
-    id: 24,
+    key: 27,
     cover: "https://cdn.mos.cms.futurecdn.net/M3nWWndkz6QXcZ4ueCfESH.jpg",
     price : 1000,
     priceSale: 800,
@@ -304,25 +304,24 @@ const nftItems:Array<INft> = [
     name : 'Aye pirate',
     category: 'trending',
     status: 'sale'
-
   }
   
 
 ];
 const profileStats:Array<IProfileStats> = [
   {
-    id: 1,
+    key: 1,
     name : 'Sold',
     value : 1000
   },
   {
-    id: 2,
+    key: 2,
     name : 'Bought',
     value : 800
   }
 ];
 const profile:IProfile = {
-  id: 1,
+  key: 1,
   nickname: "kingalgo",
   created: "2019-01-01",
   cover:
@@ -330,17 +329,17 @@ const profile:IProfile = {
   avatar: "https://www.microstockposts.com/storage/2019/10/000074.jpg",
   addresses: [
     {
-      id : 1,
+      key : 1,
       blockchain : ethereum,
       address :"0xE5D69BF3140F5A46826DBD55E930C5AD2EF9D955"
     },
     {
-      id : 2,
+      key : 2,
       blockchain : tron,
       address :"0x51A5DAFFF0BC0CB3380DD3FB253F2CC10C39E89D"
     }
   ],
-  description : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in elementum urna. Sed imperdiet, sem dapibus scelerisque accumsan, nunc erat dignissim arcu, at finibus tellus magna ac erat. Morbi finibus laoreet lectus, nec luctus dui rhoncus id.",
+  description : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in elementum urna. Sed imperdiet, sem dapibus scelerisque accumsan, nunc erat dignissim arcu, at finibus tellus magna ac erat. Morbi finibus laoreet lectus, nec luctus dui rhoncus key.",
   stats : profileStats,
   collection : nftItems.slice(0,20),
   favourite: nftItems.slice(0,10)
@@ -353,7 +352,7 @@ const app = () => {
         <Route path="/" element={<MainScreen />} />
         <Route path="/browse" element={<BrowseScreen nftItems={nftItems}/>} />
         <Route path="/about" element={<AboutScreen />} />
-        <Route path="/profile/:id" element={<ProfileScreen profile={profile} />} />
+        <Route path="/profile/:key" element={<ProfileScreen profile={profile} />} />
       </Routes>
     </BrowserRouter>
   );
