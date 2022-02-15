@@ -7,7 +7,11 @@ import Typography from '@mui/material/Typography';
 
 import {IProfileAddress} from "../../models/profile"
 
-const ProfileAddress = (address:IProfileAddress) => {
+interface IAddressProps {
+    address : IProfileAddress;
+}
+
+const ProfileAddress = ({address}:IAddressProps) => {
     const [tooltipCopiedOpen, setTooltipCopiedOpen] = React.useState(false);
     const [tooltipCopyOpen, setTooltipCopyOpen] = React.useState(false);
   
@@ -62,11 +66,11 @@ const ProfileAddress = (address:IProfileAddress) => {
                             disableHoverListener
                             disableTouchListener
                         >
-                            <Typography variant="body2"  style={{cursor:'pointer'}}  onClick={handleTooltipCopiedOpen} onMouseEnter={handleTootltipCopyOpen} onMouseLeave={handleTooltipsClose}>{address.address.substr(0,6) + ' ... ' + address.address.substr(-4)}</Typography>
+                            <Typography  variant="body1"  style={{cursor:'pointer'}}  onClick={handleTooltipCopiedOpen} onMouseEnter={handleTootltipCopyOpen} onMouseLeave={handleTooltipsClose}>{address.address.substr(0,6) + ' ... ' + address.address.substr(-4)}</Typography>
                         </Tooltip>
                     </Tooltip>
                  } 
-                 sx={{px:2,py:2}}  size="medium" />
+                 sx={{px:2, py:2, mr:2}} size="medium" />
     )
            
 }

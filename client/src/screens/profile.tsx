@@ -27,6 +27,11 @@ import AppsIcon from "@mui/icons-material/Apps";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import { IProfile } from "../models/profile";
 
+
+interface IBrowseScreenProps {
+  profile : IProfile
+};
+
 //data
 function createData(
   name: string,
@@ -79,7 +84,7 @@ const DenseTable = () => {
     </TableContainer>
   );
 };
-export const ProfileScreen = (profile: IProfile) => {
+export const ProfileScreen = ({profile}: IBrowseScreenProps) => {
   const [value, setValue] = React.useState("1");
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
@@ -88,7 +93,7 @@ export const ProfileScreen = (profile: IProfile) => {
 
   return (
         <Box>
-          <ProfileHeader  {...profile} />
+          <ProfileHeader  profile={profile}/>
           <TabContext value={value} >
             <TabList value={value} sx={{mb:{xs:0,md:4}}} onChange={handleChange} aria-label="icon tabs example" centered>
               <Tab icon={<AppsIcon color="primary"/>}  label="Collection" iconPosition="start" value="1" aria-label="phone" />
@@ -100,7 +105,7 @@ export const ProfileScreen = (profile: IProfile) => {
                 {
                   profile.collection.map((nft) => (
                     <Grid item xs={12} md={3} sx={{mb:1}}>
-                      <NFTCard {...nft}/>
+                      <NFTCard nft={nft}/>
                     </Grid>
                   ))
                 }
@@ -111,7 +116,7 @@ export const ProfileScreen = (profile: IProfile) => {
                 {
                   profile.favourite.map((nft) => (
                     <Grid item xs={12} md={3} sx={{mb:1}}>
-                      <NFTCard {...nft}/>
+                      <NFTCard nft={nft}/>
                     </Grid>
                   ))
                 }

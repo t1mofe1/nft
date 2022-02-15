@@ -19,11 +19,13 @@ import Avatar from '@mui/material/Avatar';
 
 import  ProfileAddress from "./address";
 
-
 import {IProfile} from "../../models/profile"
 
+interface IProfileHeaderProps {
+    profile : IProfile
 
-const ProfileHeader = (profile:IProfile) => {
+}
+const ProfileHeader = ({profile}:IProfileHeaderProps) => {
 
     const buttons = [
         <Tooltip 
@@ -56,9 +58,9 @@ const ProfileHeader = (profile:IProfile) => {
                     >
                         <Avatar alt={profile.nickname} 
                             style={{
-                                width: 128, height: 128,
-                                border: '4px solid #fff',
-                                marginTop: -64
+                                width: 200, height: 200,
+                                border: '5px solid #fff',
+                                marginTop: -100
                             }} 
                             src={profile.avatar}/>
                         <Typography sx={{mx:2,  fontSize: 25, textTransform: 'capitalize'}} variant="h4" >{profile.nickname}</Typography>
@@ -70,14 +72,14 @@ const ProfileHeader = (profile:IProfile) => {
                     {
                         profile.addresses.map((address) => (
                             <Grid item xs={4} md={3} lg={2} sx={{mb:1}}>
-                                <ProfileAddress {...address}/>
+                                <ProfileAddress address={address}/>
                             </Grid>
                             ))
                     }
                 </Grid>
                 <Grid container spacing={2} sx={{ justifyContent:'center', mt:2}}>
                   <Grid item xs={12} md={10} lg={8} sx={{mb:1}}>
-                    <Typography sx={{mt:2,px : {xs : 2}}} variant="body2" gutterBottom component="p">
+                    <Typography sx={{mt:2,px : {xs : 2}}} variant="body1" gutterBottom component="p">
                         {profile.description}
                     </Typography> 
                   </Grid>

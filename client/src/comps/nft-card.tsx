@@ -22,8 +22,14 @@ import IconButton from '@mui/material/IconButton';
 
 import {INft} from '../models/nft';
 
+interface INftCardComp {
+  nft : INft;
+  showStatus?: Boolean;
+}
 
-const NFTCard = (nft:INft) => {
+
+
+const NFTCard = ({nft, showStatus=true}:INftCardComp) => {
 
   const [cardHover, setCardHover] = React.useState(false);
   const [favourite, setFavourite] = React.useState(nft.favourite && nft.favourite.isFavourite === true);
@@ -51,7 +57,7 @@ const NFTCard = (nft:INft) => {
           <Box sx={{ position: 'relative' }}>
                
             {
-                nft.status && (
+                showStatus && nft.status && (
                     <Chip style={{opacity: cardHover ? 0 : 1, transition: 'opacity 0.3s'}} sx={{position: 'absolute', top:'20px', right:'20px', borderRadius: 1, fontWeight:800, color: "#fff", }} label={nft.status.toUpperCase()} color={(nft.status === 'sale' && 'error') || (nft.status === 'new' && 'success') || 'info'} size="small"/>
                 )
             }

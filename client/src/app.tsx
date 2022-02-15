@@ -4,20 +4,324 @@ import { AboutScreen } from "./screens/about";
 import { ProfileScreen } from "./screens/profile";
 import { MainNavigation } from "./comps/navigation";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { IBlockChain, INft } from "./models/nft";
+import { IProfile, IProfileStats } from "./models/profile";
 
-const ethereum = {
+
+const ethereum:IBlockChain = {
   id : 1,
   name : "Ethereum",
   logo: "https://storage.opensea.io/files/265128aa51521c90f7905e5a43dcb456_new.svg"
 
 }
-const tron = {
+const tron:IBlockChain = {
   id : 2,
   name : "Tron",
   logo : "/tron-logo.png"
 }
+const nftItems:Array<INft> = [
+  {
+    id : 1,
+    cover: "https://newsline.news/wp-content/uploads/2021/05/NFT-10-pictures-that-sold-for-hundreds-of-millions-of.jpeg",
+    price : 0.0044,
+    priceSale : 0.0040,
+    blockchain: ethereum,
+    name : 'Monkey tool belt',
+    status: 'sale',
+    favourite : {
+      count: 3,
+      isFavourite: true
+    },
+    category: 'polymorphous'
 
-const profile = {
+  },
+  {
+    id : 2,
+    cover: "https://www.cnet.com/a/img/FOblZHSSQ9sBlVbdd0qIxrLRIAI=/940x0/2021/12/13/d319cda7-1ddd-4855-ac55-9dcd9ce0f6eb/unnamed.png",
+    price : 0.0054,
+    blockchain: ethereum,
+    name : 'Cool jesus',
+    status: 'trending',
+    favourite : {
+      count: 999,
+      isFavourite: false
+    },
+    category: 'polymorphous'
+
+
+  },
+  {
+    id: 3,
+    cover: "https://ichef.bbci.co.uk/news/976/cpsprodpb/DBB7/production/_122074265_hi071843849.jpg",
+    price : 1740,
+    blockchain: tron,
+    name : 'It\'s melisa',
+    status: 'new',
+    favourite : {
+      count: 10,
+      isFavourite: false
+    },
+    category: 'polymorphous'
+
+  },
+  {
+    id: 4,
+    cover: "https://cdn.vox-cdn.com/thumbor/bouCIhEhMramGHZAiQGaa3q43vo=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/22341171/Screen_Shot_2021_03_02_at_3.21.50_PM.png",
+    price : 0.0087,
+    priceSale : 0.0085,
+    blockchain: ethereum,
+    name : 'Cool cats',
+    status: 'sale',
+    favourite : {
+      count: 3,
+      isFavourite: true
+    },
+    category: 'polymorphous'
+
+
+  },
+  {
+    id: 5,
+    cover: "https://newsline.news/wp-content/uploads/2021/05/NFT-10-pictures-that-sold-for-hundreds-of-millions-of.jpeg",
+    price : 4400,
+    blockchain: tron,
+    name : 'Monkey tool belt',
+    category: 'polymorphous'
+
+  },
+  {
+    id: 6,
+    cover: "https://www.cnet.com/a/img/FOblZHSSQ9sBlVbdd0qIxrLRIAI=/940x0/2021/12/13/d319cda7-1ddd-4855-ac55-9dcd9ce0f6eb/unnamed.png",
+    price : 0.0054,
+    blockchain: ethereum,
+    name : 'Cool jesus',
+    category: 'animated'
+
+  },
+  {
+    id: 7,
+    cover: "https://ichef.bbci.co.uk/news/976/cpsprodpb/DBB7/production/_122074265_hi071843849.jpg",
+    price : 0.0074,
+    blockchain: ethereum,
+    name : 'It\'s melisa',
+    category: 'animated'
+
+  },
+  {
+    id: 8,
+    cover: "https://cdn.vox-cdn.com/thumbor/bouCIhEhMramGHZAiQGaa3q43vo=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/22341171/Screen_Shot_2021_03_02_at_3.21.50_PM.png",
+    price : 0.0087,
+    blockchain: ethereum,
+    name : 'Cool cats',
+    category: 'animated'
+
+  },
+  {
+    id: 9,
+    cover: "https://newsline.news/wp-content/uploads/2021/05/NFT-10-pictures-that-sold-for-hundreds-of-millions-of.jpeg",
+    price : 0.0044,
+    blockchain: ethereum,
+    name : 'Monkey tool belt',
+    category: 'polymorphous'
+
+  },
+  {
+    id: 10,
+    cover: "https://www.cnet.com/a/img/FOblZHSSQ9sBlVbdd0qIxrLRIAI=/940x0/2021/12/13/d319cda7-1ddd-4855-ac55-9dcd9ce0f6eb/unnamed.png",
+    price : 0.0054,
+    blockchain: ethereum,
+    name : 'Cool jesus',
+    category: 'animated',
+    status: 'new'
+
+  },
+  {
+    id: 10,
+    cover: "https://backend.esquire.de/sites/esquire.de/files/styles/og_image/public/images/2021-03/animierte-gif-nyan-cat-nft.png?h=1e942333&itok=09QkFeyT",
+    price : 0.0054,
+    blockchain: ethereum,
+    name : 'Nyan Cat',
+    category: 'animated',
+    status: 'new'
+
+  },
+  {
+    id: 11,
+    cover: "https://ichef.bbci.co.uk/news/976/cpsprodpb/DBB7/production/_122074265_hi071843849.jpg",
+    price : 0.0074,
+    blockchain: ethereum,
+    name : 'It\'s melisa',
+    category: 'polymorphous'
+
+  },
+  {
+    id: 12,
+    cover: "https://cdn.vox-cdn.com/thumbor/bouCIhEhMramGHZAiQGaa3q43vo=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/22341171/Screen_Shot_2021_03_02_at_3.21.50_PM.png",
+    price : 0.0087,
+    blockchain: ethereum,
+    name : 'Cool cats',
+    category: 'polymorphous',
+    status: 'new'
+
+  },
+  {
+    id : 13,
+    cover: "https://static.euronews.com/articles/stories/06/31/78/50/1440x810_cmsv2_01a070e6-3194-5587-8267-772c9ace8dce-6317850.jpg",
+    price : 0.0044,
+    blockchain: ethereum,
+    name : 'Monkey tool belt',
+    category: 'polymorphous',
+    status: 'trending'
+
+  },
+  {
+    id : 14,
+    cover: "https://lh3.googleusercontent.com/anz79oXQf9jSTRghT-aMZ4h4aoUW6ohTGoarWjW9Thr4GzvrZI57Cu4C_VzLu_MAWROwQxPVyEbrqgbt7uHX3pp69vqTNxXzOlLc",
+    price : 0.0054,
+    blockchain: ethereum,
+    name : 'Cool camel ',
+    category: 'animated',
+    status: 'trending'
+
+  },
+  {
+    id: 15,
+    cover: "https://cdn.vox-cdn.com/thumbor/bouCIhEhMramGHZAiQGaa3q43vo=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/22341171/Screen_Shot_2021_03_02_at_3.21.50_PM.png",
+    price : 0.0187,
+    priceSale: 0.177,
+    blockchain: ethereum,
+    name : 'Cool cats',
+    category: 'animated',
+    status: 'sale'
+  },
+  {
+    id: 16,
+    cover: "https://newsline.news/wp-content/uploads/2021/05/NFT-10-pictures-that-sold-for-hundreds-of-millions-of.jpeg",
+    price : 0.0064,
+    blockchain: ethereum,
+    name : 'Monkey tool belt',
+    category: 'polymorphous'
+
+  },
+  {
+    id: 17,
+    cover: "https://www.mon-livret.fr/wp-content/uploads/2022/01/Capture-de%CC%81cran-2022-01-01-a%CC%80-09.05.23-696x485.png",
+    price : 0.44,
+    blockchain: ethereum,
+    name : 'Monkey tool belt',
+    category: 'polymorphous'
+
+  },
+  {
+    id: 18,
+    cover: "https://www.cnet.com/a/img/FOblZHSSQ9sBlVbdd0qIxrLRIAI=/940x0/2021/12/13/d319cda7-1ddd-4855-ac55-9dcd9ce0f6eb/unnamed.png",
+    price : 0.0054,
+    priceSale : 0.0044,
+    blockchain: ethereum,
+    name : 'Cool jesus',
+    category: 'polymorphous',
+    status: 'sale'
+
+
+  },
+  {
+    id: 19,
+    cover: "https://ichef.bbci.co.uk/news/976/cpsprodpb/DBB7/production/_122074265_hi071843849.jpg",
+    price : 0.0074,
+    blockchain: ethereum,
+    name : 'It\'s melisa',
+    category: 'polymorphous',
+    status: 'new'
+  },
+  {
+    id: 20,
+    cover: "https://cdn.vox-cdn.com/thumbor/bouCIhEhMramGHZAiQGaa3q43vo=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/22341171/Screen_Shot_2021_03_02_at_3.21.50_PM.png",
+    price : 0.0087,
+    priceSale : 0.0080,
+    blockchain: ethereum,
+    name : 'Cool cats',
+    category: 'animated',
+    status: 'sale'
+
+  },
+  {
+    id: 21,
+    cover: "https://newsline.news/wp-content/uploads/2021/05/NFT-10-pictures-that-sold-for-hundreds-of-millions-of.jpeg",
+    price : 0.0044,
+    blockchain: ethereum,
+    name : 'Monkey tool belt',
+    category: 'polymorphous',
+    status: 'trending'
+  },
+  {
+    id: 22,
+    cover: "https://www.cnet.com/a/img/FOblZHSSQ9sBlVbdd0qIxrLRIAI=/940x0/2021/12/13/d319cda7-1ddd-4855-ac55-9dcd9ce0f6eb/unnamed.png",
+    price : 0.0054,
+    blockchain: ethereum,
+    name : 'Cool jesus',
+    category: 'animated',
+    status: 'new'
+
+
+  },
+  {
+    id: 23,
+    cover: "https://ichef.bbci.co.uk/news/976/cpsprodpb/DBB7/production/_122074265_hi071843849.jpg",
+    price : 0.0074,
+    blockchain: tron,
+    name : 'It\'s melisa',
+    category: 'animated',
+    status: 'new'
+
+  },
+  {
+    id: 24,
+    cover: "https://cdn.vox-cdn.com/thumbor/bouCIhEhMramGHZAiQGaa3q43vo=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/22341171/Screen_Shot_2021_03_02_at_3.21.50_PM.png",
+    price : 0.0087,
+    blockchain: ethereum,
+    name : 'Cool cats',
+    category: 'animated',
+    status: 'sale'
+
+  },
+  {
+    id: 24,
+    cover: "https://image-cdn.hypb.st/https%3A%2F%2Fhypebeast.com%2Fimage%2F2021%2F10%2Fbored-ape-yacht-club-nft-3-4-million-record-sothebys-metaverse-tw.jpg?w=960&cbr=1&q=90&fit=max",
+    price : 2000,
+    priceSale: 1800,
+    blockchain: tron,
+    name : 'Cool cats',
+    category: 'polymorphous',
+    status: 'sale'
+
+  },
+  {
+    id: 24,
+    cover: "https://cdn.mos.cms.futurecdn.net/M3nWWndkz6QXcZ4ueCfESH.jpg",
+    price : 1000,
+    priceSale: 800,
+    blockchain: tron,
+    name : 'Aye pirate',
+    category: 'trending',
+    status: 'sale'
+
+  }
+  
+
+];
+const profileStats:Array<IProfileStats> = [
+  {
+    id: 1,
+    name : 'Sold',
+    value : 1000
+  },
+  {
+    id: 2,
+    name : 'Bought',
+    value : 800
+  }
+];
+const profile:IProfile = {
   id: 1,
   nickname: "kingalgo",
   created: "2019-01-01",
@@ -34,231 +338,24 @@ const profile = {
       id : 2,
       blockchain : tron,
       address :"0x51A5DAFFF0BC0CB3380DD3FB253F2CC10C39E89D"
-    },
-
-  ],
-  description : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in elementum urna. Sed imperdiet, sem dapibus scelerisque accumsan, nunc erat dignissim arcu, at finibus tellus magna ac erat. Morbi finibus laoreet lectus, nec luctus dui rhoncus id." ,
-  collection : [
-    {
-      id : 1,
-      cover: "https://newsline.news/wp-content/uploads/2021/05/NFT-10-pictures-that-sold-for-hundreds-of-millions-of.jpeg",
-      price : 0.0044,
-      priceSale : 0.0040,
-      blockchain: ethereum,
-      name : 'Monkey tool belt',
-      status: 'sale',
-      favourite : {
-        count: 3,
-        isFavourite: true
-      }
-    },
-    {
-      id : 2,
-      cover: "https://www.cnet.com/a/img/FOblZHSSQ9sBlVbdd0qIxrLRIAI=/940x0/2021/12/13/d319cda7-1ddd-4855-ac55-9dcd9ce0f6eb/unnamed.png",
-      price : 0.0054,
-      blockchain: ethereum,
-      name : 'Cool jesus',
-      status: 'new',
-      favourite : {
-        count: 0,
-        isFavourite: false
-      }
-
-    },
-    {
-      id: 3,
-      cover: "https://ichef.bbci.co.uk/news/976/cpsprodpb/DBB7/production/_122074265_hi071843849.jpg",
-      price : 1740,
-      blockchain: tron,
-      name : 'It\'s melisa',
-      status: 'new',
-      favourite : {
-        count: 10,
-        isFavourite: false
-      }
-    },
-    {
-      id: 4,
-      cover: "https://cdn.vox-cdn.com/thumbor/bouCIhEhMramGHZAiQGaa3q43vo=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/22341171/Screen_Shot_2021_03_02_at_3.21.50_PM.png",
-      price : 0.0087,
-      priceSale : 0.0085,
-      blockchain: ethereum,
-      name : 'Cool cats',
-      status: 'sale',
-      favourite : {
-        count: 3,
-        isFavourite: true
-      }
-    },
-    {
-      id: 5,
-      cover: "https://newsline.news/wp-content/uploads/2021/05/NFT-10-pictures-that-sold-for-hundreds-of-millions-of.jpeg",
-      price : 4400,
-      blockchain: tron,
-      name : 'Monkey tool belt',
-    },
-    {
-      id: 6,
-      cover: "https://www.cnet.com/a/img/FOblZHSSQ9sBlVbdd0qIxrLRIAI=/940x0/2021/12/13/d319cda7-1ddd-4855-ac55-9dcd9ce0f6eb/unnamed.png",
-      price : 0.0054,
-      blockchain: ethereum,
-      name : 'Cool jesus',
-    },
-    {
-      id: 7,
-      cover: "https://ichef.bbci.co.uk/news/976/cpsprodpb/DBB7/production/_122074265_hi071843849.jpg",
-      price : 0.0074,
-      blockchain: ethereum,
-      name : 'It\'s melisa',
-    },
-    {
-      id: 8,
-      cover: "https://cdn.vox-cdn.com/thumbor/bouCIhEhMramGHZAiQGaa3q43vo=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/22341171/Screen_Shot_2021_03_02_at_3.21.50_PM.png",
-      price : 0.0087,
-      blockchain: ethereum,
-      name : 'Cool cats',
-    },
-    {
-      id: 9,
-      cover: "https://newsline.news/wp-content/uploads/2021/05/NFT-10-pictures-that-sold-for-hundreds-of-millions-of.jpeg",
-      price : 0.0044,
-      blockchain: ethereum,
-      name : 'Monkey tool belt',
-    },
-    {
-      id: 10,
-      cover: "https://www.cnet.com/a/img/FOblZHSSQ9sBlVbdd0qIxrLRIAI=/940x0/2021/12/13/d319cda7-1ddd-4855-ac55-9dcd9ce0f6eb/unnamed.png",
-      price : 0.0054,
-      blockchain: ethereum,
-      name : 'Cool jesus',
-    },
-    {
-      id: 11,
-      cover: "https://ichef.bbci.co.uk/news/976/cpsprodpb/DBB7/production/_122074265_hi071843849.jpg",
-      price : 0.0074,
-      blockchain: ethereum,
-      name : 'It\'s melisa',
-    },
-    {
-      id: 12,
-      cover: "https://cdn.vox-cdn.com/thumbor/bouCIhEhMramGHZAiQGaa3q43vo=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/22341171/Screen_Shot_2021_03_02_at_3.21.50_PM.png",
-      price : 0.0087,
-      blockchain: ethereum,
-      name : 'Cool cats',
     }
-
   ],
-  favourite : [
-    {
-      id : 13,
-      cover: "https://static.euronews.com/articles/stories/06/31/78/50/1440x810_cmsv2_01a070e6-3194-5587-8267-772c9ace8dce-6317850.jpg",
-      price : 0.0044,
-      blockchain: ethereum,
-      name : 'Monkey tool belt',
-    },
-    {
-      id : 14,
-      cover: "https://lh3.googleusercontent.com/anz79oXQf9jSTRghT-aMZ4h4aoUW6ohTGoarWjW9Thr4GzvrZI57Cu4C_VzLu_MAWROwQxPVyEbrqgbt7uHX3pp69vqTNxXzOlLc",
-      price : 0.0054,
-      blockchain: ethereum,
-      name : 'Cool camel ',
-
-    },
-    {
-      id: 15,
-      cover: "https://lh3.googleusercontent.com/e4MQoxUe7UVFrxKDMi-qDv9P5h6Aben_2qzOQoObNGpn5M0bK3S9blvWuFzb7yo5Cegm5p3f6HnNvKePsfbuvOREE50AAR-OTCcjmQ=w600",
-      price : 0.0074,
-      blockchain: ethereum,
-      name : 'It\'s melisa',
-    },
-    {
-      id: 16,
-      cover: "https://lh3.googleusercontent.com/3m6rjtJ_mDMVnHA6pmqhBB2OFTTZtHb-ulXCPhjdegn0t_a17D9RCPy485c8k8qKD8ILaTdGzOqoPlk59nibgA7LTd3ClI9Y_czpwJI",
-      price : 0.0087,
-      blockchain: ethereum,
-      name : 'Cool cats',
-    },
-    {
-      id: 17,
-      cover: "https://www.mon-livret.fr/wp-content/uploads/2022/01/Capture-de%CC%81cran-2022-01-01-a%CC%80-09.05.23-696x485.png",
-      price : 0.44,
-      blockchain: ethereum,
-      name : 'Monkey tool belt',
-    },
-    {
-      id: 18,
-      cover: "https://www.cnet.com/a/img/FOblZHSSQ9sBlVbdd0qIxrLRIAI=/940x0/2021/12/13/d319cda7-1ddd-4855-ac55-9dcd9ce0f6eb/unnamed.png",
-      price : 0.0054,
-      blockchain: ethereum,
-      name : 'Cool jesus',
-    },
-    {
-      id: 19,
-      cover: "https://ichef.bbci.co.uk/news/976/cpsprodpb/DBB7/production/_122074265_hi071843849.jpg",
-      price : 0.0074,
-      blockchain: ethereum,
-      name : 'It\'s melisa',
-    },
-    {
-      id: 20,
-      cover: "https://cdn.vox-cdn.com/thumbor/bouCIhEhMramGHZAiQGaa3q43vo=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/22341171/Screen_Shot_2021_03_02_at_3.21.50_PM.png",
-      price : 0.0087,
-      blockchain: ethereum,
-      name : 'Cool cats',
-    },
-    {
-      id: 21,
-      cover: "https://newsline.news/wp-content/uploads/2021/05/NFT-10-pictures-that-sold-for-hundreds-of-millions-of.jpeg",
-      price : 0.0044,
-      blockchain: ethereum,
-      name : 'Monkey tool belt',
-    },
-    {
-      id: 22,
-      cover: "https://www.cnet.com/a/img/FOblZHSSQ9sBlVbdd0qIxrLRIAI=/940x0/2021/12/13/d319cda7-1ddd-4855-ac55-9dcd9ce0f6eb/unnamed.png",
-      price : 0.0054,
-      blockchain: ethereum,
-      name : 'Cool jesus',
-    },
-    {
-      id: 23,
-      cover: "https://ichef.bbci.co.uk/news/976/cpsprodpb/DBB7/production/_122074265_hi071843849.jpg",
-      price : 0.0074,
-      blockchain: ethereum,
-      name : 'It\'s melisa',
-    },
-    {
-      id: 24,
-      cover: "https://cdn.vox-cdn.com/thumbor/bouCIhEhMramGHZAiQGaa3q43vo=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/22341171/Screen_Shot_2021_03_02_at_3.21.50_PM.png",
-      price : 0.0087,
-      blockchain: ethereum,
-      name : 'Cool cats',
-    }
-
-  ],
-  stats : [
-    {
-      id: 1,
-      name : 'Sold',
-      value : 1000
-    },
-    {
-      id: 2,
-      name : 'Bought',
-      value : 800
-    }
-  ]
+  description : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in elementum urna. Sed imperdiet, sem dapibus scelerisque accumsan, nunc erat dignissim arcu, at finibus tellus magna ac erat. Morbi finibus laoreet lectus, nec luctus dui rhoncus id.",
+  stats : profileStats,
+  collection : nftItems.slice(0,20),
+  favourite: nftItems.slice(0,10)
 };
-export default () => {
+const app = () => {
   return (
     <BrowserRouter>
       <MainNavigation />
       <Routes>
         <Route path="/" element={<MainScreen />} />
-        <Route path="/browse" element={<BrowseScreen />} />
+        <Route path="/browse" element={<BrowseScreen nftItems={nftItems}/>} />
         <Route path="/about" element={<AboutScreen />} />
-        <Route path="/profile/:id" element={<ProfileScreen {...profile} />} />
+        <Route path="/profile/:id" element={<ProfileScreen profile={profile} />} />
       </Routes>
     </BrowserRouter>
   );
 };
+export default app;

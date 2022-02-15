@@ -17,5 +17,6 @@ export interface INft {
   priceSale?: number;
   favourite?: IFavourite;
   status?: string;
+  category:string;
   blockchain: IBlockChain;
 }
