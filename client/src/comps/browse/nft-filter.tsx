@@ -32,6 +32,12 @@ const NftFilter = ({blockchains, languages, categories}: INftFilterProps) => {
 
       setState(open);
     };
+    const clearAll = () =>{
+        setCheckedCategories(Array(categories.length).fill(false));
+        setCheckedBlockchains(Array(blockchains.length).fill(false));
+        setCheckedLanguages(Array(languages.length).fill(false));
+
+    }
 
     const [checkedCategories, setCheckedCategories] = React.useState(Array(categories.length).fill(false));
     const [checkedBlockchains, setCheckedBlockchains] = React.useState(Array(blockchains.length).fill(false));
@@ -172,7 +178,7 @@ const NftFilter = ({blockchains, languages, categories}: INftFilterProps) => {
                     </Grid>
                 </Grid>
                 <Box sx={{p:3}}>
-                    <Button variant="outlined" startIcon={<FilterListOffIcon/>} fullWidth size="large">Clear all</Button>
+                    <Button variant="outlined" onClick={clearAll} startIcon={<FilterListOffIcon/>} fullWidth size="large">Clear all</Button>
                 </Box>
             </Box>
           </Drawer>
