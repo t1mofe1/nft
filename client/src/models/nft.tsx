@@ -4,11 +4,27 @@ export interface IBlockChain {
   logo: string;
   //url : string
 }
+export interface IRenderLanguage {
+  name : string;
+  logo: string;
+  url?: string;
+
+}
+export interface IRenderLibrary{
+  name : string;
+  logo: string;
+  url?: string
+}
+export interface IRenderer {
+  language: IRenderLanguage;
+  library? : IRenderLibrary;
+}
 export interface IFavourite {
   // id : number; 
   count: number;
   isFavourite?: boolean;
 }
+
 export interface INft {
   key: number;
   name: string;
@@ -19,4 +35,10 @@ export interface INft {
   status?: string;
   category:string;
   blockchain: IBlockChain;
+  renderer: IRenderer;
+}
+export interface INftFilterProps  {
+  blockchains : Array<IBlockChain>;
+  languages: Array<IRenderLanguage>;
+  categories: Array<string>;
 }

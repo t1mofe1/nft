@@ -8,13 +8,15 @@ import Tab from '@mui/material/Tab';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import  NFTCard from "../comps/nft-card";
+import NftFilter from "../comps/browse/nft-filter";
 
-import {INft} from '../models/nft';
+import {IBlockChain, INft, IRenderLanguage, INftFilterProps} from '../models/nft';
 
 interface IBrowseScreenProps {
-  nftItems : Array<INft>
+  nftItems : Array<INft>;
+  filterProps : INftFilterProps;
 };
-export const BrowseScreen  = ({nftItems}:IBrowseScreenProps) => {
+export const BrowseScreen  = ({nftItems, filterProps}:IBrowseScreenProps) => {
   const [value, setValue] = React.useState("1");
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
@@ -29,15 +31,27 @@ export const BrowseScreen  = ({nftItems}:IBrowseScreenProps) => {
                   </Typography>
                 </Grid>
             </Grid>
-            <TabContext value={value} >
-              <TabList value={value} sx={{mb:{xs:0,md:4}}} onChange={handleChange} aria-label="icon tabs example" centered>
-                <Tab label="New"  value="1" />
-                <Tab label="Trending" value="2" />
-                <Tab label="On sale"  value="3" />
-                <Tab label="Animated"  value="4" />
-                <Tab label="Polymorphous"  value="5" />
-              </TabList>
-              <TabPanel value="1" >
+              <TabContext value={value}>
+                <Grid 
+                  container 
+                  spacing={2} 
+                  direction="row"
+                  justifyContent="center"
+                  >
+                  <Grid item  xs={12} md={10} lg={1} sx={{textAlign:'right',marginTop:{xs:'0px', lg:'3px'}}}>
+                    <NftFilter blockchains={filterProps.blockchains} languages={filterProps.languages} categories={filterProps.categories}/>
+                  </Grid>
+                  <Grid item xs={12} md={10} lg={6}>
+                    <TabList value={value} sx={{mb:{xs:2,md:4}}} onChange={handleChange} aria-label="icon tabs example">
+                      <Tab label="New"  value="1" />
+                      <Tab label="Trending" value="2" />
+                      <Tab label="On sale"  value="3" />
+                      <Tab label="Animated"  value="4" />
+                      <Tab label="Polymorphous"  value="5" />
+                    </TabList>
+                  </Grid>
+                </Grid>
+                <TabPanel value="1" >
                 <Grid container spacing={2}>
                     {
                       nftItems.filter((item)=> item.status === 'new').map((nft) => (

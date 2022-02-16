@@ -4,8 +4,8 @@ import { AboutScreen } from "./screens/about";
 import { ProfileScreen } from "./screens/profile";
 import { MainNavigation } from "./comps/navigation";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { IBlockChain, INft } from "./models/nft";
-import { IProfile, IProfileStats } from "./models/profile";
+import { IBlockChain, INft, IRenderer, IRenderLanguage, IRenderLibrary } from "./models/nft";
+import { IProfile, IProfileStats  } from "./models/profile";
 
 
 const ethereum:IBlockChain = {
@@ -17,7 +17,44 @@ const ethereum:IBlockChain = {
 const tron:IBlockChain = {
   key : 2,
   name : "Tron",
-  logo : "/tron-logo.png"
+  logo : "/images/tron-logo.png"
+}
+
+const js:IRenderLanguage = {
+  name : 'JavaScript',
+  logo : '/images/js-logo.jpg',
+}
+const jsLibrary:IRenderLibrary = {
+  name : 'P5',
+  logo : '/images/p5-logo.png',
+  url : 'https://p5js.org/'
+}
+const jsRender:IRenderer = {
+  language : js,
+  library : jsLibrary
+
+}
+const categories:Array<string> = [
+  'polymorphous',
+  'animations'
+]  
+
+
+const py:IRenderLanguage = {
+  name : 'Python',
+  logo : '/images/py-logo.png',
+}
+const pyRender:IRenderer = {
+  language : py
+
+}
+const ts:IRenderLanguage = {
+  name : 'TypeScript',
+  logo : '/images/ts-logo.png',
+}
+const tsRender:IRenderer = {
+  language : ts
+
 }
 const nftItems:Array<INft> = [
   {
@@ -32,7 +69,8 @@ const nftItems:Array<INft> = [
       count: 3,
       isFavourite: true
     },
-    category: 'polymorphous'
+    category: 'polymorphous',
+    renderer : pyRender
 
   },
   {
@@ -46,9 +84,8 @@ const nftItems:Array<INft> = [
       count: 999,
       isFavourite: false
     },
-    category: 'polymorphous'
-
-
+    category: 'polymorphous',
+    renderer : pyRender
   },
   {
     key: 3,
@@ -61,8 +98,8 @@ const nftItems:Array<INft> = [
       count: 10,
       isFavourite: false
     },
-    category: 'polymorphous'
-
+    category: 'polymorphous',
+    renderer : tsRender
   },
   {
     key: 4,
@@ -76,9 +113,8 @@ const nftItems:Array<INft> = [
       count: 3,
       isFavourite: true
     },
-    category: 'polymorphous'
-
-
+    category: 'polymorphous',
+    renderer : pyRender
   },
   {
     key: 5,
@@ -86,8 +122,8 @@ const nftItems:Array<INft> = [
     price : 4400,
     blockchain: tron,
     name : 'Monkey tool belt',
-    category: 'polymorphous'
-
+    category: 'polymorphous',
+    renderer : tsRender
   },
   {
     key: 6,
@@ -95,8 +131,8 @@ const nftItems:Array<INft> = [
     price : 0.0054,
     blockchain: ethereum,
     name : 'Cool jesus',
-    category: 'animated'
-
+    category: 'animated',
+    renderer : jsRender
   },
   {
     key: 7,
@@ -104,7 +140,8 @@ const nftItems:Array<INft> = [
     price : 0.0074,
     blockchain: ethereum,
     name : 'It\'s melisa',
-    category: 'animated'
+    category: 'animated',
+    renderer : jsRender
 
   },
   {
@@ -113,8 +150,8 @@ const nftItems:Array<INft> = [
     price : 0.0087,
     blockchain: ethereum,
     name : 'Cool cats',
-    category: 'animated'
-
+    category: 'animated',
+    renderer : jsRender
   },
   {
     key: 9,
@@ -122,8 +159,8 @@ const nftItems:Array<INft> = [
     price : 0.0044,
     blockchain: ethereum,
     name : 'Monkey tool belt',
-    category: 'polymorphous'
-
+    category: 'polymorphous',
+    renderer : pyRender
   },
   {
     key: 10,
@@ -132,8 +169,8 @@ const nftItems:Array<INft> = [
     blockchain: ethereum,
     name : 'Cool jesus',
     category: 'animated',
-    status: 'new'
-
+    status: 'new',
+    renderer : jsRender
   },
   {
     key: 11,
@@ -142,8 +179,8 @@ const nftItems:Array<INft> = [
     blockchain: ethereum,
     name : 'Nyan Cat',
     category: 'animated',
-    status: 'new'
-
+    status: 'new',
+    renderer : jsRender
   },
   {
     key: 12,
@@ -151,8 +188,8 @@ const nftItems:Array<INft> = [
     price : 0.0074,
     blockchain: ethereum,
     name : 'It\'s melisa',
-    category: 'polymorphous'
-
+    category: 'polymorphous',
+    renderer : jsRender
   },
   {
     key: 13,
@@ -161,8 +198,8 @@ const nftItems:Array<INft> = [
     blockchain: ethereum,
     name : 'Cool cats',
     category: 'polymorphous',
-    status: 'new'
-
+    status: 'new',
+    renderer : jsRender
   },
   {
     key : 14,
@@ -171,8 +208,8 @@ const nftItems:Array<INft> = [
     blockchain: ethereum,
     name : 'Monkey tool belt',
     category: 'polymorphous',
-    status: 'trending'
-
+    status: 'trending',
+    renderer : jsRender
   },
   {
     key : 15,
@@ -181,8 +218,8 @@ const nftItems:Array<INft> = [
     blockchain: ethereum,
     name : 'Cool camel ',
     category: 'animated',
-    status: 'trending'
-
+    status: 'trending',
+    renderer : pyRender
   },
   {
     key: 16,
@@ -192,7 +229,9 @@ const nftItems:Array<INft> = [
     blockchain: ethereum,
     name : 'Cool cats',
     category: 'animated',
-    status: 'sale'
+    status: 'sale',
+    renderer : jsRender
+
   },
   {
     key: 17,
@@ -200,7 +239,8 @@ const nftItems:Array<INft> = [
     price : 0.0064,
     blockchain: ethereum,
     name : 'Monkey tool belt',
-    category: 'polymorphous'
+    category: 'polymorphous',
+    renderer : jsRender
 
   },
   {
@@ -209,7 +249,9 @@ const nftItems:Array<INft> = [
     price : 0.44,
     blockchain: ethereum,
     name : 'Monkey tool belt',
-    category: 'polymorphous'
+    category: 'polymorphous',
+    renderer : pyRender
+
 
   },
   {
@@ -220,7 +262,9 @@ const nftItems:Array<INft> = [
     blockchain: ethereum,
     name : 'Cool jesus',
     category: 'polymorphous',
-    status: 'sale'
+    status: 'sale',
+    renderer : jsRender
+
 
 
   },
@@ -231,7 +275,9 @@ const nftItems:Array<INft> = [
     blockchain: ethereum,
     name : 'It\'s melisa',
     category: 'polymorphous',
-    status: 'new'
+    status: 'new',
+    renderer : jsRender
+
   },
   {
     key: 21,
@@ -241,7 +287,10 @@ const nftItems:Array<INft> = [
     blockchain: ethereum,
     name : 'Cool cats',
     category: 'animated',
-    status: 'sale'
+    status: 'sale',
+    renderer : jsRender
+
+
 
   },
   {
@@ -251,7 +300,9 @@ const nftItems:Array<INft> = [
     blockchain: ethereum,
     name : 'Monkey tool belt',
     category: 'polymorphous',
-    status: 'trending'
+    status: 'trending',
+    renderer : tsRender
+
   },
   {
     key: 23,
@@ -260,9 +311,8 @@ const nftItems:Array<INft> = [
     blockchain: ethereum,
     name : 'Cool jesus',
     category: 'animated',
-    status: 'new'
-
-
+    status: 'new',
+    renderer : jsRender
   },
   {
     key: 24,
@@ -271,8 +321,8 @@ const nftItems:Array<INft> = [
     blockchain: tron,
     name : 'It\'s melisa',
     category: 'animated',
-    status: 'new'
-
+    status: 'new',
+    renderer : tsRender
   },
   {
     key: 25,
@@ -281,8 +331,8 @@ const nftItems:Array<INft> = [
     blockchain: ethereum,
     name : 'Cool cats',
     category: 'animated',
-    status: 'sale'
-
+    status: 'sale',
+    renderer : tsRender
   },
   {
     key: 26,
@@ -292,8 +342,8 @@ const nftItems:Array<INft> = [
     blockchain: tron,
     name : 'Cool cats',
     category: 'polymorphous',
-    status: 'sale'
-
+    status: 'sale',
+    renderer : jsRender
   },
   {
     key: 27,
@@ -303,11 +353,13 @@ const nftItems:Array<INft> = [
     blockchain: tron,
     name : 'Aye pirate',
     category: 'trending',
-    status: 'sale'
+    status: 'sale',
+    renderer : tsRender
   }
   
 
 ];
+
 const profileStats:Array<IProfileStats> = [
   {
     key: 1,
@@ -344,13 +396,28 @@ const profile:IProfile = {
   collection : nftItems.slice(0,20),
   favourite: nftItems.slice(0,10)
 };
+
+const filterProps = {
+    blockchains: [
+      ethereum,
+      tron
+    ],
+    languages : [
+      js,
+      ts,
+      py
+    ],
+    categories : categories
+
+}
+
 const app = () => {
   return (
     <BrowserRouter>
       <MainNavigation />
       <Routes>
         <Route path="/" element={<MainScreen />} />
-        <Route path="/browse" element={<BrowseScreen nftItems={nftItems}/>} />
+        <Route path="/browse" element={<BrowseScreen nftItems={nftItems} filterProps={filterProps}/>} />
         <Route path="/about" element={<AboutScreen />} />
         <Route path="/profile/:key" element={<ProfileScreen profile={profile} />} />
       </Routes>
