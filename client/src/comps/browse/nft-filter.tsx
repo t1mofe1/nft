@@ -8,9 +8,11 @@ import Fade from '@mui/material/Fade';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { Grid } from '@mui/material';
-import { Typography, Divider } from '@mui/material';
+import { Typography, Divider, Button } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { IBlockChain, IRenderLanguage, INftFilterProps } from '../../models/nft';
+import FilterListOffIcon from '@mui/icons-material/FilterListOff';
+import { INftFilterProps } from '../../models/nft';
+
 
 
 
@@ -168,8 +170,10 @@ const NftFilter = ({blockchains, languages, categories}: INftFilterProps) => {
                             }
                         </Box>
                     </Grid>
-                    
                 </Grid>
+                <Box sx={{p:3}}>
+                    <Button variant="outlined" startIcon={<FilterListOffIcon/>} fullWidth size="large">Clear all</Button>
+                </Box>
             </Box>
           </Drawer>
         </React.Fragment>
