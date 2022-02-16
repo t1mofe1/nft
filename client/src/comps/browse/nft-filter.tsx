@@ -43,23 +43,23 @@ const NftFilter = ({blockchains, languages, categories}: INftFilterProps) => {
     const [checkedBlockchains, setCheckedBlockchains] = React.useState(Array(blockchains.length).fill(false));
     const [checkedLanguages, setCheckedLanguages] = React.useState(Array(languages.length).fill(false));
 
-    const handleChangeAllCategories = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setCheckedCategories(Array(categories.length).fill(event.target.checked));
-      };
+    // const handleChangeAllCategories = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     setCheckedCategories(Array(categories.length).fill(event.target.checked));
+    //   };
       const handleChangeCategory = (event: React.ChangeEvent<HTMLInputElement>, i : number) => {
         setCheckedCategories(checkedCategories.map((category, j )=> j===i ? event.target.checked : category ));
       };
 
-    const handleChangeAllBlockchains = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setCheckedBlockchains(Array(blockchains.length).fill(event.target.checked));
-    };
+    // const handleChangeAllBlockchains = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     setCheckedBlockchains(Array(blockchains.length).fill(event.target.checked));
+    // };
     const handleChangeBlockchain = (event: React.ChangeEvent<HTMLInputElement>, i : number) => {
         setCheckedBlockchains(checkedBlockchains.map((blockchain, j )=> j===i ? event.target.checked : blockchain ));
     };
 
-    const handleChangeAllLanguages = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setCheckedLanguages(Array(languages.length).fill(event.target.checked));
-    };
+    // const handleChangeAllLanguages = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     setCheckedLanguages(Array(languages.length).fill(event.target.checked));
+    // };
     const handleChangeLanguage = (event: React.ChangeEvent<HTMLInputElement>, i : number) => {
         setCheckedLanguages(checkedLanguages.map((language, j )=> j===i ? event.target.checked : language ));
     };
@@ -103,17 +103,7 @@ const NftFilter = ({blockchains, languages, categories}: INftFilterProps) => {
                     </Grid>
                     <Grid item xs={12}  sx={{ml: 3}}>
                         <Typography sx={{marginTop:'5px;',fontSize:'0.9em'}}  variant="h6" gutterBottom>Categories</Typography>
-                        <FormControlLabel
-                            label="All"
-                            control={
-                            <Checkbox
-                                size="small" 
-                                checked={checkedCategories.filter((item)=>item === true).length === checkedCategories.length}
-                                indeterminate={checkedCategories.filter((item)=>item === true).length > 0 &&  checkedCategories.filter((item)=>item === true).length < checkedCategories.length}
-                                onChange={handleChangeAllCategories}
-                            />
-                            }
-                        />
+                       
                         <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                             {
                                 categories.map((category, i)=> (
@@ -128,17 +118,7 @@ const NftFilter = ({blockchains, languages, categories}: INftFilterProps) => {
                     </Grid>
                     <Grid item xs={12}  sx={{ml: 3}}>
                         <Typography sx={{marginTop:'5px;',fontSize:'0.9em'}}  variant="h6" gutterBottom>Blockchain</Typography>
-                        <FormControlLabel
-                            label="All"
-                            control={
-                            <Checkbox
-                                size="small" 
-                                checked={checkedBlockchains.filter((item)=>item === true).length === checkedBlockchains.length}
-                                indeterminate={checkedBlockchains.filter((item)=>item === true).length > 0 &&  checkedBlockchains.filter((item)=>item === true).length < checkedBlockchains.length}
-                                onChange={handleChangeAllBlockchains}
-                            />
-                            }
-                        />
+                        
                         <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                             {
                                 blockchains.map((blockchain, i)=> (
@@ -153,17 +133,6 @@ const NftFilter = ({blockchains, languages, categories}: INftFilterProps) => {
                     </Grid>
                     <Grid item xs={12}  sx={{ml: 3}}>
                         <Typography sx={{marginTop:'5px;',fontSize:'0.9em'}}  variant="h6" gutterBottom>Programming Languages</Typography>
-                        <FormControlLabel
-                            label="All"
-                            control={
-                            <Checkbox
-                                size="small" 
-                                checked={checkedLanguages.filter((item)=>item === true).length === checkedLanguages.length}
-                                indeterminate={checkedLanguages.filter((item)=>item === true).length > 0 &&  checkedLanguages.filter((item)=>item === true).length < checkedLanguages.length}
-                                onChange={handleChangeAllLanguages}
-                            />
-                            }
-                        />
                        <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                             {
                                 languages.map((language, i)=> (
