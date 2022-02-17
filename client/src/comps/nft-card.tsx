@@ -25,24 +25,20 @@ import {INft} from '../models/nft';
 interface INftCardProps {
   nft : INft;
   showStatus?: Boolean;
+  updateNftItems: Function;
 }
 
 
 
-const NFTCard = ({nft, showStatus=true}:INftCardProps) => {
-
+const NFTCard = ({nft, showStatus=true, updateNftItems}:INftCardProps) => {
   const [cardHover, setCardHover] = React.useState(false);
-  const [favourite, setFavourite] = React.useState(nft.favourite && nft.favourite.isFavourite === true);
-  const [favouriteCount, setFavouriteCount] = React.useState(nft.favourite && nft.favourite.count ? nft.favourite.count : 0);
 
 
   const toggleFavourite = () => {
-    setFavourite(!favourite);
-    if (!favourite)
-      setFavouriteCount(favouriteCount + 1)
-    else
-      setFavouriteCount(favouriteCount - 1)
-
+    let count = nft.favourite?.count ? nft.favourite.count : 0;
+    const  favourite = !nft.favourite?.isFavourite;
+    nft.favourite = {count :  favourite ? ++count : --count, isFavourite :  favourite};
+    updateNftItems(nft);
 
   }
   const onMouseEnterHandler =  () => {
@@ -53,7 +49,8 @@ const NFTCard = ({nft, showStatus=true}:INftCardProps) => {
   }
     return (
       <Card 
-        sx={{ maxWidth: '100%', borderRadius: 5,  mx: {xs:0,md:2}, mb: {xs:0,md:2}, marginTop: cardHover ? '-5px' : 0, transition: 'margin-top 0.3s' }} 
+        key={'nft-card-' + nft.key}
+        sx={{ maxWidth: '100%', borderRadius: 5,  mx: {xs:0,md:2}, mb: {xs:0,md:2}, position: 'relative', marginTop: cardHover ? '-5px' : 0, transition: 'margin-top 0.3s' }} 
         elevation={cardHover ? 8 : 2} 
         onMouseEnter={onMouseEnterHandler} 
         onMouseLeave={onMouseLeaveHandler}
@@ -164,10 +161,10 @@ const NFTCard = ({nft, showStatus=true}:INftCardProps) => {
           </Button>
           <Box component="div" aria-label="Favourite" sx={{display: 'flex', flexGrow:1, justifyContent: 'flex-end'}}> 
             <Typography component="div" sx={{float:'left', marginRight:'3px'}}>
-              {favouriteCount }
+              {nft.favourite?.count }
             </Typography>
             <Tooltip 
-                    title={favourite ? "Remove from favourite" : "Add to favourite"} placement="top" arrow
+                    title={nft.favourite?.isFavourite ? "Remove from favourite" : "Add to favourite"} placement="top" arrow
                     PopperProps={{
                         disablePortal: true,
                     }}
@@ -175,7 +172,7 @@ const NFTCard = ({nft, showStatus=true}:INftCardProps) => {
                     TransitionProps={{ timeout: 200 }}
                     >    
               <IconButton sx={{marginTop:'-10px;'}} onClick={toggleFavourite}>
-                {favourite ?  <FavoriteIcon sx={{color: "#f00"}}/> : <FavoriteBorderIcon />}
+                {nft.favourite?.isFavourite ?  <FavoriteIcon sx={{color: "#f00"}}/> : <FavoriteBorderIcon />}
               </IconButton>
             </Tooltip>
           </Box>

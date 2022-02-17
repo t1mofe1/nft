@@ -25,12 +25,11 @@ import AppsIcon from "@mui/icons-material/Apps";
 
 
 import BarChartIcon from "@mui/icons-material/BarChart";
-import { IProfile } from "../models/profile";
+
+import { AppCtx } from "../app";
 
 
-interface IBrowseScreenProps {
-  profile : IProfile
-};
+
 
 //data
 function createData(
@@ -84,16 +83,20 @@ const DenseTable = () => {
     </TableContainer>
   );
 };
-export const ProfileScreen = ({profile}: IBrowseScreenProps) => {
+export const ProfileScreen = () => {
+
   const [value, setValue] = React.useState("1");
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
 
+  const dataContext = React.useContext(AppCtx); 
+
+
   return (
         <Box>
-          <ProfileHeader  profile={profile}/>
+          <ProfileHeader/>
           <TabContext value={value} >
             <TabList value={value} sx={{mb:{xs:0,md:4}}} onChange={handleChange} aria-label="icon tabs example" centered>
               <Tab icon={<AppsIcon color="primary"/>}  label="Collection" iconPosition="start" value="1" aria-label="phone" />
@@ -103,20 +106,20 @@ export const ProfileScreen = ({profile}: IBrowseScreenProps) => {
             <TabPanel value="1" >
               <Grid container spacing={2}>
                 {
-                  profile.collection.map((nft) => (
-                    <Grid item xs={12} md={3} sx={{mb:1}}>
-                      <NFTCard nft={nft}/>
+                  dataContext?.nftItems.filter((nft)=>nft.owner === true).map((nft) => (
+                    <Grid key={'nft'+nft.key} item xs={12} md={3} sx={{mb:1}}>
+                      <NFTCard nft={nft} updateNftItems={dataContext?.updateNftItems} />
                     </Grid>
                   ))
                 }
               </Grid>
             </TabPanel>
-            <TabPanel value="2" >
+            <TabPanel   value="2" >
               <Grid container spacing={2}>
                 {
-                  profile.favourite.map((nft) => (
-                    <Grid item xs={12} md={3} sx={{mb:1}}>
-                      <NFTCard nft={nft}/>
+                   dataContext?.nftItems.filter((nft)=>nft.favourite?.isFavourite === true).map((nft) => (
+                    <Grid key={'nft'+nft.key} item xs={12} md={3} sx={{mb:1}}>
+                      <NFTCard nft={nft} updateNftItems={dataContext?.updateNftItems}/>
                     </Grid>
                   ))
                 }

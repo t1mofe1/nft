@@ -32,6 +32,7 @@ export interface INft {
   price: number;
   priceSale?: number;
   favourite?: IFavourite;
+  owner?:Boolean;
   status?: string;
   category:string;
   blockchain: IBlockChain;

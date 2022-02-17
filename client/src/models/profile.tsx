@@ -1,4 +1,4 @@
-import { INft, IBlockChain } from "./nft";
+import { IBlockChain } from "./nft";
 
 export interface IProfileStats  {
   key : number;
@@ -18,8 +18,5 @@ export interface IProfile {
   avatar: string;
   addresses: Array<IProfileAddress>;
   description: string;
-  //reddit : string
-  collection : Array<INft>;
-  favourite : Array<INft>;
   stats : Array<IProfileStats>;
 }

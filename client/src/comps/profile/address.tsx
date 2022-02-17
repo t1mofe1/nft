@@ -29,7 +29,7 @@ const ProfileAddress = ({address}:IAddressProps) => {
       setTooltipCopyOpen(true);
     };
     return (
-            <Chip clickable={true} icon={
+            <Chip  key={'address-' + address.key} clickable={true} icon={
                 <Tooltip 
                     title={address.blockchain.name} placement="top" arrow
                     PopperProps={{
@@ -42,24 +42,12 @@ const ProfileAddress = ({address}:IAddressProps) => {
                 </Tooltip>
                 } 
                 label={
-                    <Tooltip 
-                        title="Copied" placement="top" arrow
-                        PopperProps={{
-                            disablePortal: true,
-                        }}
-                        open={tooltipCopiedOpen}
-                        TransitionComponent={Fade}
-                        TransitionProps={{ timeout: 200 }}
-                        disableFocusListener
-                        disableHoverListener
-                        disableTouchListener
-                    > 
                         <Tooltip 
-                            title="Click to copy" placement="top" arrow
+                            title={tooltipCopiedOpen?'Copied':'Click to copy'} placement="top" arrow
                             PopperProps={{
                                 disablePortal: true,
                             }}
-                            open={tooltipCopyOpen}
+                            open={tooltipCopyOpen || tooltipCopiedOpen}
                             TransitionComponent={Fade}
                             TransitionProps={{ timeout: 200 }}
                             disableFocusListener
@@ -68,7 +56,6 @@ const ProfileAddress = ({address}:IAddressProps) => {
                         >
                             <Typography  variant="body1"  style={{cursor:'pointer'}}  onClick={handleTooltipCopiedOpen} onMouseEnter={handleTootltipCopyOpen} onMouseLeave={handleTooltipsClose}>{address.address.substr(0,6) + ' ... ' + address.address.substr(-4)}</Typography>
                         </Tooltip>
-                    </Tooltip>
                  } 
                  sx={{px:2, py:2, mr:2}} size="medium" />
     )

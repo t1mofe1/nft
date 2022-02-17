@@ -11,13 +11,17 @@ import { Grid } from '@mui/material';
 import { Typography, Divider, Button } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import FilterListOffIcon from '@mui/icons-material/FilterListOff';
-import { INftFilterProps } from '../../models/nft';
+import { AppCtx } from '../../app';
 
 
 
 
-const NftFilter = ({blockchains, languages, categories}: INftFilterProps) => {
-  const [state, setState] = React.useState(false);
+const NftFilter = () => {
+    const dataContext = React.useContext(AppCtx); 
+  
+  
+  
+const [state, setState] = React.useState(false);
 
   const toggleDrawer =
     ( open: boolean) =>
@@ -33,15 +37,15 @@ const NftFilter = ({blockchains, languages, categories}: INftFilterProps) => {
       setState(open);
     };
     const clearAll = () =>{
-        setCheckedCategories(Array(categories.length).fill(false));
-        setCheckedBlockchains(Array(blockchains.length).fill(false));
-        setCheckedLanguages(Array(languages.length).fill(false));
+        setCheckedCategories(Array(dataContext?.filterProps.categories.length).fill(false));
+        setCheckedBlockchains(Array(dataContext?.filterProps.blockchains.length).fill(false));
+        setCheckedLanguages(Array(dataContext?.filterProps.languages.length).fill(false));
 
     }
 
-    const [checkedCategories, setCheckedCategories] = React.useState(Array(categories.length).fill(false));
-    const [checkedBlockchains, setCheckedBlockchains] = React.useState(Array(blockchains.length).fill(false));
-    const [checkedLanguages, setCheckedLanguages] = React.useState(Array(languages.length).fill(false));
+    const [checkedCategories, setCheckedCategories] = React.useState(Array(dataContext?.filterProps.categories.length).fill(false));
+    const [checkedBlockchains, setCheckedBlockchains] = React.useState(Array(dataContext?.filterProps.blockchains.length).fill(false));
+    const [checkedLanguages, setCheckedLanguages] = React.useState(Array(dataContext?.filterProps.languages.length).fill(false));
 
     // const handleChangeAllCategories = (event: React.ChangeEvent<HTMLInputElement>) => {
     //     setCheckedCategories(Array(categories.length).fill(event.target.checked));
@@ -76,8 +80,8 @@ const NftFilter = ({blockchains, languages, categories}: INftFilterProps) => {
                 TransitionComponent={Fade}
                 TransitionProps={{ timeout: 200 }}
                 >    
-                <IconButton aria-label="filter" color="primary">
-                    <FilterListIcon  onClick={toggleDrawer(true)}/>
+                <IconButton aria-label="filter"  onClick={toggleDrawer(true)} color="primary">
+                    <FilterListIcon/>
                 </IconButton>
             </Tooltip>
           <Drawer
@@ -95,8 +99,8 @@ const NftFilter = ({blockchains, languages, categories}: INftFilterProps) => {
                         <Box component="div"
                         sx={{display:'flex',flexDirection:'row',  justifyContent:'space-between',py:1, px:2}}>
                             <Typography sx={{marginTop:'5px;'}}  variant="subtitle1">Filters</Typography>
-                            <IconButton aria-label="filter" sx={{display:'inline-flex'}} color="primary">
-                                <CloseIcon  onClick={toggleDrawer(false)}/>
+                            <IconButton aria-label="filter" sx={{display:'inline-flex'}} color="primary" onClick={toggleDrawer(false)}>
+                                <CloseIcon  />
                             </IconButton>
                         </Box>
                         <Divider />
@@ -106,7 +110,7 @@ const NftFilter = ({blockchains, languages, categories}: INftFilterProps) => {
                        
                         <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                             {
-                                categories.map((category, i)=> (
+                                dataContext?.filterProps.categories.map((category, i)=> (
                                     <FormControlLabel 
                                         sx={{textTransform:'capitalize'}}
                                         label={category}
@@ -121,7 +125,7 @@ const NftFilter = ({blockchains, languages, categories}: INftFilterProps) => {
                         
                         <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                             {
-                                blockchains.map((blockchain, i)=> (
+                                dataContext?.filterProps.blockchains.map((blockchain, i)=> (
                                     <FormControlLabel
                                         sx={{textTransform:'capitalize'}}
                                         label={blockchain.name}
@@ -135,7 +139,7 @@ const NftFilter = ({blockchains, languages, categories}: INftFilterProps) => {
                         <Typography sx={{marginTop:'5px;',fontSize:'0.9em'}}  variant="h6" gutterBottom>Programming Languages</Typography>
                        <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                             {
-                                languages.map((language, i)=> (
+                                dataContext?.filterProps.languages.map((language, i)=> (
                                     <FormControlLabel
                                         sx={{textTransform:'capitalize'}}
                                         label={language.name}

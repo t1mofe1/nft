@@ -1,10 +1,12 @@
+import React, { useState, useEffect } from "react";
+
 import { MainScreen } from "./screens/main";
 import { BrowseScreen } from "./screens/browse";
 import { AboutScreen } from "./screens/about";
 import { ProfileScreen } from "./screens/profile";
 import { MainNavigation } from "./comps/navigation";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { IBlockChain, INft, IRenderer, IRenderLanguage, IRenderLibrary } from "./models/nft";
+import { IBlockChain, INft, INftFilterProps, IRenderer, IRenderLanguage, IRenderLibrary } from "./models/nft";
 import { IProfile, IProfileStats  } from "./models/profile";
 
 
@@ -56,7 +58,7 @@ const tsRender:IRenderer = {
   language : ts
 
 }
-const nftItems:Array<INft> = [
+let nftItemsSource:Array<INft> = [
   {
     key : 1,
     cover: "https://newsline.news/wp-content/uploads/2021/05/NFT-10-pictures-that-sold-for-hundreds-of-millions-of.jpeg",
@@ -98,6 +100,7 @@ const nftItems:Array<INft> = [
       count: 10,
       isFavourite: false
     },
+    owner : true,
     category: 'polymorphous',
     renderer : tsRender
   },
@@ -107,7 +110,7 @@ const nftItems:Array<INft> = [
     price : 0.0087,
     priceSale : 0.0085,
     blockchain: ethereum,
-    name : 'Cool cats',
+    name : 'Cool cats fave',
     status: 'sale',
     favourite : {
       count: 3,
@@ -372,6 +375,8 @@ const profileStats:Array<IProfileStats> = [
     value : 800
   }
 ];
+
+
 const profile:IProfile = {
   key: 1,
   nickname: "kingalgo",
@@ -392,12 +397,10 @@ const profile:IProfile = {
     }
   ],
   description : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in elementum urna. Sed imperdiet, sem dapibus scelerisque accumsan, nunc erat dignissim arcu, at finibus tellus magna ac erat. Morbi finibus laoreet lectus, nec luctus dui rhoncus key.",
-  stats : profileStats,
-  collection : nftItems.slice(0,20),
-  favourite: nftItems.slice(0,10)
+  stats : profileStats
 };
 
-const filterProps = {
+const filterProps:INftFilterProps = {
     blockchains: [
       ethereum,
       tron
@@ -410,18 +413,53 @@ const filterProps = {
     categories : categories
 
 }
+// interface IAppProps {
+//   nftItems : Array<INft>;
+//   profile : IProfile;
+//   filterProps : INftFilterProps;
+// }
 
-const app = () => {
-  return (
-    <BrowserRouter>
-      <MainNavigation />
-      <Routes>
-        <Route path="/" element={<MainScreen />} />
-        <Route path="/browse" element={<BrowseScreen nftItems={nftItems} filterProps={filterProps}/>} />
-        <Route path="/about" element={<AboutScreen />} />
-        <Route path="/profile/:key" element={<ProfileScreen profile={profile} />} />
-      </Routes>
-    </BrowserRouter>
+// const App = ({nftItems, profile, filterProps}:IAppProps) => {
+
+
+  interface AppContextInterface {
+    nftItems: Array<INft>;
+    profile: IProfile;
+    filterProps : INftFilterProps;
+    updateNftItems : Function;
+  }
+
+  export const AppCtx = React.createContext<AppContextInterface | null>(null);
+
+  const App = () => {
+    
+  
+    //const [profileData, setProfileData ] = useState(profile);
+    const [nftItems, setNftItems ] = useState(nftItemsSource);
+
+
+    const updateNftItems = (nft:INft) =>{
+      setNftItems( nftItems.map((item:INft)=> nft.key === item.key ? nft : item) );
+    }
+
+    const AppContext: AppContextInterface = {
+      nftItems: nftItems,
+      profile: profile,
+      filterProps : filterProps,
+      updateNftItems : updateNftItems
+    };
+    return (
+      <AppCtx.Provider value={AppContext}>
+        <BrowserRouter>
+          <MainNavigation />
+          <Routes>
+            <Route path="/" element={<MainScreen />} />
+            <Route path="/browse" element={<BrowseScreen />} />
+            <Route path="/about" element={<AboutScreen />} />
+            <Route path="/profile/:key" element={<ProfileScreen  />} />
+          </Routes>
+        </BrowserRouter>
+      </AppCtx.Provider>
   );
 };
-export default app;
+export default App;

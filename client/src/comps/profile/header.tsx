@@ -18,17 +18,16 @@ import ShareIcon from '@mui/icons-material/Share';
 import Avatar from '@mui/material/Avatar';
 
 import  ProfileAddress from "./address";
+import { AppCtx } from "../../app";
 
-import {IProfile} from "../../models/profile"
 
-interface IProfileHeaderProps {
-    profile : IProfile
 
-}
-const ProfileHeader = ({profile}:IProfileHeaderProps) => {
+
+const ProfileHeader = () => {
+  const dataContext = React.useContext(AppCtx); 
 
     const buttons = [
-        <Tooltip 
+        <Tooltip key={'btn-'+1}
             title="Webpage" placement="bottom" arrow
             PopperProps={{
                 disablePortal: true,
@@ -38,7 +37,7 @@ const ProfileHeader = ({profile}:IProfileHeaderProps) => {
         >    
             <Button ><WebIcon  /></Button>
         </Tooltip>,
-        <Tooltip 
+        <Tooltip key={'btn-'+2}
             title="Share profile" placement="bottom" arrow
             PopperProps={{
                 disablePortal: true,
@@ -50,28 +49,28 @@ const ProfileHeader = ({profile}:IProfileHeaderProps) => {
         </Tooltip>
       ];
     return (
-        <Box>
-            <Box component="img" src={profile.cover} sx={{width:'100%', height:'200px', objectFit: 'cover', display:'flex',flexDirection:'column'}}/>
+        <Box key={'profile-'+dataContext?.profile.key}>
+            <Box component="img" src={dataContext?.profile.cover} sx={{width:'100%', height:'200px', objectFit: 'cover', display:'flex',flexDirection:'column'}}/>
             <Container>
                 <Toolbar 
                     // sx={{display: 'flex', flexDirection: {xs:'columns', md:'row'}}}
                     >
-                        <Avatar alt={profile.nickname} 
+                        <Avatar alt={dataContext?.profile.nickname} 
                             style={{
                                 width: 200, height: 200,
                                 border: '5px solid #fff',
                                 marginTop: -100
                             }} 
-                            src={profile.avatar}/>
-                        <Typography sx={{mx:2,  fontSize: 25, textTransform: 'capitalize'}} variant="h4" >{profile.nickname}</Typography>
+                            src={dataContext?.profile.avatar}/>
+                        <Typography sx={{mx:2,  fontSize: 25, textTransform: 'capitalize'}} variant="h4" >{dataContext?.profile.nickname}</Typography>
                         <Box sx={{mx:1, display: 'flex',  flexGrow: 1 , justifyContent: 'flex-end'}}>
                             {buttons}
                         </Box>  
                 </Toolbar>
                 <Grid container spacing={2} sx={{ justifyContent:'center', mt:2}}>
                     {
-                        profile.addresses.map((address) => (
-                            <Grid item xs={4} md={3} lg={2} sx={{mb:1}}>
+                        dataContext?.profile.addresses.map((address) => (
+                            <Grid key={'address-wrapper'+address.key}  item xs={4} md={3} lg={2} sx={{mb:1}}>
                                 <ProfileAddress address={address}/>
                             </Grid>
                             ))
@@ -80,7 +79,7 @@ const ProfileHeader = ({profile}:IProfileHeaderProps) => {
                 <Grid container spacing={2} sx={{ justifyContent:'center', mt:2}}>
                   <Grid item xs={12} md={10} lg={8} sx={{mb:1}}>
                     <Typography sx={{mt:2,px : {xs : 2}}} variant="body1" gutterBottom component="p">
-                        {profile.description}
+                        {dataContext?.profile.description}
                     </Typography> 
                   </Grid>
                 </Grid>
