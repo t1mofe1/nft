@@ -55,7 +55,7 @@ export const BrowseScreen  = () => {
               <Grid container spacing={2}>
                   {
                     dataContext?.nftItems.filter((item)=> item.status === 'new').map((nft) => (
-                      <Grid key={'nft-new-'+nft.key} item xs={12} md={3} sx={{mb:1}}>
+                      <Grid key={'nft-new-'+nft.key} item xs={12} md={4} xl={3}  sx={{mb:1}}>
                         <NFTCard nft={nft} showStatus={false} updateNftItems={dataContext?.updateNftItems}/>
                       </Grid>
                     ))
@@ -66,7 +66,7 @@ export const BrowseScreen  = () => {
               <Grid container spacing={2}>
                   {
                    dataContext?.nftItems.filter((item)=> item.status === 'trending').map((nft) => (
-                      <Grid key={'nft-trending-'+nft.key} item xs={12} md={3} sx={{mb:1}}>
+                      <Grid key={'nft-trending-'+nft.key} item xs={12} md={4} xl={3}  sx={{mb:1}}>
                         <NFTCard nft={nft} showStatus={false}  updateNftItems={dataContext?.updateNftItems}/>
                       </Grid>
                     ))
@@ -77,7 +77,7 @@ export const BrowseScreen  = () => {
               <Grid container spacing={2}>
                   {
                     dataContext?.nftItems.filter((item)=> item.status === 'sale').map((nft) => (
-                      <Grid key={'nft-sale-'+nft.key} item xs={12} md={3} sx={{mb:1}}>
+                      <Grid key={'nft-sale-'+nft.key} item xs={12} md={4} xl={3}  sx={{mb:1}}>
                         <NFTCard nft={nft} showStatus={false} updateNftItems={dataContext?.updateNftItems}/>
                       </Grid>
                     ))
@@ -88,7 +88,7 @@ export const BrowseScreen  = () => {
               <Grid container spacing={2}>
                   {
                     dataContext?.nftItems.filter((item)=> item.category === 'animated').map((nft) => (
-                      <Grid key={'nft-animated-'+nft.key} item xs={12} md={3} sx={{mb:1}}>
+                      <Grid key={'nft-animated-'+nft.key} item xs={12} md={4} xl={3}  sx={{mb:1}}>
                         <NFTCard nft={nft} updateNftItems={dataContext?.updateNftItems}/>
                       </Grid>
                     ))
@@ -99,7 +99,7 @@ export const BrowseScreen  = () => {
               <Grid container spacing={2}>
                   {
                     dataContext?.nftItems.filter((item)=> item.category === 'polymorphous').map((nft) => (
-                      <Grid key={'nft-polymorphous-'+nft.key} item xs={12} md={3} sx={{mb:1}}>
+                      <Grid key={'nft-polymorphous-'+nft.key} item xs={12} md={4} xl={3} sx={{mb:1}}>
                         <NFTCard nft={nft} updateNftItems={dataContext?.updateNftItems}/>
                       </Grid>
                     ))

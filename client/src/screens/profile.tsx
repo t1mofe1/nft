@@ -107,7 +107,7 @@ export const ProfileScreen = () => {
               <Grid container spacing={2}>
                 {
                   dataContext?.nftItems.filter((nft)=>nft.owner === true).map((nft) => (
-                    <Grid key={'nft'+nft.key} item xs={12} md={3} sx={{mb:1}}>
+                    <Grid key={'nft'+nft.key} item xs={12} md={4} xl={3} sx={{mb:1}}>
                       <NFTCard nft={nft} updateNftItems={dataContext?.updateNftItems} />
                     </Grid>
                   ))
@@ -118,7 +118,7 @@ export const ProfileScreen = () => {
               <Grid container spacing={2}>
                 {
                    dataContext?.nftItems.filter((nft)=>nft.favourite?.isFavourite === true).map((nft) => (
-                    <Grid key={'nft'+nft.key} item xs={12} md={3} sx={{mb:1}}>
+                    <Grid key={'nft'+nft.key} item xs={12} md={4} xl={3}  sx={{mb:1}}>
                       <NFTCard nft={nft} updateNftItems={dataContext?.updateNftItems}/>
                     </Grid>
                   ))
