@@ -13,7 +13,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import FilterListOffIcon from '@mui/icons-material/FilterListOff';
 import { AppCtx } from '../../app';
 
-
+const defaultStateChecked : Array<string> = [];
 
 
 const NftFilter = () => {
@@ -21,51 +21,53 @@ const NftFilter = () => {
   
   
   
-const [state, setState] = React.useState(false);
+    const [state, setState] = React.useState(false);
 
-  const toggleDrawer =
-    ( open: boolean) =>
-    (event: React.KeyboardEvent | React.MouseEvent) => {
-      if (
-        event.type === 'keydown' &&
-        ((event as React.KeyboardEvent).key === 'Tab' ||
-          (event as React.KeyboardEvent).key === 'Shift')
-      ) {
-        return;
-      }
-
-      setState(open);
-    };
+    const toggleDrawer =
+        ( open: boolean) =>
+        (event: React.KeyboardEvent | React.MouseEvent) => {
+            if (
+                event.type === 'keydown' &&
+                ((event as React.KeyboardEvent).key === 'Tab' ||
+                (event as React.KeyboardEvent).key === 'Shift')
+            ) 
+                return;
+            setState(open);
+        };
     const clearAll = () =>{
-        setCheckedCategories(Array(dataContext?.filterProps.categories.length).fill(false));
-        setCheckedBlockchains(Array(dataContext?.filterProps.blockchains.length).fill(false));
-        setCheckedLanguages(Array(dataContext?.filterProps.languages.length).fill(false));
-
+        setCheckedCategories(defaultStateChecked);
+        setCheckedBlockchains(defaultStateChecked);
+        setCheckedLanguages(defaultStateChecked);
+        //dataContext?.updateNftFilter()
     }
 
-    const [checkedCategories, setCheckedCategories] = React.useState(Array(dataContext?.filterProps.categories.length).fill(false));
-    const [checkedBlockchains, setCheckedBlockchains] = React.useState(Array(dataContext?.filterProps.blockchains.length).fill(false));
-    const [checkedLanguages, setCheckedLanguages] = React.useState(Array(dataContext?.filterProps.languages.length).fill(false));
+    const [checkedCategories, setCheckedCategories] = React.useState(defaultStateChecked);
+    const [checkedBlockchains, setCheckedBlockchains] = React.useState(defaultStateChecked);
+    const [checkedLanguages, setCheckedLanguages] = React.useState(defaultStateChecked);
 
-    // const handleChangeAllCategories = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setCheckedCategories(Array(categories.length).fill(event.target.checked));
-    //   };
-      const handleChangeCategory = (event: React.ChangeEvent<HTMLInputElement>, i : number) => {
-        setCheckedCategories(checkedCategories.map((category, j )=> j===i ? event.target.checked : category ));
-      };
 
-    // const handleChangeAllBlockchains = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setCheckedBlockchains(Array(blockchains.length).fill(event.target.checked));
-    // };
-    const handleChangeBlockchain = (event: React.ChangeEvent<HTMLInputElement>, i : number) => {
-        setCheckedBlockchains(checkedBlockchains.map((blockchain, j )=> j===i ? event.target.checked : blockchain ));
+    const handleChangeCategory = (event: React.ChangeEvent<HTMLInputElement>) => {
+        let categories:Array<string> = checkedCategories?.filter(category => category !== event.target.name);
+        if (event.target.checked)
+            categories.push(event.target.name);
+        setCheckedCategories(categories);
+        dataContext?.updateNftFilter({blockchains : checkedBlockchains, languages : checkedLanguages, categories : categories});
     };
 
-    // const handleChangeAllLanguages = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setCheckedLanguages(Array(languages.length).fill(event.target.checked));
-    // };
-    const handleChangeLanguage = (event: React.ChangeEvent<HTMLInputElement>, i : number) => {
-        setCheckedLanguages(checkedLanguages.map((language, j )=> j===i ? event.target.checked : language ));
+    const handleChangeBlockchain = (event: React.ChangeEvent<HTMLInputElement>) => {
+        let blockchains:Array<string> = checkedBlockchains?.filter(blockchain => blockchain !== event.target.name);
+        if (event.target.checked)
+            blockchains.push(event.target.name);
+        setCheckedBlockchains(blockchains);
+        dataContext?.updateNftFilter({blockchains : blockchains, languages : checkedLanguages, categories : checkedCategories});
+    };
+
+    const handleChangeLanguage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        let languages:Array<string> = checkedLanguages?.filter(language => language !== event.target.name);
+        if (event.target.checked)
+            languages.push(event.target.name);
+        setCheckedLanguages(languages);
+        dataContext?.updateNftFilter({blockchains : checkedBlockchains, languages : languages, categories : checkedCategories});
     };
    
 
@@ -110,11 +112,12 @@ const [state, setState] = React.useState(false);
                        
                         <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                             {
-                                dataContext?.filterProps.categories.map((category, i)=> (
+                                dataContext?.nftFilterProps.categories.map((category, i)=> (
                                     <FormControlLabel 
                                         sx={{textTransform:'capitalize'}}
                                         label={category}
-                                        control={<Checkbox size="small" checked={checkedCategories[i]} onChange={(event)=> handleChangeCategory(event, i)} />}
+                                        name={category}
+                                        control={<Checkbox size="small" checked={checkedCategories?.indexOf(category)!==-1} onChange={event=> handleChangeCategory(event)} />}
                                     />
                                 ))
                             }
@@ -125,11 +128,12 @@ const [state, setState] = React.useState(false);
                         
                         <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                             {
-                                dataContext?.filterProps.blockchains.map((blockchain, i)=> (
+                                dataContext?.nftFilterProps.blockchains.map((blockchain, i)=> (
                                     <FormControlLabel
                                         sx={{textTransform:'capitalize'}}
                                         label={blockchain.name}
-                                        control={<Checkbox size="small" checked={checkedBlockchains[i]} onChange={(event)=> handleChangeBlockchain(event, i)} />}
+                                        name={blockchain.name}
+                                        control={<Checkbox size="small" checked={checkedBlockchains?.indexOf(blockchain.name)!==-1} onChange={event=> handleChangeBlockchain(event)} />}
                                     />
                                 ))
                             }
@@ -139,11 +143,12 @@ const [state, setState] = React.useState(false);
                         <Typography sx={{marginTop:'5px;',fontSize:'0.9em'}}  variant="h6" gutterBottom>Programming Languages</Typography>
                        <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                             {
-                                dataContext?.filterProps.languages.map((language, i)=> (
+                                dataContext?.nftFilterProps.languages.map((language, i)=> (
                                     <FormControlLabel
                                         sx={{textTransform:'capitalize'}}
                                         label={language.name}
-                                        control={<Checkbox size="small" checked={checkedLanguages[i]} onChange={(event)=> handleChangeLanguage(event, i)} />}
+                                        name={language.name}
+                                        control={<Checkbox size="small" checked={checkedLanguages?.indexOf(language.name)!==-1} onChange={event=> handleChangeLanguage(event)} />}
                                     />
                                 ))
                             }

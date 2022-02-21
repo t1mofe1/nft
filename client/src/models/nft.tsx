@@ -43,3 +43,8 @@ export interface INftFilterProps  {
   languages: Array<IRenderLanguage>;
   categories: Array<string>;
 }
+export interface INftFilter {
+  blockchains: Array<string>;
+  languages: Array<string>;
+  categories: Array<string>;
+}

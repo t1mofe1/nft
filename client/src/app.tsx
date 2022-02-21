@@ -6,7 +6,7 @@ import { AboutScreen } from "./screens/about";
 import { ProfileScreen } from "./screens/profile";
 import { MainNavigation } from "./comps/navigation";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { IBlockChain, INft, INftFilterProps, IRenderer, IRenderLanguage, IRenderLibrary } from "./models/nft";
+import { IBlockChain, INft, INftFilterProps, IRenderer, IRenderLanguage, IRenderLibrary, INftFilter } from "./models/nft";
 import { IProfile, IProfileStats  } from "./models/profile";
 
 
@@ -413,6 +413,12 @@ const filterProps:INftFilterProps = {
     categories : categories
 
 }
+const nftFilterDefault:INftFilter = 
+{ 
+  blockchains:[],
+  languages:[],
+  categories:[]
+}
 // interface IAppProps {
 //   nftItems : Array<INft>;
 //   profile : IProfile;
@@ -425,8 +431,9 @@ const filterProps:INftFilterProps = {
   interface AppContextInterface {
     nftItems: Array<INft>;
     profile: IProfile;
-    filterProps : INftFilterProps;
+    nftFilterProps : INftFilterProps;
     updateNftItems : Function;
+    updateNftFilter : Function;
   }
 
   export const AppCtx = React.createContext<AppContextInterface | null>(null);
@@ -436,17 +443,21 @@ const filterProps:INftFilterProps = {
   
     //const [profileData, setProfileData ] = useState(profile);
     const [nftItems, setNftItems ] = useState(nftItemsSource);
-
+    const [nftFilter, setNftFilter] = useState(nftFilterDefault)
 
     const updateNftItems = (nft:INft) =>{
       setNftItems( nftItems.map((item:INft)=> nft.key === item.key ? nft : item) );
     }
-
+    const updateNftFilter = (filter:INftFilter) =>{
+      console.log(filter)
+      setNftFilter(filter);
+    }
     const AppContext: AppContextInterface = {
       nftItems: nftItems,
       profile: profile,
-      filterProps : filterProps,
-      updateNftItems : updateNftItems
+      nftFilterProps : filterProps,
+      updateNftItems : updateNftItems,
+      updateNftFilter : updateNftFilter
     };
     return (
       <AppCtx.Provider value={AppContext}>
