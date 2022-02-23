@@ -1,35 +1,30 @@
 import React from "react";
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 
+import TabContext from "@mui/lab/TabContext";
+import Tab from "@mui/material/Tab";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
 
-import TabContext from '@mui/lab/TabContext';
-import Tab from '@mui/material/Tab';
-import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
 
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
+import NFTCard from "../comps/nft-card";
+import ProfileHeader from "../comps/profile/header";
 
-import  NFTCard from "../comps/nft-card";
-import  ProfileHeader from "../comps/profile/header";
-
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 import Paper from "@mui/material/Paper";
 import AppsIcon from "@mui/icons-material/Apps";
 
-
 import BarChartIcon from "@mui/icons-material/BarChart";
 
 import { AppCtx } from "../app";
-
-
-
 
 //data
 function createData(
@@ -84,51 +79,93 @@ const DenseTable = () => {
   );
 };
 export const ProfileScreen = () => {
-
   const [value, setValue] = React.useState("1");
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
 
-  const dataContext = React.useContext(AppCtx); 
-
+  const dataContext = React.useContext(AppCtx);
 
   return (
-        <Box>
-          <ProfileHeader/>
-          <TabContext value={value} >
-            <TabList value={value} sx={{mb:{xs:0,md:4}}} onChange={handleChange} aria-label="icon tabs example" centered>
-              <Tab icon={<AppsIcon color="primary"/>}  label="Collection" iconPosition="start" value="1" aria-label="phone" />
-              <Tab icon={<FavoriteIcon color="error" />}  label="Favourite" iconPosition="start" value="2" aria-label="phone" />
-              <Tab icon={<BarChartIcon color="info" />} label="Data" iconPosition="start"  value="3" aria-label="person" />
-            </TabList>
-            <TabPanel value="1" >
-              <Grid container spacing={2}>
-                {
-                  dataContext?.nftItems.filter((nft)=>nft.owner === true).map((nft) => (
-                    <Grid key={'nft'+nft.key} item xs={12} md={4} xl={3} sx={{mb:1}}>
-                      <NFTCard nft={nft} updateNftItems={dataContext?.updateNftItems} />
-                    </Grid>
-                  ))
-                }
-              </Grid>
-            </TabPanel>
-            <TabPanel   value="2" >
-              <Grid container spacing={2}>
-                {
-                   dataContext?.nftItems.filter((nft)=>nft.favourite?.isFavourite === true).map((nft) => (
-                    <Grid key={'nft'+nft.key} item xs={12} md={4} xl={3}  sx={{mb:1}}>
-                      <NFTCard nft={nft} updateNftItems={dataContext?.updateNftItems}/>
-                    </Grid>
-                  ))
-                }
-              </Grid>
-            </TabPanel>
-            <TabPanel value="3" >
-              <DenseTable/>
-            </TabPanel>
-          </TabContext>
-        </Box>
+    <Box>
+      <ProfileHeader />
+      <TabContext value={value}>
+        <TabList
+          value={value}
+          sx={{ mb: { xs: 0, md: 4 } }}
+          onChange={handleChange}
+          aria-label="icon tabs example"
+          centered
+        >
+          <Tab
+            icon={<AppsIcon color="primary" />}
+            label="Collection"
+            iconPosition="start"
+            value="1"
+            aria-label="phone"
+          />
+          <Tab
+            icon={<FavoriteIcon color="error" />}
+            label="Favourite"
+            iconPosition="start"
+            value="2"
+            aria-label="phone"
+          />
+          <Tab
+            icon={<BarChartIcon color="info" />}
+            label="Data"
+            iconPosition="start"
+            value="3"
+            aria-label="person"
+          />
+        </TabList>
+        <TabPanel value="1">
+          <Grid container spacing={2}>
+            {dataContext?.nftItems
+              .filter((nft) => nft.owner === true)
+              .map((nft) => (
+                <Grid
+                  key={"nft" + nft.key}
+                  item
+                  xs={12}
+                  md={4}
+                  xl={3}
+                  sx={{ mb: 1 }}
+                >
+                  <NFTCard
+                    nft={nft}
+                    updateNftItems={dataContext?.updateNftItems}
+                  />
+                </Grid>
+              ))}
+          </Grid>
+        </TabPanel>
+        <TabPanel value="2">
+          <Grid container spacing={2}>
+            {dataContext?.nftItems
+              .filter((nft) => nft.favourite?.isFavourite === true)
+              .map((nft) => (
+                <Grid
+                  key={"nft" + nft.key}
+                  item
+                  xs={12}
+                  md={4}
+                  xl={3}
+                  sx={{ mb: 1 }}
+                >
+                  <NFTCard
+                    nft={nft}
+                    updateNftItems={dataContext?.updateNftItems}
+                  />
+                </Grid>
+              ))}
+          </Grid>
+        </TabPanel>
+        <TabPanel value="3">
+          <DenseTable />
+        </TabPanel>
+      </TabContext>
+    </Box>
   );
 };

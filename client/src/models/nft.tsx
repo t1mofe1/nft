@@ -5,23 +5,23 @@ export interface IBlockChain {
   //url : string
 }
 export interface IRenderLanguage {
-  name : string;
+  name: string;
   logo: string;
   url?: string;
-
 }
-export interface IRenderLibrary{
-  name : string;
+export interface IRenderLibrary {
+  name: string;
   logo: string;
-  url?: string
+  url?: string;
 }
 export interface IRenderer {
   language: IRenderLanguage;
-  library? : IRenderLibrary;
+  library?: IRenderLibrary;
 }
 export interface IFavourite {
-  // id : number; 
-  count: number;
+  // id : number;
+  count?: number;
+  countLast7D?: number;
   isFavourite?: boolean;
 }
 
@@ -32,19 +32,29 @@ export interface INft {
   price: number;
   priceSale?: number;
   favourite?: IFavourite;
-  owner?:Boolean;
+  owner?: Boolean;
   status?: string;
-  category:string;
+  category: string;
   blockchain: IBlockChain;
   renderer: IRenderer;
+  boosted?: {
+    category: string;
+  };
 }
-export interface INftFilterProps  {
-  blockchains : Array<IBlockChain>;
+export interface INftFilterProps {
+  blockchains: Array<IBlockChain>;
   languages: Array<IRenderLanguage>;
-  categories: Array<string>;
+  categories: Array<INftCategory>;
 }
 export interface INftFilter {
   blockchains: Array<string>;
   languages: Array<string>;
   categories: Array<string>;
+}
+export interface INftCategory {
+  name: string;
+  uri: string;
+  color?: string;
+  description: string;
+  cover?: string;
 }
