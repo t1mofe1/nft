@@ -1,4 +1,7 @@
 import React from "react";
+
+import { useParams } from "react-router-dom";
+
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 
@@ -14,8 +17,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
-import NFTCard from "../comps/nft-card";
-import ProfileHeader from "../comps/profile/header";
+import NFTCardItem from "../comps/nft-card-item";
 
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
@@ -25,6 +27,7 @@ import AppsIcon from "@mui/icons-material/Apps";
 import BarChartIcon from "@mui/icons-material/BarChart";
 
 import { AppCtx } from "../app";
+import NftProfileHeader from "../comps/profile/nft-profile-header";
 
 //data
 function createData(
@@ -78,7 +81,10 @@ const DenseTable = () => {
     </TableContainer>
   );
 };
+
 export const ProfileScreen = () => {
+  const { key } = useParams();
+
   const [value, setValue] = React.useState("1");
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
@@ -86,10 +92,13 @@ export const ProfileScreen = () => {
   };
 
   const dataContext = React.useContext(AppCtx);
+  const profile = dataContext?.profiles
+    .filter((profile) => key === profile.key + "")
+    .pop()!;
 
   return (
     <Box>
-      <ProfileHeader />
+      <NftProfileHeader profile={profile} />
       <TabContext value={value}>
         <TabList
           value={value}
@@ -123,7 +132,7 @@ export const ProfileScreen = () => {
         <TabPanel value="1">
           <Grid container spacing={2}>
             {dataContext?.nftItems
-              .filter((nft) => nft.owner === true)
+              .filter((nft) => nft.owner + "" === key)
               .map((nft) => (
                 <Grid
                   key={"nft" + nft.key}
@@ -133,7 +142,7 @@ export const ProfileScreen = () => {
                   xl={3}
                   sx={{ mb: 1 }}
                 >
-                  <NFTCard
+                  <NFTCardItem
                     nft={nft}
                     updateNftItems={dataContext?.updateNftItems}
                   />
@@ -154,7 +163,7 @@ export const ProfileScreen = () => {
                   xl={3}
                   sx={{ mb: 1 }}
                 >
-                  <NFTCard
+                  <NFTCardItem
                     nft={nft}
                     updateNftItems={dataContext?.updateNftItems}
                   />

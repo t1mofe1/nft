@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 
 import { MainScreen } from "./screens/main";
+import { NftScreen } from "./screens/nft";
 import { BrowseScreen } from "./screens/browse";
 import { AboutScreen } from "./screens/about";
 import { ProfileScreen } from "./screens/profile";
 import { MainNavigation } from "./comps/navigation";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import {
   IBlockChain,
   INft,
@@ -15,8 +17,11 @@ import {
   IRenderLibrary,
   INftFilter,
   INftCategory,
+  INftCollection,
 } from "./models/nft";
+
 import { IProfile, IProfileStats } from "./models/profile";
+import { NftCollectionScreen } from "./screens/nft-collection";
 
 const ethereum: IBlockChain = {
   key: 1,
@@ -42,40 +47,134 @@ const jsRender: IRenderer = {
   language: js,
   library: jsLibrary,
 };
+
 const categories: Array<INftCategory> = [
   {
+    key: 1,
     name: "polymorphous",
     uri: "polymorphous",
     color: "#9AD0EC",
     description: "Everyday new and unique NFT",
   },
   {
-    name: "animations",
+    key: 2,
+    name: "animated",
     color: "#9AD0EC",
-    uri: "animations",
+    uri: "animated",
     description: "Animated NFT",
   },
 ];
-const boostedCaegories: Array<INftCategory> = [
+const profileStats: Array<IProfileStats> = [
   {
+    key: 1,
+    name: "Sold",
+    value: 1000,
+  },
+  {
+    key: 2,
+    name: "Bought",
+    value: 800,
+  },
+];
+const profiles: Array<IProfile> = [
+  {
+    key: 1,
+    nickname: "kingalgo",
+    created: "2019-01-01",
+    cover:
+      "https://newevolutiondesigns.com/images/freebies/hd-facebook-cover-5.jpg  ",
+    avatar: "https://www.microstockposts.com/storage/2019/10/000074.jpg",
+    addresses: [
+      {
+        key: 1,
+        blockchain: ethereum,
+        address: "0xE5D69BF3140F5A46826DBD55E930C5AD2EF9D955",
+      },
+      {
+        key: 2,
+        blockchain: tron,
+        address: "0x51A5DAFFF0BC0CB3380DD3FB253F2CC10C39E89D",
+      },
+    ],
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in elementum urna. Sed imperdiet, sem dapibus scelerisque accumsan, nunc erat dignissim arcu, at finibus tellus magna ac erat. Morbi finibus laoreet lectus, nec luctus dui rhoncus key.",
+    stats: profileStats,
+  },
+  {
+    key: 2,
+    nickname: "kingalgo2",
+    created: "2019-01-01",
+    cover:
+      "https://newevolutiondesigns.com/images/freebies/hd-facebook-cover-5.jpg  ",
+    avatar: "https://www.microstockposts.com/storage/2019/10/000074.jpg",
+    addresses: [
+      {
+        key: 1,
+        blockchain: ethereum,
+        address: "0xE5D69BF3140F5A46826DBD55E930C5AD2EF9D955",
+      },
+    ],
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in elementum urna. Sed imperdiet, sem dapibus scelerisque accumsan, nunc erat dignissim arcu, at finibus tellus magna ac erat. Morbi finibus laoreet lectus, nec luctus dui rhoncus key.",
+    stats: profileStats,
+  },
+];
+
+const collections: Array<INftCollection> = [
+  {
+    key: 1,
+    name: "AmazingCollection",
+    url: "www.mazing-collection.com",
+    avatar:
+      "https://d2gg9evh47fn9z.cloudfront.net/1600px_COLOURBOX10557177.jpg",
+    cover:
+      "https://static.news.bitcoin.com/wp-content/uploads/2021/08/cryptopunks-nft-collection-joins-axie-infinity-and-opensea-by-hitting-1-billion-in-sales.jpg",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tristique condimentum augue a posuere. Etiam vestibulum commodo est vitae pretium.",
+    author: profiles[1],
+    createdAt: "2022-01-01 08:00:20",
+    blockchains: [tron, ethereum],
+    renderer: jsRender,
+    stats: [
+      {
+        name: "minted / total",
+        value: [9080, 1000],
+      },
+      {
+        name: "sold in week / total",
+        value: [1000, 5000],
+      },
+      {
+        name: "avg. / max. price",
+        value: [0.002, 0.13],
+      },
+    ],
+  },
+];
+const boostedCategories: Array<INftCategory> = [
+  {
+    key: 1,
     name: "staff recommend",
     uri: "staff-recommend",
     color: "#9D5353",
     description: "precisely handpicked by our NFTs enjoyers",
   },
   {
+    key: 2,
     name: "polymorphous",
     uri: "polymorphous",
     color: "#876445",
     description: "everyday freshly added NFTs",
   },
   {
+    key: 3,
     name: "users recommend",
     uri: "users-recommend",
     color: "#1572A1",
-    description: "NFTs recommended by community",
+    description: "NFTs recommended by our community",
   },
   {
+    key: 4,
     name: "trending today",
     uri: "trending-today",
     color: "#7C9473",
@@ -104,8 +203,15 @@ let nftItemsSource: Array<INft> = [
       "https://newsline.news/wp-content/uploads/2021/05/NFT-10-pictures-that-sold-for-hundreds-of-millions-of.jpeg",
     price: 0.0044,
     priceSale: 0.004,
+    saleEnds: new Date("2022-03-14 16:00:00"),
     blockchain: ethereum,
     name: "Monkey tool belt",
+    owner: 1,
+    createdAt: "2022-01-01 08:00:20",
+    createdBy: 2,
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar porttitor quam sit amet tempor. Cras eget molestie ligula, vel fringilla enim. Nam sollicitudin aliquet velit feugiat pretium. Sed vel sapien id odio ornare pulvinar vitae suscipit ipsum.",
+
     status: "sale",
     favourite: {
       count: 3,
@@ -113,6 +219,8 @@ let nftItemsSource: Array<INft> = [
     },
     category: "polymorphous",
     renderer: pyRender,
+    collectionKey: 1,
+    metaData: [{ name: "Name", value: "Monkey tool belt" }],
   },
   {
     key: 2,
@@ -121,6 +229,11 @@ let nftItemsSource: Array<INft> = [
     price: 0.0054,
     blockchain: ethereum,
     name: "Cool jesus",
+    owner: 1,
+    createdAt: "2022-01-01 08:00:20",
+    createdBy: 2,
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar porttitor quam sit amet tempor. Cras eget molestie ligula, vel fringilla enim. Nam sollicitudin aliquet velit feugiat pretium. Sed vel sapien id odio ornare pulvinar vitae suscipit ipsum.",
     status: "trending",
     favourite: {
       count: 999,
@@ -128,6 +241,8 @@ let nftItemsSource: Array<INft> = [
     },
     category: "polymorphous",
     renderer: pyRender,
+    collectionKey: 1,
+    metaData: [{ name: "Name", value: "Cool jesus" }],
   },
   {
     key: 3,
@@ -136,14 +251,21 @@ let nftItemsSource: Array<INft> = [
     price: 1740,
     blockchain: tron,
     name: "It's melisa",
+    owner: 1,
+    createdAt: "2022-01-01 08:00:20",
+    createdBy: 2,
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar porttitor quam sit amet tempor. Cras eget molestie ligula, vel fringilla enim. Nam sollicitudin aliquet velit feugiat pretium. Sed vel sapien id odio ornare pulvinar vitae suscipit ipsum.",
+
     status: "new",
     favourite: {
       count: 10,
       isFavourite: false,
     },
-    owner: true,
     category: "polymorphous",
     renderer: tsRender,
+    collectionKey: 1,
+    metaData: [{ name: "Name", value: "Cool jesus" }],
   },
   {
     key: 4,
@@ -151,8 +273,14 @@ let nftItemsSource: Array<INft> = [
       "https://cdn.vox-cdn.com/thumbor/bouCIhEhMramGHZAiQGaa3q43vo=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/22341171/Screen_Shot_2021_03_02_at_3.21.50_PM.png",
     price: 0.0087,
     priceSale: 0.0085,
+    saleEnds: new Date("2022-03-14 16:00:00"),
     blockchain: ethereum,
     name: "Cool cats fave",
+    owner: 1,
+    createdAt: "2022-01-01 08:00:20",
+    createdBy: 2,
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar porttitor quam sit amet tempor. Cras eget molestie ligula, vel fringilla enim. Nam sollicitudin aliquet velit feugiat pretium. Sed vel sapien id odio ornare pulvinar vitae suscipit ipsum.",
     status: "sale",
     favourite: {
       count: 3,
@@ -161,6 +289,8 @@ let nftItemsSource: Array<INft> = [
     },
     category: "polymorphous",
     renderer: pyRender,
+    collectionKey: 1,
+    metaData: [{ name: "Name", value: "Cool jesus" }],
   },
   {
     key: 5,
@@ -169,8 +299,19 @@ let nftItemsSource: Array<INft> = [
     price: 4400,
     blockchain: tron,
     name: "Monkey tool belt",
+    owner: 1,
+    createdAt: "2022-01-01 08:00:20",
+    createdBy: 2,
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar porttitor quam sit amet tempor. Cras eget molestie ligula, vel fringilla enim. Nam sollicitudin aliquet velit feugiat pretium. Sed vel sapien id odio ornare pulvinar vitae suscipit ipsum.",
+
     category: "polymorphous",
     renderer: tsRender,
+    collectionKey: 1,
+    metaData: [
+      { name: "Name", value: "Cool jesus" },
+      { name: "Language", value: ts.name },
+    ],
   },
   {
     key: 6,
@@ -179,9 +320,21 @@ let nftItemsSource: Array<INft> = [
     price: 0.0054,
     blockchain: ethereum,
     name: "Cool jesus",
+    owner: 1,
+    createdAt: "2022-01-01 08:00:20",
+    createdBy: 2,
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar porttitor quam sit amet tempor. Cras eget molestie ligula, vel fringilla enim. Nam sollicitudin aliquet velit feugiat pretium. Sed vel sapien id odio ornare pulvinar vitae suscipit ipsum.",
+
     category: "animated",
     renderer: jsRender,
+    collectionKey: 1,
+    metaData: [
+      { name: "Name", value: "Cool jesus" },
+      { name: "Language", value: js.name },
+    ],
   },
+
   {
     key: 7,
     cover:
@@ -189,8 +342,15 @@ let nftItemsSource: Array<INft> = [
     price: 0.0074,
     blockchain: ethereum,
     name: "It's melisa",
+    owner: 1,
+    createdAt: "2022-01-01 08:00:20",
+    createdBy: 2,
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar porttitor quam sit amet tempor. Cras eget molestie ligula, vel fringilla enim. Nam sollicitudin aliquet velit feugiat pretium. Sed vel sapien id odio ornare pulvinar vitae suscipit ipsum.",
     category: "animated",
     renderer: jsRender,
+    collectionKey: 1,
+    metaData: [{ name: "Name", value: "Cool jesus" }],
   },
   {
     key: 8,
@@ -199,8 +359,15 @@ let nftItemsSource: Array<INft> = [
     price: 0.0087,
     blockchain: ethereum,
     name: "Cool cats",
+    owner: 1,
+    createdAt: "2022-01-01 08:00:20",
+    createdBy: 2,
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar porttitor quam sit amet tempor. Cras eget molestie ligula, vel fringilla enim. Nam sollicitudin aliquet velit feugiat pretium. Sed vel sapien id odio ornare pulvinar vitae suscipit ipsum.",
     category: "animated",
     renderer: jsRender,
+    collectionKey: 1,
+    metaData: [{ name: "Name", value: "Cool jesus" }],
   },
   {
     key: 9,
@@ -209,8 +376,16 @@ let nftItemsSource: Array<INft> = [
     price: 0.0044,
     blockchain: ethereum,
     name: "Monkey tool belt",
+    owner: 1,
+    createdAt: "2022-01-01 08:00:20",
+    createdBy: 2,
     category: "polymorphous",
     renderer: pyRender,
+    collectionKey: 1,
+    metaData: [
+      { name: "Name", value: "Cool jesus" },
+      { name: "Language", value: js.name },
+    ],
   },
   {
     key: 10,
@@ -219,9 +394,19 @@ let nftItemsSource: Array<INft> = [
     price: 0.0054,
     blockchain: ethereum,
     name: "Cool jesus",
+    owner: 1,
+    createdAt: "2022-01-01 08:00:20",
+    createdBy: 2,
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar porttitor quam sit amet tempor. Cras eget molestie ligula, vel fringilla enim. Nam sollicitudin aliquet velit feugiat pretium. Sed vel sapien id odio ornare pulvinar vitae suscipit ipsum.",
     category: "animated",
     status: "new",
     renderer: jsRender,
+    collectionKey: 1,
+    metaData: [
+      { name: "Name", value: "Cool jesus" },
+      { name: "Language", value: js.name },
+    ],
   },
   {
     key: 11,
@@ -230,9 +415,19 @@ let nftItemsSource: Array<INft> = [
     price: 0.0054,
     blockchain: ethereum,
     name: "Nyan Cat",
+    owner: 1,
+    createdAt: "2022-01-01 08:00:20",
+    createdBy: 2,
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar porttitor quam sit amet tempor. Cras eget molestie ligula, vel fringilla enim. Nam sollicitudin aliquet velit feugiat pretium. Sed vel sapien id odio ornare pulvinar vitae suscipit ipsum.",
     category: "animated",
     status: "new",
     renderer: jsRender,
+    collectionKey: 1,
+    metaData: [
+      { name: "Name", value: "Cool jesus" },
+      { name: "Language", value: js.name },
+    ],
   },
   {
     key: 12,
@@ -241,9 +436,19 @@ let nftItemsSource: Array<INft> = [
     price: 0.0074,
     blockchain: ethereum,
     name: "It's melisa",
+    owner: 1,
+    createdAt: "2022-01-01 08:00:20",
+    createdBy: 2,
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar porttitor quam sit amet tempor. Cras eget molestie ligula, vel fringilla enim. Nam sollicitudin aliquet velit feugiat pretium. Sed vel sapien id odio ornare pulvinar vitae suscipit ipsum.",
     category: "polymorphous",
     renderer: jsRender,
     boosted: { category: "users-recommend" },
+    collectionKey: 1,
+    metaData: [
+      { name: "Name", value: "Cool jesus" },
+      { name: "Language", value: js.name },
+    ],
   },
   {
     key: 13,
@@ -252,10 +457,21 @@ let nftItemsSource: Array<INft> = [
     price: 0.0087,
     blockchain: ethereum,
     name: "Cool cats",
+    owner: 1,
+    createdAt: "2022-01-01 08:00:20",
+    createdBy: 2,
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar porttitor quam sit amet tempor. Cras eget molestie ligula, vel fringilla enim. Nam sollicitudin aliquet velit feugiat pretium. Sed vel sapien id odio ornare pulvinar vitae suscipit ipsum.",
     category: "polymorphous",
     status: "new",
     renderer: jsRender,
     boosted: { category: "users-recommend" },
+    collectionKey: 1,
+    metaData: [
+      { name: "Name", value: "Cool jesus" },
+      { name: "Language", value: js.name },
+      { name: "Library", value: jsLibrary.name },
+    ],
   },
   {
     key: 14,
@@ -264,10 +480,21 @@ let nftItemsSource: Array<INft> = [
     price: 0.0044,
     blockchain: ethereum,
     name: "Monkey tool belt",
+    owner: 1,
+    createdAt: "2022-01-01 08:00:20",
+    createdBy: 2,
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar porttitor quam sit amet tempor. Cras eget molestie ligula, vel fringilla enim. Nam sollicitudin aliquet velit feugiat pretium. Sed vel sapien id odio ornare pulvinar vitae suscipit ipsum.",
     category: "polymorphous",
     status: "trending",
     renderer: jsRender,
     boosted: { category: "users-recommend" },
+    collectionKey: 1,
+    metaData: [
+      { name: "Name", value: "Cool jesus" },
+      { name: "Language", value: js.name },
+      { name: "Library", value: jsLibrary.name },
+    ],
   },
   {
     key: 15,
@@ -276,9 +503,20 @@ let nftItemsSource: Array<INft> = [
     price: 0.0054,
     blockchain: ethereum,
     name: "Cool camel ",
+    owner: 1,
+    createdAt: "2022-01-01 08:00:20",
+    createdBy: 2,
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar porttitor quam sit amet tempor. Cras eget molestie ligula, vel fringilla enim. Nam sollicitudin aliquet velit feugiat pretium. Sed vel sapien id odio ornare pulvinar vitae suscipit ipsum.",
     category: "animated",
     status: "trending",
     renderer: pyRender,
+    collectionKey: 1,
+    metaData: [
+      { name: "Name", value: "Cool jesus" },
+      { name: "Language", value: js.name },
+      { name: "Library", value: jsLibrary.name },
+    ],
   },
   {
     key: 16,
@@ -286,12 +524,24 @@ let nftItemsSource: Array<INft> = [
       "https://cdn.vox-cdn.com/thumbor/bouCIhEhMramGHZAiQGaa3q43vo=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/22341171/Screen_Shot_2021_03_02_at_3.21.50_PM.png",
     price: 0.0187,
     priceSale: 0.177,
+    saleEnds: new Date("2022-03-14 16:00:00"),
     blockchain: ethereum,
     name: "Cool cats",
+    owner: 1,
+    createdAt: "2022-01-01 08:00:20",
+    createdBy: 2,
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar porttitor quam sit amet tempor. Cras eget molestie ligula, vel fringilla enim. Nam sollicitudin aliquet velit feugiat pretium. Sed vel sapien id odio ornare pulvinar vitae suscipit ipsum.",
     category: "animated",
     status: "sale",
     renderer: jsRender,
     boosted: { category: "trending-today" },
+    collectionKey: 1,
+    metaData: [
+      { name: "Name", value: "Cool jesus" },
+      { name: "Language", value: js.name },
+      { name: "Library", value: jsLibrary.name },
+    ],
   },
   {
     key: 17,
@@ -300,10 +550,18 @@ let nftItemsSource: Array<INft> = [
     price: 0.0064,
     blockchain: ethereum,
     name: "Monkey tool belt",
+    owner: 1,
+    createdAt: "2022-01-01 08:00:20",
+    createdBy: 2,
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar porttitor quam sit amet tempor. Cras eget molestie ligula, vel fringilla enim. Nam sollicitudin aliquet velit feugiat pretium. Sed vel sapien id odio ornare pulvinar vitae suscipit ipsum.",
     category: "polymorphous",
     renderer: jsRender,
     boosted: { category: "trending-today" },
+    collectionKey: 1,
+    metaData: [{ name: "Name", value: "Cool jesus" }],
   },
+
   {
     key: 18,
     cover:
@@ -311,21 +569,37 @@ let nftItemsSource: Array<INft> = [
     price: 0.44,
     blockchain: ethereum,
     name: "Monkey tool belt",
+    owner: 1,
+    createdAt: "2022-01-01 08:00:20",
+    createdBy: 2,
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar porttitor quam sit amet tempor. Cras eget molestie ligula, vel fringilla enim. Nam sollicitudin aliquet velit feugiat pretium. Sed vel sapien id odio ornare pulvinar vitae suscipit ipsum.",
     category: "polymorphous",
     renderer: pyRender,
     boosted: { category: "trending-today" },
+    collectionKey: 1,
+    metaData: [{ name: "Name", value: "Cool jesus" }],
   },
+
   {
     key: 19,
     cover:
       "https://www.cnet.com/a/img/FOblZHSSQ9sBlVbdd0qIxrLRIAI=/940x0/2021/12/13/d319cda7-1ddd-4855-ac55-9dcd9ce0f6eb/unnamed.png",
     price: 0.0054,
     priceSale: 0.0044,
+    saleEnds: new Date("2022-03-14 16:00:00"),
     blockchain: ethereum,
     name: "Cool jesus",
+    owner: 1,
+    createdAt: "2022-01-01 08:00:20",
+    createdBy: 2,
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar porttitor quam sit amet tempor. Cras eget molestie ligula, vel fringilla enim. Nam sollicitudin aliquet velit feugiat pretium. Sed vel sapien id odio ornare pulvinar vitae suscipit ipsum.",
     category: "polymorphous",
     status: "sale",
     renderer: jsRender,
+    collectionKey: 1,
+    metaData: [{ name: "Name", value: "Cool jesus" }],
   },
   {
     key: 20,
@@ -334,9 +608,16 @@ let nftItemsSource: Array<INft> = [
     price: 0.0074,
     blockchain: ethereum,
     name: "It's melisa",
+    owner: 1,
+    createdAt: "2022-01-01 08:00:20",
+    createdBy: 2,
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar porttitor quam sit amet tempor. Cras eget molestie ligula, vel fringilla enim. Nam sollicitudin aliquet velit feugiat pretium. Sed vel sapien id odio ornare pulvinar vitae suscipit ipsum.",
     category: "polymorphous",
     status: "new",
     renderer: jsRender,
+    collectionKey: 1,
+    metaData: [{ name: "Name", value: "Cool jesus" }],
   },
   {
     key: 21,
@@ -344,12 +625,20 @@ let nftItemsSource: Array<INft> = [
       "https://cdn.vox-cdn.com/thumbor/bouCIhEhMramGHZAiQGaa3q43vo=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/22341171/Screen_Shot_2021_03_02_at_3.21.50_PM.png",
     price: 0.0087,
     priceSale: 0.008,
+    saleEnds: new Date("2022-03-14 16:00:00"),
     blockchain: ethereum,
     name: "Cool cats",
+    owner: 1,
+    createdAt: "2022-01-01 08:00:20",
+    createdBy: 2,
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar porttitor quam sit amet tempor. Cras eget molestie ligula, vel fringilla enim. Nam sollicitudin aliquet velit feugiat pretium. Sed vel sapien id odio ornare pulvinar vitae suscipit ipsum.",
     category: "animated",
     status: "sale",
     renderer: jsRender,
     boosted: { category: "polymorphous" },
+    collectionKey: 1,
+    metaData: [{ name: "Name", value: "Cool jesus" }],
   },
   {
     key: 22,
@@ -358,10 +647,17 @@ let nftItemsSource: Array<INft> = [
     price: 0.0044,
     blockchain: ethereum,
     name: "Monkey tool belt",
+    owner: 1,
+    createdAt: "2022-01-01 08:00:20",
+    createdBy: 2,
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar porttitor quam sit amet tempor. Cras eget molestie ligula, vel fringilla enim. Nam sollicitudin aliquet velit feugiat pretium. Sed vel sapien id odio ornare pulvinar vitae suscipit ipsum.",
     category: "polymorphous",
     status: "trending",
     renderer: tsRender,
     boosted: { category: "polymorphous" },
+    collectionKey: 1,
+    metaData: [{ name: "Name", value: "Cool jesus" }],
   },
   {
     key: 23,
@@ -370,10 +666,17 @@ let nftItemsSource: Array<INft> = [
     price: 0.0054,
     blockchain: ethereum,
     name: "Cool jesus",
+    owner: 1,
+    createdAt: "2022-01-01 08:00:20",
+    createdBy: 2,
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar porttitor quam sit amet tempor. Cras eget molestie ligula, vel fringilla enim. Nam sollicitudin aliquet velit feugiat pretium. Sed vel sapien id odio ornare pulvinar vitae suscipit ipsum.",
     category: "animated",
     status: "new",
     renderer: jsRender,
     boosted: { category: "polymorphous" },
+    collectionKey: 1,
+    metaData: [{ name: "Name", value: "Cool jesus" }],
   },
   {
     key: 24,
@@ -382,22 +685,38 @@ let nftItemsSource: Array<INft> = [
     price: 0.0074,
     blockchain: tron,
     name: "It's melisa",
+    owner: 1,
+    createdAt: "2022-01-01 08:00:20",
+    createdBy: 2,
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar porttitor quam sit amet tempor. Cras eget molestie ligula, vel fringilla enim. Nam sollicitudin aliquet velit feugiat pretium. Sed vel sapien id odio ornare pulvinar vitae suscipit ipsum.",
     category: "animated",
     status: "new",
     renderer: tsRender,
     boosted: { category: "staff-recommend" },
+    collectionKey: 1,
+    metaData: [{ name: "Name", value: "Cool jesus" }],
   },
   {
     key: 25,
     cover:
       "https://cdn.vox-cdn.com/thumbor/bouCIhEhMramGHZAiQGaa3q43vo=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/22341171/Screen_Shot_2021_03_02_at_3.21.50_PM.png",
     price: 0.0087,
+    priceSale: 0.007,
+    saleEnds: new Date("2022-03-14 16:00:00"),
     blockchain: ethereum,
     name: "Cool cats",
+    owner: 1,
+    createdAt: "2022-01-01 08:00:20",
+    createdBy: 2,
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar porttitor quam sit amet tempor. Cras eget molestie ligula, vel fringilla enim. Nam sollicitudin aliquet velit feugiat pretium. Sed vel sapien id odio ornare pulvinar vitae suscipit ipsum.",
     category: "animated",
     status: "sale",
     renderer: tsRender,
     boosted: { category: "staff-recommend" },
+    collectionKey: 1,
+    metaData: [{ name: "Name", value: "Cool jesus" }],
   },
   {
     key: 26,
@@ -405,63 +724,42 @@ let nftItemsSource: Array<INft> = [
       "https://image-cdn.hypb.st/https%3A%2F%2Fhypebeast.com%2Fimage%2F2021%2F10%2Fbored-ape-yacht-club-nft-3-4-million-record-sothebys-metaverse-tw.jpg?w=960&cbr=1&q=90&fit=max",
     price: 2000,
     priceSale: 1800,
+    saleEnds: new Date("2022-03-14 16:00:00"),
     blockchain: tron,
     name: "Cool cats",
+    owner: 1,
+    createdAt: "2022-01-01 08:00:20",
+    createdBy: 2,
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar porttitor quam sit amet tempor. Cras eget molestie ligula, vel fringilla enim. Nam sollicitudin aliquet velit feugiat pretium. Sed vel sapien id odio ornare pulvinar vitae suscipit ipsum.",
     category: "polymorphous",
     status: "sale",
     renderer: jsRender,
     boosted: { category: "staff-recommend" },
+    collectionKey: 1,
+    metaData: [{ name: "Name", value: "Cool jesus" }],
   },
   {
     key: 27,
     cover: "https://cdn.mos.cms.futurecdn.net/M3nWWndkz6QXcZ4ueCfESH.jpg",
     price: 1000,
     priceSale: 800,
+    saleEnds: new Date("2022-03-14 16:00:00"),
     blockchain: tron,
     name: "Aye pirate",
+    owner: 1,
+    createdAt: "2022-01-01 08:00:20",
+    createdBy: 2,
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar porttitor quam sit amet tempor. Cras eget molestie ligula, vel fringilla enim. Nam sollicitudin aliquet velit feugiat pretium. Sed vel sapien id odio ornare pulvinar vitae suscipit ipsum.",
     category: "trending",
     status: "sale",
     renderer: tsRender,
     boosted: { category: "staff-recommend" },
+    collectionKey: 1,
+    metaData: [{ name: "Name", value: "Cool jesus" }],
   },
 ];
-
-const profileStats: Array<IProfileStats> = [
-  {
-    key: 1,
-    name: "Sold",
-    value: 1000,
-  },
-  {
-    key: 2,
-    name: "Bought",
-    value: 800,
-  },
-];
-
-const profile: IProfile = {
-  key: 1,
-  nickname: "kingalgo",
-  created: "2019-01-01",
-  cover:
-    "https://newevolutiondesigns.com/images/freebies/hd-facebook-cover-5.jpg  ",
-  avatar: "https://www.microstockposts.com/storage/2019/10/000074.jpg",
-  addresses: [
-    {
-      key: 1,
-      blockchain: ethereum,
-      address: "0xE5D69BF3140F5A46826DBD55E930C5AD2EF9D955",
-    },
-    {
-      key: 2,
-      blockchain: tron,
-      address: "0x51A5DAFFF0BC0CB3380DD3FB253F2CC10C39E89D",
-    },
-  ],
-  description:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in elementum urna. Sed imperdiet, sem dapibus scelerisque accumsan, nunc erat dignissim arcu, at finibus tellus magna ac erat. Morbi finibus laoreet lectus, nec luctus dui rhoncus key.",
-  stats: profileStats,
-};
 
 const filterProps: INftFilterProps = {
   blockchains: [ethereum, tron],
@@ -484,8 +782,10 @@ const nftFilterDefault: INftFilter = {
 interface AppContextInterface {
   nftItems: Array<INft>;
   boostedCategories: Array<INftCategory>;
-  profile: IProfile;
+  categories: Array<INftCategory>;
+  profiles: Array<IProfile>;
   nftFilterProps: INftFilterProps;
+  nftCollections: Array<INftCollection>;
   updateNftItems: Function;
   updateNftFilter: Function;
 }
@@ -506,14 +806,18 @@ const App = () => {
     console.log(filter);
     setNftFilter(filter);
   };
+
   const AppContext: AppContextInterface = {
     nftItems: nftItems,
-    profile: profile,
-    boostedCategories: boostedCaegories,
+    profiles: profiles,
+    boostedCategories: boostedCategories,
+    categories: categories,
     nftFilterProps: filterProps,
+    nftCollections: collections,
     updateNftItems: updateNftItems,
     updateNftFilter: updateNftFilter,
   };
+
   return (
     <AppCtx.Provider value={AppContext}>
       <BrowserRouter>
@@ -523,6 +827,11 @@ const App = () => {
           <Route path="/browse" element={<BrowseScreen />} />
           <Route path="/about" element={<AboutScreen />} />
           <Route path="/profile/:key" element={<ProfileScreen />} />
+          <Route path="/nft/view/:key" element={<NftScreen />} />
+          <Route
+            path="/collection/view/:key"
+            element={<NftCollectionScreen />}
+          />
         </Routes>
       </BrowserRouter>
     </AppCtx.Provider>

@@ -1,56 +1,62 @@
-import { createTheme } from '@mui/material/styles';
-import { green, grey, red } from '@mui/material/colors';
+import { createTheme } from "@mui/material/styles";
+import { green, grey, red } from "@mui/material/colors";
 
 const rawTheme = createTheme({
-    // components : {
-    //     MuiAppBar: {
-    //         styleOverrides:{
-    //             root: {
-    //                 backgroundColor: '#272727'
-    //             }
-    //         }
-    //     }
-    // },
-    palette: {
-        primary: {
-        light: '#69696a',
-        main: '#272727',
-        dark: '#1e1e1f',
-        },
-        secondary: {
-        light: '#fff5f8',
-        main: '#ff3366',
-        dark: '#e62958',
-        },
-        warning: {
-        main: '#ffc071',
-        dark: '#ffb25e',
-        },
-        error: {
-        light: red[50],
-        main: red[500],
-        dark: red[700],
-        },
-        success: {
-        light: green[50],
-        main: green[500],
-        dark: green[700],
-        },
+  // components : {
+  //     MuiAppBar: {
+  //         styleOverrides:{
+  //             root: {
+  //                 backgroundColor: '#272727'
+  //             }
+  //         }
+  //     }
+  // },
+  palette: {
+    primary: {
+      light: "#69696a",
+      main: "#272727",
+      dark: "#1e1e1f",
     },
-    typography: {
-        fontFamily: "'Work Sans', sans-serif",
-        fontSize: 14,
-        fontWeightLight: 300, // Work Sans
-        fontWeightRegular: 400, // Work Sans
-        fontWeightMedium: 700, // Roboto Condensed
+    secondary: {
+      light: "#fff5f8",
+      main: "#ff3366",
+      dark: "#e62958",
     },
+    warning: {
+      main: "#ffc071",
+      dark: "#ffb25e",
+    },
+    error: {
+      light: red[50],
+      main: red[500],
+      dark: red[700],
+    },
+    success: {
+      light: green[50],
+      main: green[500],
+      dark: green[700],
+    },
+  },
+  typography: {
+    fontFamily: "'Work Sans', sans-serif",
+    fontSize: 14,
+    fontWeightLight: 300, // Work Sans
+    fontWeightRegular: 400, // Work Sans
+    fontWeightMedium: 700, // Roboto Condensed
+    body1: {
+      color: "#637381",
+    },
+    body2: {
+      color: "#637381",
+    },
+  },
 });
 
 const fontHeader = {
   color: rawTheme.palette.text.primary,
   fontWeight: rawTheme.typography.fontWeightMedium,
   fontFamily: "'Roboto Condensed', sans-serif",
-  textTransform: 'uppercase',
+  textTransform: "uppercase",
 };
 
 const theme = {
@@ -102,12 +108,12 @@ const theme = {
       fontSize: 18,
     },
     body1: {
-      ...rawTheme.typography.body2,
+      ...rawTheme.typography.body1,
       fontWeight: rawTheme.typography.fontWeightRegular,
       fontSize: 16,
     },
     body2: {
-      ...rawTheme.typography.body1,
+      ...rawTheme.typography.body2,
       fontSize: 14,
     },
   },

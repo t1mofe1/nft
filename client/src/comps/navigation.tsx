@@ -1,7 +1,6 @@
-import React, { useCallback } from "react";
+import React from "react";
 import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
-import Link from "@mui/material/Link";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "./toolbar";
 import { styled, alpha } from "@mui/material/styles";
@@ -16,7 +15,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -33,19 +32,19 @@ const Search = styled("div")(({ theme }) => ({
     width: "auto",
   },
 }));
-const LogoLink = {
+const LogoLinkStyle = {
   fontSize: 18,
-  color: "common.white",
-  ml: 3,
-  mr: 3,
+  color: "#fff",
+  textDecoration: "none",
+  marginLeft: 3,
+  marginRight: 3,
 };
-const RightLink = {
+const LinkStyle = {
   fontSize: 14,
-  color: "common.white",
-  ml: 3,
-  display: "block",
+  textDecoration: "none",
+  marginRight: 10,
 };
-const RightLinkMobile = {
+const RightLinkMobileStyle = {
   display: "block",
 };
 const SearchIconWrapper = styled("div")(({ theme }) => ({
@@ -95,14 +94,6 @@ export const MainNavigation = () => {
   const handleMobileMenuOpen = (event: any) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-  const navigate = useNavigate();
-  const handleOnClick = useCallback(
-    (path) => {
-      handleMenuClose();
-      navigate(path, { replace: true });
-    },
-    [navigate]
-  );
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -121,20 +112,15 @@ export const MainNavigation = () => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem
-        onClick={() => {
-          handleOnClick("/profile/1");
-        }}
-      >
-        <ListItemText>Profile</ListItemText>
+      <MenuItem>
+        <Link to={`/profile/1`} style={LinkStyle}>
+          <ListItemText>Profile</ListItemText>
+        </Link>
       </MenuItem>
-      <MenuItem
-        onClick={() => {
-          handleOnClick("/logout");
-        }}
-      >
-        {" "}
-        <ListItemText>Logout</ListItemText>
+      <MenuItem>
+        <Link to={`/logout`} style={LinkStyle}>
+          <ListItemText>Logout</ListItemText>
+        </Link>
       </MenuItem>
     </Menu>
   );
@@ -156,21 +142,15 @@ export const MainNavigation = () => {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem
-        onClick={() => {
-          handleOnClick("/browse");
-        }}
-        sx={RightLinkMobile}
-      >
-        Browse
+      <MenuItem>
+        <Link to={`/browse`} style={RightLinkMobileStyle}>
+          Browse
+        </Link>
       </MenuItem>
-      <MenuItem
-        onClick={() => {
-          handleOnClick("/about");
-        }}
-        sx={RightLinkMobile}
-      >
-        About
+      <MenuItem>
+        <Link to={`/about`} style={RightLinkMobileStyle}>
+          About
+        </Link>
       </MenuItem>
       <Divider />
       <MenuItem>
@@ -219,7 +199,7 @@ export const MainNavigation = () => {
             component="div"
             sx={{ display: { xs: "none", sm: "block" }, color: "common.white" }}
           >
-            <Link underline="none" href="/" sx={LogoLink}>
+            <Link to={`/`} style={LogoLinkStyle}>
               ALGOMART
             </Link>
           </Typography>
@@ -243,24 +223,10 @@ export const MainNavigation = () => {
               m: 1,
             }}
           >
-            <Link
-              underline="none"
-              component="button"
-              onClick={() => {
-                handleOnClick("/browse");
-              }}
-              sx={RightLink}
-            >
+            <Link to={`/browse`} style={{ ...LinkStyle, color: "#fff" }}>
               Browse
             </Link>
-            <Link
-              underline="none"
-              component="button"
-              onClick={() => {
-                handleOnClick("/about");
-              }}
-              sx={RightLink}
-            >
+            <Link to={`/about`} style={{ ...LinkStyle, color: "#fff" }}>
               About
             </Link>
           </Box>

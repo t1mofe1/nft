@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
 import { styled } from "@mui/material/styles";
 import { grey } from "@mui/material/colors";
 import { INft, INftCategory } from "../models/nft";
@@ -10,19 +12,22 @@ import {
   CardContent,
   Button,
   ButtonProps,
+  CardActionArea,
+  Box,
+  Stack,
 } from "@mui/material";
 
 interface IButtonProps extends ButtonProps {
-  hoverColor?: string;
+  hovercolor?: string;
 }
-const ColorButton = styled(Button)<IButtonProps>(({ hoverColor, theme }) => ({
+const ColorButton = styled(Button)<IButtonProps>(({ hovercolor, theme }) => ({
   color: theme.palette.getContrastText(grey[700]),
   backgroundColor: "transparent",
   borderColor: "#fff",
   "&:hover": {
     backgroundColor: "#f1f1f1",
     borderColor: "#fff",
-    color: hoverColor,
+    color: hovercolor,
   },
 }));
 
@@ -38,7 +43,7 @@ const NftCarouselItem = ({
   order,
 }: INftCarouselItemProps) => {
   return (
-    <Paper elevation={7}>
+    <Paper key={`carousel-category-${nftCategory.key}`} elevation={7}>
       <Grid
         container
         spacing={0}
@@ -51,82 +56,97 @@ const NftCarouselItem = ({
         {nftItems?.slice(0, 3).map((nft, i) => (
           <>
             {i === order && (
-              <>
-                <Grid
-                  item
-                  xs={3}
-                  sx={{
-                    textAlign: "center",
-                    backgroundColor: nftCategory.color,
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                  }}
-                >
-                  <CardContent>
-                    <Typography variant="h3" color="#efefef">
-                      {nftCategory.name}
-                    </Typography>
-                    <Typography variant="body1" color="#efefef" sx={{ my: 1 }}>
-                      {nftCategory.description}
-                    </Typography>
-                    <ColorButton
-                      hoverColor={nftCategory.color}
-                      variant="outlined"
-                      href={`category/${nftCategory.uri}`}
-                      size="large"
-                      sx={{
-                        mt: 2,
-                      }}
-                    >
-                      View category
-                    </ColorButton>
-                  </CardContent>
-                </Grid>
-              </>
+              <Grid
+                key={`carousel-category-${nftCategory.key}-cta-${i}`}
+                item
+                xs={3}
+                sx={{
+                  textAlign: "center",
+                  backgroundColor: nftCategory.color,
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                }}
+              >
+                <CardContent>
+                  <Typography variant="h3" color="#efefef">
+                    {nftCategory.name}
+                  </Typography>
+                  <Typography variant="body1" color="#efefef" sx={{ my: 1 }}>
+                    {nftCategory.description}
+                  </Typography>
+                  <ColorButton
+                    hovercolor={nftCategory.color}
+                    variant="outlined"
+                    href={`category/${nftCategory.uri}`}
+                    size="large"
+                    sx={{
+                      mt: 2,
+                    }}
+                  >
+                    View category
+                  </ColorButton>
+                </CardContent>
+              </Grid>
             )}
-            <Grid item xs={3}>
-              <CardMedia
-                component="img"
-                height="345"
-                image={nft.cover}
-                alt={nft.name}
-              />
+            <Grid
+              item
+              xs={3}
+              sx={{ backgroundColor: nftCategory.color }}
+              key={`carousel-category-${nftCategory.key}-item-${i}`}
+            >
+              <Link to={`/nft/view/${nft.key}`}>
+                <CardActionArea>
+                  <CardMedia
+                    key={nft.key}
+                    sx={{
+                      ":hover": {
+                        opacity: 0.2,
+                        cursor: "pointer",
+                      },
+                      transition: "opacity 0.3s",
+                    }}
+                    component="img"
+                    height="345"
+                    image={nft.cover}
+                    alt={nft.name}
+                  />
+                </CardActionArea>
+              </Link>
             </Grid>
             {i === 2 && order === 3 && (
-              <>
-                <Grid
-                  item
-                  xs={3}
-                  sx={{
-                    textAlign: "center",
-                    backgroundColor: nftCategory.color,
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                  }}
-                >
-                  <CardContent>
-                    <Typography variant="h3" color="#efefef">
-                      {nftCategory.name}
-                    </Typography>
-                    <Typography variant="body1" color="#efefef" sx={{ my: 1 }}>
-                      {nftCategory.description}
-                    </Typography>
-                    <ColorButton
-                      hoverColor={nftCategory.color}
-                      variant="outlined"
-                      href={`category/${nftCategory.uri}`}
-                      size="large"
-                      sx={{
-                        mt: 2,
-                      }}
-                    >
-                      View category
-                    </ColorButton>
-                  </CardContent>
-                </Grid>
-              </>
+              <Grid
+                key={`carousel-category-${nftCategory.key}-cta-${i}`}
+                item
+                xs={3}
+                sx={{
+                  textAlign: "center",
+                  backgroundColor: nftCategory.color,
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                }}
+              >
+                <CardContent>
+                  <Typography variant="h3" color="#efefef">
+                    {nftCategory.name}
+                  </Typography>
+                  <Typography variant="body1" color="#efefef" sx={{ my: 1 }}>
+                    {nftCategory.description}
+                  </Typography>
+                  <ColorButton
+                    hovercolor={nftCategory.color}
+                    variant="outlined"
+                    href={`category/${nftCategory.uri}`}
+                    size="large"
+                    sx={{
+                      mt: 2,
+                    }}
+                  >
+                    View category
+                  </ColorButton>
+                </CardContent>
+              </Grid>
             )}
           </>
         ))}

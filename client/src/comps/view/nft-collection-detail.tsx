@@ -16,11 +16,17 @@ import WebIcon from "@mui/icons-material/Web";
 import ShareIcon from "@mui/icons-material/Share";
 import Avatar from "@mui/material/Avatar";
 
-import ProfileAddress from "./address";
-import { AppCtx } from "../../app";
+// import { AppCtx } from "../../app";
 
-const ProfileHeader = () => {
-  const dataContext = React.useContext(AppCtx);
+import { INftCollection } from "../../models/nft";
+import { Stack } from "@mui/material";
+
+interface INftCollectionDetailsProps {
+  collection: INftCollection;
+}
+
+const NftCollectionDetails = ({ collection }: INftCollectionDetailsProps) => {
+  // const dataContext = React.useContext(AppCtx);
 
   const buttons = [
     <Tooltip
@@ -55,10 +61,10 @@ const ProfileHeader = () => {
     </Tooltip>,
   ];
   return (
-    <Box key={"profile-" + dataContext?.profile.key}>
+    <Box key={"nft-collection-" + collection.key}>
       <Box
         component="img"
-        src={dataContext?.profile.cover}
+        src={collection.cover}
         sx={{
           width: "100%",
           height: "200px",
@@ -68,24 +74,22 @@ const ProfileHeader = () => {
         }}
       />
       <Container>
-        <Toolbar
-        // sx={{display: 'flex', flexDirection: {xs:'columns', md:'row'}}}
-        >
+        <Toolbar>
           <Avatar
-            alt={dataContext?.profile.nickname}
+            alt={collection.name}
             style={{
               width: 200,
               height: 200,
               border: "5px solid #fff",
               marginTop: -100,
             }}
-            src={dataContext?.profile.avatar}
+            src={collection.avatar}
           />
           <Typography
             sx={{ mx: 2, fontSize: 25, textTransform: "capitalize" }}
             variant="h4"
           >
-            {dataContext?.profile.nickname}
+            {collection.name}
           </Typography>
           <Box
             sx={{
@@ -99,20 +103,6 @@ const ProfileHeader = () => {
           </Box>
         </Toolbar>
         <Grid container spacing={2} sx={{ justifyContent: "center", mt: 2 }}>
-          {dataContext?.profile.addresses.map((address) => (
-            <Grid
-              key={"address-wrapper" + address.key}
-              item
-              xs={4}
-              md={3}
-              lg={2}
-              sx={{ mb: 1 }}
-            >
-              <ProfileAddress address={address} />
-            </Grid>
-          ))}
-        </Grid>
-        <Grid container spacing={2} sx={{ justifyContent: "center", mt: 2 }}>
           <Grid item xs={12} md={10} lg={8} sx={{ mb: 1 }}>
             <Typography
               sx={{ mt: 2, px: { xs: 2 } }}
@@ -120,7 +110,7 @@ const ProfileHeader = () => {
               gutterBottom
               component="p"
             >
-              {dataContext?.profile.description}
+              {collection.description}
             </Typography>
           </Grid>
         </Grid>
@@ -128,4 +118,4 @@ const ProfileHeader = () => {
     </Box>
   );
 };
-export default ProfileHeader;
+export default NftCollectionDetails;
