@@ -43,12 +43,19 @@ const NftCountdown = ({ end }: INtfCountdown) => {
   return (
     <>
       <Divider />
+      <Typography
+        variant="body2"
+        color="secondary"
+        sx={{ textAlign: "center", mt: 2 }}
+      >
+        Sale ends in&nbsp;
+      </Typography>
       <Stack
         direction="row"
         spacing={1}
         justifyContent="center"
         alignItems="center"
-        sx={{ mt: 2 }}
+        sx={{ mt: 1 }}
       >
         <Tooltip
           title={`Sale ends on ${end}`}
@@ -62,10 +69,12 @@ const NftCountdown = ({ end }: INtfCountdown) => {
         >
           <Icon>{"alarm"}</Icon>
         </Tooltip>
-        <Box component={Typography}>{timeLeft.days} days</Box>
-        <Box component={Typography}>{timeLeft.hours} hours</Box>
-        <Box component={Typography}>{timeLeft.minutes} minutes</Box>
-        <Box component={Typography}>{timeLeft.seconds} seconds</Box>
+        <Typography variant="body2">
+          {timeLeft.days} days&nbsp;
+          {timeLeft.hours} hours&nbsp;
+          {timeLeft.minutes} minutes&nbsp;
+          {timeLeft.seconds} seconds&nbsp;
+        </Typography>
       </Stack>
     </>
   );

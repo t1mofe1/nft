@@ -23,6 +23,8 @@ import IconButton from "@mui/material/IconButton";
 import NftPriceTag from "./nft-price-tag";
 
 import { INft } from "../models/nft";
+import NftRendererIcons from "./nft-renderer-icons";
+import NftFavouriteButton from "./nft-favourite-button";
 
 interface INftCardProps {
   nft: INft;
@@ -39,15 +41,6 @@ const NFTCardItem = ({
 }: INftCardProps) => {
   const [cardHover, setCardHover] = React.useState(false);
 
-  const toggleFavourite = () => {
-    let count = nft.favourite?.count ? nft.favourite.count : 0;
-    const favourite = !nft.favourite?.isFavourite;
-    nft.favourite = {
-      count: favourite ? ++count : --count,
-      isFavourite: favourite,
-    };
-    updateNftItems(nft);
-  };
   const onMouseEnterHandler = () => {
     setCardHover(true);
   };
@@ -111,50 +104,7 @@ const NFTCardItem = ({
                     {nft.name}
                   </Grid>
                   <Grid item xs={12}>
-                    <Tooltip
-                      title={nft.renderer.language.name}
-                      placement="top"
-                      arrow
-                      PopperProps={{
-                        disablePortal: true,
-                      }}
-                      TransitionComponent={Fade}
-                      TransitionProps={{ timeout: 200 }}
-                    >
-                      <Box
-                        component="img"
-                        src={nft.renderer.language.logo}
-                        sx={{
-                          width: "16px",
-                          height: "16px",
-                          mr: 1,
-                          marginTop: "6px",
-                        }}
-                      />
-                    </Tooltip>
-                    {nft.renderer.library && (
-                      <Tooltip
-                        title={nft.renderer.library.name}
-                        placement="top"
-                        arrow
-                        PopperProps={{
-                          disablePortal: true,
-                        }}
-                        TransitionComponent={Fade}
-                        TransitionProps={{ timeout: 200 }}
-                      >
-                        <Box
-                          component="img"
-                          src={nft.renderer.library.logo}
-                          sx={{
-                            width: "16px",
-                            height: "16px",
-                            mr: 1,
-                            marginTop: "6px",
-                          }}
-                        />
-                      </Tooltip>
-                    )}
+                    <NftRendererIcons renderer={nft.renderer} />
                   </Grid>
                 </Grid>
               </Grid>
@@ -182,34 +132,7 @@ const NFTCardItem = ({
           aria-label="Favourite"
           sx={{ display: "flex", flexGrow: 1, justifyContent: "flex-end" }}
         >
-          <Typography
-            component="div"
-            sx={{ float: "left", marginRight: "3px" }}
-          >
-            {nft.favourite?.count}
-          </Typography>
-          <Tooltip
-            title={
-              nft.favourite?.isFavourite
-                ? "Remove from favourite"
-                : "Add to favourite"
-            }
-            placement="top"
-            arrow
-            PopperProps={{
-              disablePortal: true,
-            }}
-            TransitionComponent={Fade}
-            TransitionProps={{ timeout: 200 }}
-          >
-            <IconButton sx={{ marginTop: "-10px;" }} onClick={toggleFavourite}>
-              {nft.favourite?.isFavourite ? (
-                <FavoriteIcon sx={{ color: "#f00" }} />
-              ) : (
-                <FavoriteBorderIcon />
-              )}
-            </IconButton>
-          </Tooltip>
+          <NftFavouriteButton nft={nft} updateNftItems={updateNftItems!} />
         </Box>
       </CardActions>
     </Card>

@@ -4,8 +4,6 @@ import {
   Container,
   Typography,
   Stack,
-  Tooltip,
-  Toolbar,
   Icon,
   Button,
   Box,
@@ -16,14 +14,12 @@ import NFTCard from "../comps/view/nft-card";
 import { AppCtx } from "../app";
 import { Link, useParams } from "react-router-dom";
 
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import IconButton from "@mui/material/IconButton";
-import { INft } from "../models/nft";
 import NftPriceTag from "../comps/nft-price-tag";
 import NftDescriptionBox from "../comps/view/nft-description-box";
 import NftActionButton from "../comps/nft-action-button";
 import NftCountdown from "../comps/nft-count-down";
+import NftRendererIcons from "../comps/nft-renderer-icons";
+import NftFavouriteButton from "../comps/nft-favourite-button";
 
 export const NftScreen = () => {
   const { key } = useParams();
@@ -36,16 +32,6 @@ export const NftScreen = () => {
   const collection = dataContext?.nftCollections
     .filter((collection) => collection.key === nftItem?.collectionKey)
     .pop()!;
-
-  const toggleFavourite = (nft: INft) => {
-    let count = nft.favourite?.count ? nft.favourite.count : 0;
-    const favourite = !nft.favourite?.isFavourite;
-    nft.favourite = {
-      count: favourite ? ++count : --count,
-      isFavourite: favourite,
-    };
-    dataContext?.updateNftItems(nft);
-  };
   return (
     <Container maxWidth="xl" sx={{ contentAlign: "justify-end", mt: 2 }}>
       <Grid container spacing={4}>
@@ -54,76 +40,66 @@ export const NftScreen = () => {
             nft={nftItem!}
             updateNftItems={dataContext?.updateNftItems!}
           />
+          <Box
+            component="div"
+            aria-label="Favourite"
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+              flexGrow: 1,
+              mt: 1,
+            }}
+          >
+            <NftFavouriteButton
+              nft={nftItem}
+              updateNftItems={dataContext?.updateNftItems!}
+            />
+          </Box>
           <NftDescriptionBox nft={nftItem} collection={collection} />
         </Grid>
         <Grid item xs={12} md={4} sx={{ mt: 2 }}>
-          <Stack direction="row" spacing={0} justifyContent="flex-end">
-            <NftActionButton
-              button={{
-                key: "collection-url-button",
-                url: collection?.url!,
-                name: `Open external:  ${collection.name}`,
-                icon: "open_in_new",
-              }}
-            />
-          </Stack>
-          <Toolbar sx={{ mb: 4, mt: 2 }}>
-            <Stack
-              direction="column"
-              spacing={0}
-              justifyContent="flex-start"
-              alignItems="flex-start"
-            >
-              <Typography variant="h6">{nftItem.name}</Typography>
-              <Link to={`/collection/view/${collection.key}`}>
-                <Typography variant="body2">{collection.name}</Typography>
-              </Link>
-            </Stack>
+          <Stack
+            direction="row"
+            spacing={2}
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Link to={`/collection/view/${collection.key}`}>
+              <Typography variant="body2">{collection.name}</Typography>
+            </Link>
             <Box
               component="div"
-              aria-label="Favourite"
               sx={{ display: "flex", justifyContent: "flex-end", flexGrow: 1 }}
             >
-              <Typography
-                component="div"
-                sx={{ float: "left", marginRight: "3px" }}
-              >
-                {nftItem.favourite?.count ? nftItem.favourite?.count : 0}
-              </Typography>
-              <Tooltip
-                title={
-                  nftItem.favourite?.isFavourite
-                    ? "Remove from favourite"
-                    : "Add to favourite"
-                }
-                placement="top"
-                arrow
-                PopperProps={{
-                  disablePortal: true,
+              <NftActionButton
+                button={{
+                  key: "collection-url-button",
+                  url: collection?.url!,
+                  name: `Open external:  ${collection.name}`,
+                  icon: "open_in_new",
                 }}
-                TransitionProps={{ timeout: 200 }}
-              >
-                <IconButton
-                  sx={{ marginTop: "-10px;" }}
-                  onClick={() => toggleFavourite(nftItem)}
-                >
-                  {nftItem.favourite?.isFavourite ? (
-                    <FavoriteIcon sx={{ color: "#f00" }} />
-                  ) : (
-                    <FavoriteBorderIcon />
-                  )}
-                </IconButton>
-              </Tooltip>
+              />
             </Box>
-          </Toolbar>
+          </Stack>
+          <Stack direction="row" alignItems="center" sx={{ mb: 2 }}>
+            <Stack
+              direction="row"
+              spacing={2}
+              alignItems="center"
+              justifyContent="flex-start"
+            >
+              <Typography variant="h6">{nftItem.name}</Typography>
+              <NftRendererIcons renderer={nftItem.renderer} />
+            </Stack>
+          </Stack>
           <Paper sx={{ px: 0, py: 3 }} elevation={4}>
-            <Grid item xs={12} sx={{ my: 3, p: 2 }}>
+            <Grid item xs={12} sx={{ my: 3, px: 2, pb: 0, pt: 1 }}>
               <NftPriceTag nft={nftItem} size={30} />
             </Grid>
             <Stack
               spacing={2}
               direction="row"
-              sx={{ my: 2 }}
+              sx={{ mt: 2, mb: 4 }}
               justifyContent="center"
               alignItems="center"
             >
@@ -143,7 +119,6 @@ export const NftScreen = () => {
                 Make offer
               </Button>
             </Stack>
-
             {nftItem.status! === "sale" && nftItem.saleEnds! && (
               <NftCountdown end={nftItem?.saleEnds} />
             )}
