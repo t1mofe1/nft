@@ -104,7 +104,7 @@ export const useGraphqlQuery = <T = any>({
       },
     },
     invokeAtInit,
-    process.env.NODE_ENV === "production" ? 0 : 250
+    process.env.NODE_ENV === "production" ? 0 : 1000
   );
 
   React.useEffect(() => {

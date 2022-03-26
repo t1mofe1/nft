@@ -22,9 +22,6 @@ const wallets = [
   },
 ];
 
-//@ts-ignore
-console.log(window.ethereum);
-
 export const WalletAuth = () => {
   const { inProgress, signIn } = useAuth();
   const [anchor, setAnchor] = React.useState<HTMLElement | null>(null);

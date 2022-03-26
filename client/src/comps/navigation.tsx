@@ -1,25 +1,27 @@
 import React from "react";
-import Divider from "@mui/material/Divider";
-import Box from "@mui/material/Box";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "./toolbar";
-import { styled, alpha } from "@mui/material/styles";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import InputBase from "@mui/material/InputBase";
-import Badge from "@mui/material/Badge";
-import MenuItem from "@mui/material/MenuItem";
-import ListItemText from "@mui/material/ListItemText";
-import Menu from "@mui/material/Menu";
+import {
+  Box,
+  AppBar,
+  Divider,
+  Toolbar,
+  CircularProgress,
+  IconButton,
+  Typography,
+  InputBase,
+  Badge,
+  MenuItem,
+  ListItemText,
+  Menu,
+} from "@mui/material";
 import { Link } from "react-router-dom";
 import { useAuth } from "./auth-provider";
+import { WalletAuth } from "./wallet-auth";
+import { styled, alpha } from "@mui/material/styles";
 
 import MoreIcon from "@mui/icons-material/MoreVert";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import WalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import { WalletAuth } from "./wallet-auth";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -78,7 +80,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export const MainNavigation = () => {
-  const { isLogged, signOut } = useAuth();
+  const { isLogged, inProgress, signOut } = useAuth();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -104,41 +106,9 @@ export const MainNavigation = () => {
   };
 
   const menuId = "primary-search-account-menu";
-
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem>
-        <Link to={`/profile/1`} style={LinkStyle}>
-          <ListItemText>Profile</ListItemText>
-        </Link>
-      </MenuItem>
-      <MenuItem
-        onClick={() => {
-          signOut();
-          handleMenuClose();
-        }}
-      >
-        <ListItemText>Logout</ListItemText>
-      </MenuItem>
-    </Menu>
-  );
-
   const mobileMenuId = "primary-search-account-menu-mobile";
-  const renderMobileMenu = (
+
+  const MobileMenu = () => (
     <Menu
       anchorEl={mobileMoreAnchorEl}
       anchorOrigin={{
@@ -188,6 +158,38 @@ export const MainNavigation = () => {
           <AccountCircle />
         </IconButton>
         <p>Profile</p>
+      </MenuItem>
+    </Menu>
+  );
+
+  const WideScreenMenu = () => (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem>
+        <Link to={`/profile/1`} style={LinkStyle}>
+          <ListItemText>Profile</ListItemText>
+        </Link>
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          signOut();
+          handleMenuClose();
+        }}
+      >
+        <ListItemText>Logout</ListItemText>
       </MenuItem>
     </Menu>
   );
@@ -243,7 +245,7 @@ export const MainNavigation = () => {
                 <NotificationsIcon />
               </Badge>
             </IconButton>
-            {isLogged && (
+            {isLogged && !inProgress && (
               <IconButton
                 size="large"
                 edge="end"
@@ -257,6 +259,11 @@ export const MainNavigation = () => {
               </IconButton>
             )}
             {!isLogged && <WalletAuth />}
+            {inProgress && (
+              <Box pt={2}>
+                <CircularProgress size="1rem" color="inherit" />
+              </Box>
+            )}
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -272,8 +279,8 @@ export const MainNavigation = () => {
           </Box>
         </Toolbar>
       </AppBar>
-      {renderMobileMenu}
-      {renderMenu}
+      <MobileMenu />
+      <WideScreenMenu />
     </Box>
   );
 };

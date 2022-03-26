@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }: React.PropsWithChildren<{}>) => {
         isLogged: Boolean(data),
         signIn: (address) => setAddress(address),
         signOut: () => {
-          reset();
+          window.location.reload();
         },
       }}
     >
