@@ -8,12 +8,15 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 
 import reportWebVitals from "./reportWebVitals";
+import { AuthProvider } from "./comps/auth-provider";
 
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={Theme}>
       <CssBaseline />
-      <App />
+      <AuthProvider>
+        <App />
+      </AuthProvider>
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")

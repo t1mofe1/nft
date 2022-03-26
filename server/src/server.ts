@@ -6,7 +6,9 @@ import morgan from "morgan";
 import express from "express";
 import cookieParser from "cookie-parser";
 
-import routerIndex from "./routes/index";
+import apiRouter from "./routes/api";
+import indexRouter from "./routes/index";
+import graphqlRouter from "./routes/graphql";
 
 dotenv.config();
 const instance = express();
@@ -25,7 +27,9 @@ instance.use(express.json());
 instance.use(cookieParser());
 instance.use(express.urlencoded({ extended: false }));
 
-instance.use("/", routerIndex);
+instance.use("/", indexRouter);
+instance.use("/api", apiRouter);
+instance.use("/grapqhl", graphqlRouter);
 instance.use(express.static(path.join(__dirname, "public")));
 
 export default http.createServer(instance);

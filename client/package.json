@@ -2,6 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:8080/",
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
@@ -15,6 +16,7 @@
     "@types/node": "^16.11.22",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.11",
+    "axios": "^0.26.1",
     "formik": "^2.2.9",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -47,5 +49,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0"
   }
 }

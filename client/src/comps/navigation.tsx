@@ -11,11 +11,15 @@ import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemText from "@mui/material/ListItemText";
 import Menu from "@mui/material/Menu";
+import { Link } from "react-router-dom";
+import { useAuth } from "./auth-provider";
+
+import MoreIcon from "@mui/icons-material/MoreVert";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import MoreIcon from "@mui/icons-material/MoreVert";
-import { Link } from "react-router-dom";
+import WalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import { WalletAuth } from "./wallet-auth";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -32,6 +36,7 @@ const Search = styled("div")(({ theme }) => ({
     width: "auto",
   },
 }));
+
 const LogoLinkStyle = {
   fontSize: 18,
   color: "#fff",
@@ -39,6 +44,7 @@ const LogoLinkStyle = {
   marginLeft: 3,
   marginRight: 3,
 };
+
 const LinkStyle = {
   fontSize: 14,
   textDecoration: "none",
@@ -72,6 +78,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export const MainNavigation = () => {
+  const { isLogged, signOut } = useAuth();
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -96,6 +104,7 @@ export const MainNavigation = () => {
   };
 
   const menuId = "primary-search-account-menu";
+
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -117,10 +126,13 @@ export const MainNavigation = () => {
           <ListItemText>Profile</ListItemText>
         </Link>
       </MenuItem>
-      <MenuItem>
-        <Link to={`/logout`} style={LinkStyle}>
-          <ListItemText>Logout</ListItemText>
-        </Link>
+      <MenuItem
+        onClick={() => {
+          signOut();
+          handleMenuClose();
+        }}
+      >
+        <ListItemText>Logout</ListItemText>
       </MenuItem>
     </Menu>
   );
@@ -184,15 +196,6 @@ export const MainNavigation = () => {
     <Box>
       <AppBar elevation={0} position="static">
         <Toolbar>
-          {/* <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-            </IconButton> */}
           <Typography
             variant="h6"
             noWrap
@@ -240,17 +243,20 @@ export const MainNavigation = () => {
                 <NotificationsIcon />
               </Badge>
             </IconButton>
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
+            {isLogged && (
+              <IconButton
+                size="large"
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+            )}
+            {!isLogged && <WalletAuth />}
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton

@@ -5,11 +5,13 @@ export interface IProfileStats {
   name: string;
   value: number;
 }
+
 export interface IProfileAddress {
   key: number;
   blockchain: IBlockChain;
   address: string;
 }
+
 export interface IProfile {
   key: number;
   nickname: string;
