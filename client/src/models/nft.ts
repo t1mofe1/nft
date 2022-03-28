@@ -31,6 +31,18 @@ export interface INftStats {
   value: number | Array<number>;
   avatar?: string;
 }
+export interface INftTransaction {
+  key: number;
+  to: IProfileAddress;
+  from: IProfileAddress;
+  date: Date;
+  blockchain: IBlockChain;
+  price: number;
+  type: string;
+}
+export interface INftOffer extends INftTransaction {
+  endDate: Date;
+}
 export interface INftCollection {
   key: number;
   name: string;
@@ -38,7 +50,7 @@ export interface INftCollection {
   avatar?: string;
   cover?: string;
   author: IProfile;
-  createdAt: string;
+  createdAt: Date;
   stats?: Array<INftStats>;
   renderer: IRenderer;
   blockchains: Array<IBlockChain>;
@@ -57,9 +69,9 @@ export interface INft {
   priceSale?: number;
   saleEnds?: Date;
   favourite?: IFavourite;
-  owner: number;
-  createdBy: number;
-  createdAt: string;
+  owner: IProfile;
+  creator: IProfile;
+  createdAt: Date;
   status?: string;
   category: string;
   blockchain: IBlockChain;
@@ -67,8 +79,10 @@ export interface INft {
   boosted?: {
     category: string;
   };
-  collectionKey: number;
+  collection: INftCollection;
   metaData: Array<INftMetaData>;
+  lastTransactions?: Array<INftTransaction>;
+  lastOffers?: Array<INftOffer>;
 }
 export interface INftFilterProps {
   blockchains: Array<IBlockChain>;

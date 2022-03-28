@@ -18,7 +18,7 @@ export const NftCollectionScreen = () => {
       <NftCollectionHeader collection={collection} />
       <Grid container spacing={4} sx={{ mt: 5 }}>
         {dataContext?.nftItems
-          .filter((nft) => nft.collectionKey + "" === key)
+          .filter((nft) => nft.collection.key + "" === key)
           .filter((item) => item.status === "new")
           .map((nft) => (
             <Grid
