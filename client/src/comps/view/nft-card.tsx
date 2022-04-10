@@ -5,7 +5,7 @@ import Chip from "@mui/material/Chip";
 
 import CardMedia from "@mui/material/CardMedia";
 
-import { INft } from "../../models/nft";
+import { INft, INftTimeDifference } from "../../models/nft";
 import { Paper, Stack } from "@mui/material";
 
 interface INftCardProps {
@@ -13,6 +13,51 @@ interface INftCardProps {
   showStatus?: boolean;
   height?: string;
   updateNftItems: Function;
+  timeLeft:INftTimeDifference;
+}
+interface INftStatusProps {
+  status: string;
+  timeLeft:INftTimeDifference;
+}
+const NftStatus = ({status, timeLeft}:INftStatusProps)=>{
+  if (status === "sale"){
+    if  (timeLeft.difference > 0)
+      return (<Chip
+        sx={{
+          position: "absolute",
+          top: "20px",
+          right: "20px",
+          borderRadius: 1,
+          fontWeight: 800,
+          color: "#fff",
+        }}
+        label="SALE"
+        color="error"
+        size="small"
+      />)
+    else
+        return <></>;
+  }else{
+    return (
+      <Chip
+          sx={{
+            position: "absolute",
+            top: "20px",
+            right: "20px",
+            borderRadius: 1,
+            fontWeight: 800,
+            color: "#fff",
+          }}
+          label={status.toUpperCase()}
+          color={
+            (status === "sale" && "error") ||
+            (status === "new" && "success") ||
+            "info"
+          }
+          size="small"
+        />
+      )
+    }
 }
 
 const NFTCard = ({
@@ -20,6 +65,7 @@ const NFTCard = ({
   showStatus = true,
   height,
   updateNftItems,
+  timeLeft
 }: INftCardProps) => {
   return (
     <Stack spacing={0} sx={{ mt: 3 }} direction="column">
@@ -31,25 +77,11 @@ const NFTCard = ({
         elevation={4}
       >
         <Box sx={{ position: "relative" }}>
-          {showStatus && nft.status && (
-            <Chip
-              sx={{
-                position: "absolute",
-                top: "20px",
-                right: "20px",
-                borderRadius: 1,
-                fontWeight: 800,
-                color: "#fff",
-              }}
-              label={nft.status.toUpperCase()}
-              color={
-                (nft.status === "sale" && "error") ||
-                (nft.status === "new" && "success") ||
-                "info"
-              }
-              size="small"
-            />
-          )}
+          {
+            showStatus && nft.status && (   
+              <NftStatus status={nft.status} timeLeft={timeLeft}/>
+            )
+          }
           <CardMedia
             component="img"
             height={height ? height : "400"}

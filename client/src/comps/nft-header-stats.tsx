@@ -9,7 +9,6 @@ import {
   Divider,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-
 import { INftStats } from "../models/nft";
 interface IDisplayItemProps {
   value: number | Array<number>;

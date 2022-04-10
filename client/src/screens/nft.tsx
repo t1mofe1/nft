@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import {
   Grid,
   Container,
@@ -20,6 +20,7 @@ import NftActionButton from "../comps/nft-action-button";
 import NftCountdown from "../comps/nft-count-down";
 import NftRendererIcons from "../comps/nft-renderer-icons";
 import NftFavouriteButton from "../comps/nft-favourite-button";
+import { INftTimeDifference } from "../models/nft";
 
 export const NftScreen = () => {
   const { key } = useParams();
@@ -32,12 +33,33 @@ export const NftScreen = () => {
   const collection = dataContext?.nftCollections
     .filter((collection) => collection.key === nftItem?.collection.key)
     .pop()!;
+
+  const calculateTimeLeft = (end: Date) => {
+    const difference = end.getTime() - new Date().getTime();
+    return {
+      difference: difference > 0 ? difference : 0,
+      days: difference > 0 ? Math.floor(difference / (1000 * 60 * 60 * 24)) : 0,
+      hours: difference > 0 ? Math.floor((difference / (1000 * 60 * 60)) % 24) : 0,
+      minutes: difference > 0 ? Math.floor((difference / 1000 / 60) % 60) : 0,
+      seconds: difference > 0 ? Math.floor((difference / 1000) % 60) : 0,
+    };
+  };
+  const [timeLeft, setTimeLeft] = useState<INftTimeDifference>(
+    calculateTimeLeft(nftItem.saleEnds || new Date())
+  );
+  useEffect(() => {
+    if (timeLeft)
+      setTimeout(() => {
+        setTimeLeft(calculateTimeLeft(nftItem.saleEnds || new Date()))
+      }, 1000);
+  },[timeLeft, nftItem.saleEnds]);
   return (
     <Container maxWidth="xl" sx={{ contentAlign: "justify-end", mt: 2 }}>
       <Grid container spacing={4}>
         <Grid item xs={12} md={6}>
           <NFTCard
             nft={nftItem!}
+            timeLeft={timeLeft}
             updateNftItems={dataContext?.updateNftItems!}
           />
           <Box
@@ -119,8 +141,8 @@ export const NftScreen = () => {
                 Make offer
               </Button>
             </Stack>
-            {nftItem.status! === "sale" && nftItem.saleEnds! && (
-              <NftCountdown end={nftItem?.saleEnds} />
+            {nftItem.status! === "sale" && nftItem.saleEnds && (
+              <NftCountdown end={nftItem.saleEnds} timeLeft={timeLeft} />
             )}
           </Paper>
         </Grid>

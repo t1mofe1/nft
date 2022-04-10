@@ -35,7 +35,7 @@ const NftOffers = ({ offers }: INftOffers) => {
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell component="th" scope="row" align="center">
-                <NftCountdown concise end={offer.endDate} />
+                {/* <NftCountdown concise end={offer.endDate} /> */}
               </TableCell>
               <TableCell align="center">{`${offer.from.address.substr(
                 0,

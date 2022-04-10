@@ -1,4 +1,3 @@
-import React from "react";
 import { Tooltip, Stack, Typography } from "@mui/material";
 import { INft } from "../models/nft";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
