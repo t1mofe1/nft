@@ -27,7 +27,7 @@ export const ProfileAvatar = ({ src, alt, accountId }: IProfileAvatarProps) => {
 
   React.useEffect(() => {
     if (src !== value) {
-      if (isLoading === true) {
+      if (isLogged === true) {
         invoke();
       }
     }
