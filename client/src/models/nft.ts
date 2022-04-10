@@ -118,3 +118,10 @@ export interface INftActionButton {
   icon: string;
   url: string;
 }
+export interface INftTimeDifference {
+  difference: number;
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+}

@@ -36,7 +36,7 @@ const NftPriceTag = ({ nft, size = 20 }: INftPriceTag) => {
         />
       </Tooltip>
       <Box component="span">
-        {nft.status === "sale" && (
+        {nft.status === "sale" &&  nft.saleEnds && (nft.saleEnds.getTime() - new Date().getTime()) > 0 ? (
           <Typography
             variant="subtitle1"
             sx={{ fontSize: Math.floor(size * 1.2), lineHeight: size + "px" }}
@@ -56,8 +56,7 @@ const NftPriceTag = ({ nft, size = 20 }: INftPriceTag) => {
             &nbsp;
             {nft.priceSale}
           </Typography>
-        )}
-        {nft.status !== "sale" && (
+        ) : (
           <Typography
             variant="subtitle1"
             sx={{ fontSize: Math.floor(size * 1.2), lineHeight: size + "px" }}

@@ -10,10 +10,13 @@ import {
   TableRow,
   TableCell,
   Paper,
+  Stack,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { INft, INftCollection, INftMetaData } from "../../models/nft";
 import { Box } from "@mui/material";
+import { Link } from "react-router-dom";
+
 
 interface INftMetaDataTable {
   metaData: Array<INftMetaData>;
@@ -67,6 +70,12 @@ const NftDescriptionBox = ({ nft, collection }: INftDescriptionBox) => {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
+          <Stack sx={{mb:1}} direction="row" spacing={0.5}><Typography variant="body2" >Created by</Typography>  <Link to={`/profile/${nft.owner.key}`}>
+              <Typography variant="body2" color="secondary">
+                {nft.creator.nickname}
+              </Typography>
+            </Link>
+          </Stack>
           <Typography>{nft.description}</Typography>
         </AccordionDetails>
       </Accordion>

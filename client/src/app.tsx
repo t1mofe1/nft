@@ -340,7 +340,7 @@ let nftItemsSource: Array<INft> = [
       "https://cdn.vox-cdn.com/thumbor/bouCIhEhMramGHZAiQGaa3q43vo=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/22341171/Screen_Shot_2021_03_02_at_3.21.50_PM.png",
     price: 0.0087,
     priceSale: 0.0085,
-    saleEnds: new Date("2022-03-14 16:00:00"),
+    saleEnds: new Date("2022-04-10 22:14:10"),
     blockchain: ethereum,
     name: "Cool cats fave",
     owner: profiles[1],
