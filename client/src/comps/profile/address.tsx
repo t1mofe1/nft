@@ -11,7 +11,7 @@ interface IAddressProps {
   address: IProfileAddress;
 }
 
-const ProfileAddress = ({ address }: IAddressProps) => {
+export const ProfileAddress = ({ address }: IAddressProps) => {
   const [tooltipCopiedOpen, setTooltipCopiedOpen] = React.useState(false);
   const [tooltipCopyOpen, setTooltipCopyOpen] = React.useState(false);
 
@@ -30,7 +30,7 @@ const ProfileAddress = ({ address }: IAddressProps) => {
   };
   return (
     <Chip
-      key={"address-" + address.key}
+      key={"address-" + address.address}
       clickable={true}
       icon={
         <Tooltip
@@ -83,4 +83,3 @@ const ProfileAddress = ({ address }: IAddressProps) => {
     />
   );
 };
-export default ProfileAddress;

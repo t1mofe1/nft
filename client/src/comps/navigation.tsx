@@ -4,7 +4,6 @@ import {
   AppBar,
   Divider,
   Toolbar,
-  CircularProgress,
   IconButton,
   Typography,
   InputBase,
@@ -12,9 +11,10 @@ import {
   MenuItem,
   ListItemText,
   Menu,
+  Stack,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import { useAuth } from "./auth-provider";
+import { useAuth } from "./auth-context";
 import { WalletAuth } from "./wallet-auth";
 import { styled, alpha } from "@mui/material/styles";
 
@@ -52,9 +52,11 @@ const LinkStyle = {
   textDecoration: "none",
   marginRight: 10,
 };
+
 const RightLinkMobileStyle = {
   display: "block",
 };
+
 const SearchIconWrapper = styled("div")(({ theme }) => ({
   padding: theme.spacing(0, 2),
   height: "100%",
@@ -80,7 +82,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export const MainNavigation = () => {
-  const { isLogged, inProgress, signOut } = useAuth();
+  const { account, isLogged, inProgress, signOut } = useAuth();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -179,7 +181,11 @@ export const MainNavigation = () => {
       onClose={handleMenuClose}
     >
       <MenuItem>
-        <Link to={`/profile/1`} style={LinkStyle}>
+        <Link
+          style={LinkStyle}
+          to={`/account/${account?.id}`}
+          onClick={() => handleMenuClose()}
+        >
           <ListItemText>Profile</ListItemText>
         </Link>
       </MenuItem>
@@ -197,17 +203,22 @@ export const MainNavigation = () => {
   return (
     <Box>
       <AppBar elevation={0} position="static">
-        <Toolbar>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: "none", sm: "block" }, color: "common.white" }}
-          >
-            <Link to={`/`} style={LogoLinkStyle}>
-              ALGOMART
-            </Link>
-          </Typography>
+        <Toolbar style={{ justifyContent: "space-between" }}>
+          <Box>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{
+                display: { xs: "none", sm: "block" },
+                color: "common.white",
+              }}
+            >
+              <Link to={`/`} style={LogoLinkStyle}>
+                ALGOMART
+              </Link>
+            </Typography>
+          </Box>
           <Box sx={{ flexGrow: 1, maxWidth: 850 }}>
             <Search>
               <SearchIconWrapper>
@@ -219,52 +230,42 @@ export const MainNavigation = () => {
               />
             </Search>
           </Box>
-          <Box
-            sx={{
-              display: { xs: "none", md: "flex" },
-              flexGrow: 1,
-              justifyContent: "flex-end",
-              p: 1,
-              m: 1,
-            }}
-          >
-            <Link to={`/browse`} style={{ ...LinkStyle, color: "#fff" }}>
-              Browse
-            </Link>
-            <Link to={`/about`} style={{ ...LinkStyle, color: "#fff" }}>
-              About
-            </Link>
-          </Box>
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
+          <Stack direction="row">
+            <Box
+              sx={{
+                display: { xs: "none", md: "block" },
+                flexGrow: 1,
+                justifyContent: "flex-end",
+                p: 1,
+                m: 1,
+              }}
             >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            {isLogged && !inProgress && (
-              <IconButton
-                size="large"
-                edge="end"
-                aria-label="account of current user"
-                aria-controls={menuId}
-                aria-haspopup="true"
-                onClick={handleProfileMenuOpen}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-            )}
-            {!isLogged && <WalletAuth />}
-            {inProgress && (
-              <Box pt={2}>
-                <CircularProgress size="1rem" color="inherit" />
-              </Box>
-            )}
-          </Box>
+              {isLogged && (
+                <Link
+                  to={`/assets/create`}
+                  style={{ ...LinkStyle, color: "#fff" }}
+                >
+                  Create
+                </Link>
+              )}
+            </Box>
+            <Box sx={{ display: { xs: "none", md: "flex" } }}>
+              {isLogged && !inProgress && (
+                <IconButton
+                  size="large"
+                  edge="end"
+                  aria-label="account of current user"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  onClick={handleProfileMenuOpen}
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>
+              )}
+              {!isLogged && <WalletAuth />}
+            </Box>
+          </Stack>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"

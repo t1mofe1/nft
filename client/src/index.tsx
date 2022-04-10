@@ -8,14 +8,17 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 
 import reportWebVitals from "./reportWebVitals";
-import { AuthProvider } from "./comps/auth-provider";
+import { AuthProvider } from "./comps/auth-context";
+import { AppContextProvider } from "./comps/app-context";
 
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={Theme}>
       <CssBaseline />
       <AuthProvider>
-        <App />
+        <AppContextProvider>
+          <App />
+        </AppContextProvider>
       </AuthProvider>
     </ThemeProvider>
   </React.StrictMode>,

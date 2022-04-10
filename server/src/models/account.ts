@@ -1,19 +1,40 @@
 import mongoose, { Schema } from "mongoose";
+import { IObjectBase } from "./object-base";
 
-export interface IAccount {
+export interface IAccount extends IObjectBase {
+  cover: string;
+  avatar: string;
   nickname: string;
-  publicAddress: string;
+  addresses: string[];
+  description: string;
 }
 
 const AccountSchema = new Schema(
   {
-    nickname: {
+    avatar: {
       type: String,
       default: "",
     },
-    publicAddress: String,
+    cover: {
+      type: String,
+      default: "",
+    },
+    nickname: {
+      type: String,
+      default: "unnamed",
+    },
+    description: {
+      type: String,
+      default: "",
+    },
+    addresses: [String],
   },
-  { timestamps: true }
+  {
+    timestamps: {
+      createdAt: true,
+      updatedAt: "modifiedAt",
+    },
+  }
 );
 
 export const AccountModel = mongoose.model<IAccount>("Account", AccountSchema);
