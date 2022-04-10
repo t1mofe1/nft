@@ -4,6 +4,8 @@ import http from "http";
 import dotenv from "dotenv";
 import morgan from "morgan";
 import express from "express";
+import bodyParser from "body-parser";
+import session from "express-session";
 import cookieParser from "cookie-parser";
 
 import apiRouter from "./routes/api";
@@ -13,7 +15,8 @@ import graphqlRouter from "./routes/graphql";
 dotenv.config();
 const instance = express();
 
-if (process.env.NODE_ENV !== "production") {
+if (instance.get("env") !== "production") {
+  instance.set("trust proxy", 1);
   instance.use(
     cors({
       origin: "http://localhost:3000",
@@ -22,10 +25,22 @@ if (process.env.NODE_ENV !== "production") {
   );
 }
 
+instance.use(
+  session({
+    resave: false,
+    saveUninitialized: true,
+    secret: "dlfngkfsdngjkkre84teuirgjdfsg",
+    cookie: { secure: instance.get("env") === "production" },
+  })
+);
+
 instance.use(morgan("dev"));
-instance.use(express.json());
+instance.use(
+  express.json({
+    limit: "10mb",
+  })
+);
 instance.use(cookieParser());
-instance.use(express.urlencoded({ extended: false }));
 
 instance.use("/", indexRouter);
 instance.use("/api", apiRouter);
