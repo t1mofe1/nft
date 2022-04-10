@@ -36,7 +36,7 @@ const InfoTabsData: Array<IInfoTab> = [
     key: 2,
     title: "Create collections",
     description:
-      "Create your own collections. Add social links, a description, profile & banner images, and set a secondary sales fee. Find out more",
+      "Create your own collections. Add social links, a description, profile & cover images, and set a secondary sales fee. Find out more",
     icon: "collections",
     link: {
       url: "/",

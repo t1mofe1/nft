@@ -1,11 +1,14 @@
 import React from "react";
+import { IAccount } from "../models/account";
 import { GetAccountByAddress } from "../api/account";
 import { useGraphqlQuery } from "../services/gql/query";
 
 interface IAuthContext {
-  account?: any;
+  address: string;
   isLogged: boolean;
+  account?: IAccount;
   inProgress?: boolean;
+  refresh: () => void;
   signIn: (address: string) => void;
   signOut: () => void;
 }
@@ -43,9 +46,12 @@ export const AuthProvider = ({ children }: React.PropsWithChildren<{}>) => {
         account: data,
         inProgress: isLoading,
         isLogged: Boolean(data),
+        address: String(address),
+        refresh: () => invoke(),
         signIn: (address) => setAddress(address),
         signOut: () => {
-          window.location.reload();
+          reset();
+          setAddress(null);
         },
       }}
     >

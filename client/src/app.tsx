@@ -1,23 +1,23 @@
 import React, { useState } from "react";
 
-import { MainScreen } from "./screens/main";
 import { NftScreen } from "./screens/nft";
-import { BrowseScreen } from "./screens/browse";
+import { MainScreen } from "./screens/main";
 import { AboutScreen } from "./screens/about";
+import { BrowseScreen } from "./screens/browse";
 import { ProfileScreen } from "./screens/profile";
 import { MainNavigation } from "./comps/navigation";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import {
-  IBlockChain,
   INft,
-  INftFilterProps,
   IRenderer,
-  IRenderLanguage,
-  IRenderLibrary,
   INftFilter,
+  IBlockChain,
   INftCategory,
+  IRenderLibrary,
   INftCollection,
+  INftFilterProps,
+  IRenderLanguage,
 } from "./models/nft";
 
 import { IProfile, IProfileStats } from "./models/profile";
@@ -28,6 +28,7 @@ const ethereum: IBlockChain = {
   name: "Ethereum",
   logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Ethereum-icon-purple.svg/480px-Ethereum-icon-purple.svg.png",
 };
+
 const tron: IBlockChain = {
   key: 2,
   name: "Tron",
@@ -64,6 +65,7 @@ const categories: Array<INftCategory> = [
     description: "Animated NFT",
   },
 ];
+
 const profileStats: Array<IProfileStats> = [
   {
     key: 1,
@@ -151,6 +153,7 @@ const collections: Array<INftCollection> = [
     ],
   },
 ];
+
 const boostedCategories: Array<INftCategory> = [
   {
     key: 1,
@@ -186,16 +189,20 @@ const py: IRenderLanguage = {
   name: "Python",
   logo: "/images/py-logo.png",
 };
+
 const pyRender: IRenderer = {
   language: py,
 };
+
 const ts: IRenderLanguage = {
   name: "TypeScript",
   logo: "/images/ts-logo.png",
 };
+
 const tsRender: IRenderer = {
   language: ts,
 };
+
 let nftItemsSource: Array<INft> = [
   {
     key: 1,
@@ -334,7 +341,6 @@ let nftItemsSource: Array<INft> = [
       { name: "Language", value: js.name },
     ],
   },
-
   {
     key: 7,
     cover:
@@ -824,10 +830,10 @@ const App = () => {
         <MainNavigation />
         <Routes>
           <Route path="/" element={<MainScreen />} />
-          <Route path="/browse" element={<BrowseScreen />} />
           <Route path="/about" element={<AboutScreen />} />
-          <Route path="/profile/:key" element={<ProfileScreen />} />
+          <Route path="/browse" element={<BrowseScreen />} />
           <Route path="/nft/view/:key" element={<NftScreen />} />
+          <Route path="/account/:key" element={<ProfileScreen />} />
           <Route
             path="/collection/view/:key"
             element={<NftCollectionScreen />}

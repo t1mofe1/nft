@@ -1,5 +1,7 @@
 import React from "react";
-import { useAuth } from "./auth-provider";
+import Strings from "../strings";
+import { useAuth } from "./auth-context";
+import { IWallet } from "../models/wallet";
 import { IEtherum } from "../models/etherum";
 import {
   Box,
@@ -11,14 +13,20 @@ import {
 
 import WalletIcon from "@mui/icons-material/AccountBalanceWallet";
 
-const wallets = [
+const wallets: IWallet[] = [
   {
     name: "metamask",
     label: "MetaMask",
+    sign: async () => {},
+    getAccounts: async () => {
+      //@ts-ignore
+      const instance = window.ethereum as IEtherum;
+      return instance.request({ method: "eth_requestAccounts" }) as Promise<
+        Array<any>
+      >;
+    },
     //@ts-ignore
-    instace: window.ethereum as IEtherum,
-    //@ts-ignore
-    isAvailable: window.ethereum && window.ethereum.isMetaMask === true,
+    isAvailable: () => window.ethereum && window.ethereum.isMetaMask === true,
   },
 ];
 
@@ -30,9 +38,9 @@ export const WalletAuth = () => {
     <React.Fragment>
       {!inProgress && (
         <IconButton
-          size="large"
           edge="end"
-          aria-label="account of current user"
+          size="large"
+          title={Strings.wallet}
           aria-haspopup="true"
           color="inherit"
           onClick={(e) => setAnchor(e.currentTarget)}
@@ -41,7 +49,7 @@ export const WalletAuth = () => {
         </IconButton>
       )}
       {inProgress && (
-        <Box pt={2}>
+        <Box pt={1}>
           <CircularProgress size="1rem" color="inherit" />
         </Box>
       )}
@@ -50,29 +58,28 @@ export const WalletAuth = () => {
         anchorEl={anchor}
         onClose={() => setAnchor(null)}
       >
-        {wallets.map(({ name, label, instace, isAvailable }) => (
+        {wallets.map(({ name, label, getAccounts, isAvailable }) => (
           <MenuItem
-            disabled={!isAvailable}
+            disabled={!isAvailable()}
             onClick={() => {
-              instace
-                .request({ method: "eth_requestAccounts" })
-                .then((accounts) => {
-                  if (!Array.isArray(accounts)) {
-                    // TODO hanle it in better way
-                    throw new Error("There is no account");
-                  }
+              setAnchor(null);
 
-                  if (accounts.length === 0) {
-                    // TODO hanle it in better way
-                    throw new Error("There is no account");
-                  }
+              getAccounts().then((accounts) => {
+                if (!Array.isArray(accounts)) {
+                  // TODO hanle it in better way
+                  throw new Error("There is no account");
+                }
 
-                  signIn(accounts[0]);
-                });
+                if (accounts.length === 0) {
+                  // TODO hanle it in better way
+                  throw new Error("There is no account");
+                }
+                signIn(accounts[0]);
+              });
             }}
           >
             <Box sx={{ display: "flex" }}>
-              <img src="./images/metamask-icon.png" width={25} />
+              <img src="/images/metamask-icon.png" width={25} />
               <Box ml={2}>{label}</Box>
             </Box>
           </MenuItem>

@@ -1,33 +1,28 @@
-import React from "react";
-
+import {
+  Box,
+  Grid,
+  Paper,
+  Table,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell,
+  TableContainer,
+  Typography,
+} from "@mui/material";
+import { Tabs } from "../comps/tabs";
+import { IAccount } from "../models/account";
 import { useParams } from "react-router-dom";
-
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-
-import TabContext from "@mui/lab/TabContext";
-import Tab from "@mui/material/Tab";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
-
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
+import { useAuth } from "../comps/auth-context";
+import { GetAccountByKey } from "../api/account";
+import { useGraphqlQuery } from "../services/gql/query";
+import { ProfileHeader } from "../comps/profile/header";
 
 import NFTCardItem from "../comps/nft-card-item";
 
-import FavoriteIcon from "@mui/icons-material/Favorite";
-
-import Paper from "@mui/material/Paper";
 import AppsIcon from "@mui/icons-material/Apps";
-
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import BarChartIcon from "@mui/icons-material/BarChart";
-
-import { AppCtx } from "../app";
-import NftProfileHeader from "../comps/profile/nft-profile-header";
 
 //data
 function createData(
@@ -84,97 +79,122 @@ const DenseTable = () => {
 
 export const ProfileScreen = () => {
   const { key } = useParams();
+  const { account, isLogged } = useAuth();
 
-  const [value, setValue] = React.useState("1");
+  const { data } = useGraphqlQuery<IAccount>({
+    query: [new GetAccountByKey(key as string)],
+    defaultData: account,
+    invokeAtInit: !isLogged,
+  });
 
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setValue(newValue);
-  };
-
-  const dataContext = React.useContext(AppCtx);
-  const profile = dataContext?.profiles
-    .filter((profile) => key === profile.key + "")
-    .pop()!;
+  if (!data) {
+    return (
+      <Box mt={3}>
+        <Typography align="center">Loading..</Typography>
+      </Box>
+    );
+  }
 
   return (
     <Box>
-      <NftProfileHeader profile={profile} />
-      <TabContext value={value}>
-        <TabList
-          value={value}
-          sx={{ mb: { xs: 0, md: 4 } }}
-          onChange={handleChange}
-          aria-label="icon tabs example"
-          centered
-        >
-          <Tab
-            icon={<AppsIcon color="primary" />}
-            label="Collection"
-            iconPosition="start"
-            value="1"
-            aria-label="phone"
-          />
-          <Tab
-            icon={<FavoriteIcon color="error" />}
-            label="Favourite"
-            iconPosition="start"
-            value="2"
-            aria-label="phone"
-          />
-          <Tab
-            icon={<BarChartIcon color="info" />}
-            label="Data"
-            iconPosition="start"
-            value="3"
-            aria-label="person"
-          />
-        </TabList>
-        <TabPanel value="1">
-          <Grid container spacing={2}>
-            {dataContext?.nftItems
-              .filter((nft) => nft.owner + "" === key)
-              .map((nft) => (
-                <Grid
-                  key={"nft" + nft.key}
-                  item
-                  xs={12}
-                  md={4}
-                  xl={3}
-                  sx={{ mb: 1 }}
+      <ProfileHeader account={data} />
+      <Tabs
+        items={[
+          {
+            props: {
+              value: "1",
+              label: "Assets",
+              iconPosition: "start",
+              icon: <AppsIcon color="primary" />,
+            },
+            component: (
+              <Grid container spacing={2}>
+                {[].map((nft: any) => (
+                  <Grid
+                    key={"nft" + nft.key}
+                    item
+                    xs={12}
+                    md={4}
+                    xl={3}
+                    sx={{ mb: 1 }}
+                  >
+                    <NFTCardItem nft={nft} updateNftItems={() => undefined} />
+                  </Grid>
+                ))}
+              </Grid>
+            ),
+          },
+          {
+            props: {
+              value: "2",
+              label: "Favourite",
+              iconPosition: "start",
+              icon: <FavoriteIcon color="primary" />,
+            },
+            component: (
+              <Grid container spacing={2}>
+                {[].map((nft: any) => (
+                  <Grid
+                    key={"nft" + nft.key}
+                    item
+                    xs={12}
+                    md={4}
+                    xl={3}
+                    sx={{ mb: 1 }}
+                  >
+                    <NFTCardItem nft={nft} updateNftItems={() => undefined} />
+                  </Grid>
+                ))}
+              </Grid>
+            ),
+          },
+          {
+            props: {
+              value: "3",
+              label: "Data",
+              iconPosition: "start",
+              icon: <BarChartIcon color="primary" />,
+            },
+            component: (
+              <TableContainer component={Paper}>
+                <Table
+                  sx={{ minWidth: 650 }}
+                  size="small"
+                  aria-label="a dense table"
                 >
-                  <NFTCardItem
-                    nft={nft}
-                    updateNftItems={dataContext?.updateNftItems}
-                  />
-                </Grid>
-              ))}
-          </Grid>
-        </TabPanel>
-        <TabPanel value="2">
-          <Grid container spacing={2}>
-            {dataContext?.nftItems
-              .filter((nft) => nft.favourite?.isFavourite === true)
-              .map((nft) => (
-                <Grid
-                  key={"nft" + nft.key}
-                  item
-                  xs={12}
-                  md={4}
-                  xl={3}
-                  sx={{ mb: 1 }}
-                >
-                  <NFTCardItem
-                    nft={nft}
-                    updateNftItems={dataContext?.updateNftItems}
-                  />
-                </Grid>
-              ))}
-          </Grid>
-        </TabPanel>
-        <TabPanel value="3">
-          <DenseTable />
-        </TabPanel>
-      </TabContext>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Dessert (100g serving)</TableCell>
+                      <TableCell align="right">Calories</TableCell>
+                      <TableCell align="right">Fat&nbsp;(g)</TableCell>
+                      <TableCell align="right">Carbs&nbsp;(g)</TableCell>
+                      <TableCell align="right">Protein&nbsp;(g)</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {rows.map((row) => (
+                      <TableRow
+                        key={row.name}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell component="th" scope="row">
+                          {row.name}
+                        </TableCell>
+                        <TableCell align="right">{row.calories}</TableCell>
+                        <TableCell align="right">{row.fat}</TableCell>
+                        <TableCell align="right">{row.carbs}</TableCell>
+                        <TableCell align="right">{row.protein}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            ),
+          },
+        ]}
+      />
     </Box>
   );
 };

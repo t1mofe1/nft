@@ -103,8 +103,7 @@ export const useGraphqlQuery = <T = any>({
           : updateState({ error: getGraphqlErrorString(errors) });
       },
     },
-    invokeAtInit,
-    process.env.NODE_ENV === "production" ? 0 : 1000
+    invokeAtInit
   );
 
   React.useEffect(() => {
