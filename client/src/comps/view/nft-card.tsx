@@ -2,15 +2,8 @@ import React from "react";
 
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
-import Tooltip from "@mui/material/Tooltip";
-import Fade from "@mui/material/Fade";
 
 import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
-
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import IconButton from "@mui/material/IconButton";
 
 import { INft } from "../../models/nft";
 import { Paper, Stack } from "@mui/material";

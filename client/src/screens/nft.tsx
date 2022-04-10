@@ -30,7 +30,7 @@ export const NftScreen = () => {
     .pop()!;
 
   const collection = dataContext?.nftCollections
-    .filter((collection) => collection.key === nftItem?.collectionKey)
+    .filter((collection) => collection.key === nftItem?.collection.key)
     .pop()!;
   return (
     <Container maxWidth="xl" sx={{ contentAlign: "justify-end", mt: 2 }}>

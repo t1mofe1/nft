@@ -6,7 +6,7 @@ import TabContext from "@mui/lab/TabContext";
 import Tab from "@mui/material/Tab";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import NFTCard from "../comps/nft-card-item";
+import NFTCard from "../comps/nft-card-item-version-b";
 import NftFilter from "../comps/browse/nft-filter";
 import { AppCtx } from "../app";
 

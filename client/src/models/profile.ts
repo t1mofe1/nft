@@ -15,7 +15,7 @@ export interface IProfileAddress {
 export interface IProfile {
   key: number;
   nickname: string;
-  created: string;
+  created: Date;
   cover: string;
   avatar: string;
   addresses: Array<IProfileAddress>;
