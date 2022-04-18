@@ -1,29 +1,26 @@
-import React, { useState, useContext, useEffect, SyntheticEvent } from "react";
-import { ResizableBox, ResizeCallbackData } from "react-resizable";
+import React from "react";
+import SplitPane from "react-split";
 import {
+  Grid,
+  Step,
+  Button,
+  Stepper,
+  MenuItem,
   Container,
   TextField,
-  Grid,
-  Stack,
-  MenuItem,
-  Stepper,
-  Step,
-  Typography,
-  Button,
   StepButton,
+  Typography,
+  FormControl,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { AppCtx } from "../../app";
+import { useState } from "../../helpers/state";
 import { useAuth } from "../../comps/auth-context";
 import { JavascriptEditor } from "../../comps/editor";
 
 const steps = ["Information", "Asset's Code"];
 
-interface IDefaultAssetCodeProps {
-  name: string;
-  value: string;
-}
-const defaultAssetCodes: Array<IDefaultAssetCodeProps> = [
+const defaultAssetCodes: Array<{ name: string; value: string }> = [
   {
     name: "P5",
     value: `let cx, cy;
@@ -186,71 +183,24 @@ const defaultAssetCodes: Array<IDefaultAssetCodeProps> = [
   },
 ];
 
-export const CreateAsset = () => {
-  const { account, isLogged, inProgress, signOut } = useAuth();
+export const CreateAssetScreen = () => {
+  const { isLogged } = useAuth();
+  const dataContext = React.useContext(AppCtx);
 
-  const dataContext = useContext(AppCtx);
+  const {
+    state: { name, description, category, library, code },
+    updateState,
+  } = useState({
+    name: "",
+    description: "",
+    category: "",
+    library: "",
+    code: "",
+  });
 
-  /* form data */
-  const [assetName, setAssetName] = useState("");
-  const [assetNameError, setAssetNameError] = useState(false);
-
-  const handleAssetNameChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setAssetNameError(event.target.value === "");
-    setAssetName(event.target.value);
-  };
-  const [assetDescription, setAssetDescription] = useState("");
-  const handleAssetDescriptionChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setAssetDescription(event.target.value);
-  };
-
-  // i think not needed
-
-  //   const [assetType, setAssetType] = useState("");
-  //   const handleAssetTypeChange = (
-  //     event: React.ChangeEvent<HTMLInputElement>
-  //   ) => {
-  //     setAssetType(event.target.value);
-  //   };
-
-  const [category, setCategory] = useState("");
-  const handleCategoryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCategory(event.target.value);
-  };
-
-  const [library, setLibrary] = useState("none");
-  const handleLibraryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newLibrary = event.target.value;
-    if (library !== newLibrary) {
-      setAssetCode(
-        defaultAssetCodes.filter((code) => code.name === newLibrary)[0].value
-      );
-      setLibrary(newLibrary);
-    }
-  };
-
-  // not now all is javascript lets do hidden :)
-  //   const [language, setLanguage] = useState("");
-  //   const handleLanguageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //     setLanguage(event.target.value);
-  //   };
-
-  const [assetCode, setAssetCode] = useState(
-    defaultAssetCodes.filter((code) => code.name === library)[0].value
-  );
-
-  //   const handleAssetCodeChange = (
-  //     event: React.ChangeEvent<HTMLInputElement>
-  //   ) => {
-  //     setAssetCode(event.target.value);
-  //   };
-
-  const [activeStep, setActiveStep] = useState(0);
-  const [completed, setCompleted] = useState<{
+  const [activeStep, setActiveStep] = React.useState(0);
+  const [isNameEmpty, setNameEmpty] = React.useState(false);
+  const [completed, setCompleted] = React.useState<{
     [k: number]: boolean;
   }>({});
 
@@ -272,8 +222,8 @@ export const CreateAsset = () => {
 
   const handleNext = () => {
     //validation
-    if (assetName === "") {
-      setAssetNameError(true);
+    if (name === "") {
+      setNameEmpty(true);
       return;
     }
     const newActiveStep =
@@ -305,10 +255,9 @@ export const CreateAsset = () => {
     setCompleted({});
   };
 
-  const [outputValue, setOutputValue] = useState("");
-  //   const [height, setHeight] = useState(500);
-  const [width, setWidth] = useState(window.innerWidth / 2 - 20);
-  useEffect(() => {
+  const [outputValue, setOutputValue] = React.useState("");
+
+  React.useEffect(() => {
     let cdn: string,
       html: string = "";
     switch (library) {
@@ -344,12 +293,12 @@ export const CreateAsset = () => {
                     <body style="margin:0;">
                         ${html}
                     <script type="text/javascript">
-                        ${assetCode}
+                        ${code}
                     </script>
                     </body>
                   </html>`;
     setOutputValue(output);
-  }, [assetCode, library]);
+  }, [code, library]);
 
   if (!isLogged)
     return (
@@ -360,13 +309,9 @@ export const CreateAsset = () => {
       </Container>
     );
 
-  const handleResize = (e: SyntheticEvent, data: ResizeCallbackData) => {
-    // setHeight(data.size.height);
-    setWidth(data.size.width);
-  };
   return (
-    <>
-      <Container maxWidth="sm" sx={{ mt: 5 }}>
+    <React.Fragment>
+      <Container maxWidth="md" sx={{ mt: 5 }}>
         <Stepper activeStep={activeStep}>
           {steps.map((label, index) => (
             <Step key={label} completed={completed[index]}>
@@ -378,7 +323,7 @@ export const CreateAsset = () => {
         </Stepper>
       </Container>
       {activeStep === steps.length && (
-        <>
+        <React.Fragment>
           <Typography sx={{ mt: 2, mb: 1 }}>
             All steps completed - you&apos;re finished
           </Typography>
@@ -386,141 +331,118 @@ export const CreateAsset = () => {
             <Box sx={{ flex: "1 1 auto" }} />
             <Button onClick={handleReset}>Reset</Button>
           </Box>
-        </>
+        </React.Fragment>
       )}
       {activeStep === 0 && (
-        <Container maxWidth="sm" sx={{ mt: 5 }}>
-          <Grid item xs={12} sx={{ mb: 1, mt: 5 }}>
-            <Stack
-              direction={{ xs: "column", md: "row" }}
-              sx={{ py: 1 }}
-              spacing={2}
+        <Container maxWidth="md" sx={{ mt: 5 }}>
+          <FormControl fullWidth margin="dense">
+            <TextField
+              required
+              fullWidth
+              value={name}
+              variant="outlined"
+              label="Name"
+              error={isNameEmpty}
+              onChange={(e) => {
+                setNameEmpty(e.target.value === "");
+                updateState({ name: e.target.value });
+              }}
+            />
+          </FormControl>
+          <FormControl fullWidth margin="dense">
+            <TextField
+              select
+              variant="outlined"
+              value={category}
+              onChange={(e) => updateState({ category: e.target.value })}
+              fullWidth
+              label="Category"
             >
-              <TextField
-                required
-                error={assetNameError ? true : false}
-                fullWidth
-                variant="outlined"
-                label="Asset name"
-                value={assetName}
-                onChange={handleAssetNameChange}
-              />
-              {/* <TextField
-                select
-                value={assetType}
-                onChange={handleAssetTypeChange}
-                variant="outlined"
-                fullWidth
-                label="Type"
-              >
-                {dataContext?.nftFilterProps.types.map((type, i) => {
-                  return (
-                    <MenuItem key={type.key} value={type.name}>
-                      {type.name.charAt(0).toUpperCase() + type.name.slice(1)}
-                    </MenuItem>
-                  );
-                })}
-              </TextField> */}
-              <TextField
-                select
-                variant="outlined"
-                value={category}
-                onChange={handleCategoryChange}
-                fullWidth
-                label="Category"
-              >
-                {dataContext?.nftFilterProps.categories.map((category, i) => {
-                  return (
-                    <MenuItem key={category.key} value={category.name}>
-                      {category.name.charAt(0).toUpperCase() +
-                        category.name.slice(1)}
-                    </MenuItem>
-                  );
-                })}
-              </TextField>
-            </Stack>
-          </Grid>
-          <Grid item xs={12} sx={{ py: 1 }}>
+              {dataContext?.nftFilterProps.categories.map((category, i) => {
+                return (
+                  <MenuItem key={category.key} value={category.name}>
+                    {category.name.charAt(0).toUpperCase() +
+                      category.name.slice(1)}
+                  </MenuItem>
+                );
+              })}
+            </TextField>
+          </FormControl>
+          <FormControl fullWidth margin="dense">
             <TextField
               fullWidth
               multiline
-              value={assetDescription}
-              onChange={handleAssetDescriptionChange}
-              rows={4}
+              value={description}
+              minRows={5}
+              onChange={(e) => updateState({ category: e.target.value })}
+              maxRows="Infinity"
               variant="outlined"
               label="Description"
             />
-          </Grid>
-          <Grid item xs={12} sx={{ py: 1 }}>
-            <Stack
-              direction={{ xs: "column", md: "row" }}
-              sx={{ py: 1 }}
-              spacing={2}
+          </FormControl>
+          <FormControl fullWidth margin="dense">
+            <TextField
+              fullWidth
+              select
+              variant="outlined"
+              value={library}
+              onChange={(e) => {
+                const newLibrary = e.target.value;
+
+                if (library !== newLibrary) {
+                  updateState({
+                    library: newLibrary,
+                    code: defaultAssetCodes.filter(
+                      (code) => code.name === newLibrary
+                    )[0].value,
+                  });
+                }
+              }}
+              label="Library"
             >
-              {/* <TextField
-                fullWidth
-                select
-                variant="outlined"
-                label="Programing language"
-                value={language}
-                onChange={handleLanguageChange}
-              >
-                {dataContext?.nftFilterProps.languages.map((language, i) => {
-                  return (
-                    <MenuItem key={i} value={language.name}>
-                      {language.name}
-                    </MenuItem>
-                  );
-                })}
-              </TextField> */}
-              <TextField
-                fullWidth
-                select
-                variant="outlined"
-                value={library}
-                onChange={handleLibraryChange}
-                label="Library"
-              >
-                <MenuItem key={0} value="none">
-                  None
-                </MenuItem>
-                {dataContext?.nftFilterProps.libraries.map((library, i) => {
-                  return (
-                    <MenuItem key={i} value={library.name}>
-                      {library.name.charAt(0).toUpperCase() +
-                        library.name.slice(1)}
-                    </MenuItem>
-                  );
-                })}
-              </TextField>
-            </Stack>
-          </Grid>
+              <MenuItem key={0} value="none">
+                None
+              </MenuItem>
+              {dataContext?.nftFilterProps.libraries.map((library, i) => {
+                return (
+                  <MenuItem key={i} value={library.name}>
+                    {library.name.charAt(0).toUpperCase() +
+                      library.name.slice(1)}
+                  </MenuItem>
+                );
+              })}
+            </TextField>
+          </FormControl>
         </Container>
       )}
       {activeStep === 1 && (
-        <Stack
-          direction={{ xs: "column", md: "row" }}
-          sx={{ mt: 5 }}
-          spacing={0}
-        >
-          <ResizableBox height={530} width={width} onResize={handleResize}>
-            <JavascriptEditor
-              onChangeAssetCode={setAssetCode}
-              value={assetCode}
-              height={530}
-              width={width}
-            />
-          </ResizableBox>
-          <iframe
-            title="Asset rendered"
-            srcDoc={outputValue}
-            style={{
-              border: 0,
-              height: 530,
-              width: window.innerWidth - width,
-            }}
-          />
-        </Stack>
+        <Box p={2}>
+          <SplitPane
+            sizes={[50, 45]}
+            className="split"
+            expandToMin={true}
+            gutterSize={15}
+            gutterAlign="center"
+          >
+            <div>
+              <JavascriptEditor
+                value={code}
+                height={530}
+                onChangeAssetCode={(value) => updateState({ code: value })}
+              />
+            </div>
+            <div>
+              <iframe
+                title="Asset rendered"
+                srcDoc={outputValue}
+                style={{
+                  border: 0,
+                  height: 530,
+                }}
+              />
+            </div>
+          </SplitPane>
+        </Box>
       )}
       {activeStep < steps.length && (
         <Container maxWidth="sm" sx={{ mt: 5 }}>
@@ -540,6 +462,6 @@ export const CreateAsset = () => {
           </Box>
         </Container>
       )}
-    </>
+    </React.Fragment>
   );
 };

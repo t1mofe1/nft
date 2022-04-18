@@ -23,7 +23,7 @@ import {
 
 import { IProfile, IProfileAddress, IProfileStats } from "./models/profile";
 import { NftCollectionScreen } from "./screens/nft-collection";
-import { CreateAsset } from "./screens/assets/create";
+import { CreateAssetScreen } from "./screens/assets/create";
 
 const ethereum: IBlockChain = {
   key: 1,
@@ -914,7 +914,7 @@ const App = () => {
           <Route path="/" element={<MainScreen />} />
           <Route path="/about" element={<AboutScreen />} />
           <Route path="/browse" element={<BrowseScreen />} />
-          <Route path="/assets/create" element={<CreateAsset />} />
+          <Route path="/assets/create" element={<CreateAssetScreen />} />
           <Route path="/nft/view/:key" element={<NftScreen />} />
           <Route path="/account/:key" element={<ProfileScreen />} />
           <Route

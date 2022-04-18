@@ -9,7 +9,7 @@ import { Box } from "@mui/material";
 interface IJavaScriptEditorProps {
   onChangeAssetCode: (value: string) => void;
   value: string;
-  width: number;
+  width?: number;
   height: number;
 }
 export const JavascriptEditor = ({
@@ -33,7 +33,7 @@ interface IEditorProps {
   mode: string;
   onChangeAssetCode: (value: string) => void;
   value: string;
-  width: number;
+  width?: number;
   height: number;
 }
 const Editor = ({
