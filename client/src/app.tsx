@@ -18,10 +18,12 @@ import {
   INftCollection,
   INftFilterProps,
   IRenderLanguage,
+  INftType,
 } from "./models/nft";
 
 import { IProfile, IProfileAddress, IProfileStats } from "./models/profile";
 import { NftCollectionScreen } from "./screens/nft-collection";
+import { CreateAsset } from "./screens/assets/create";
 
 const ethereum: IBlockChain = {
   key: 1,
@@ -35,20 +37,30 @@ const tron: IBlockChain = {
   logo: "/images/tron-logo.png",
 };
 
-const js: IRenderLanguage = {
-  name: "JavaScript",
-  logo: "/images/js-logo.jpg",
-};
-const jsLibrary: IRenderLibrary = {
+const jsP5: IRenderLibrary = {
+  language: "JavaScript",
   name: "P5",
   logo: "/images/p5-logo.png",
   url: "https://p5js.org/",
 };
+const js: IRenderLanguage = {
+  name: "JavaScript",
+  logo: "/images/js-logo.jpg",
+};
 const jsRender: IRenderer = {
   language: js,
-  library: jsLibrary,
+  library: jsP5,
 };
-
+const types: Array<INftType> = [
+  {
+    key: 1,
+    name: "animation",
+  },
+  {
+    key: 2,
+    name: "image",
+  },
+];
 const categories: Array<INftCategory> = [
   {
     key: 1,
@@ -543,7 +555,7 @@ let nftItemsSource: Array<INft> = [
     metaData: [
       { name: "Name", value: "Cool jesus" },
       { name: "Language", value: js.name },
-      { name: "Library", value: jsLibrary.name },
+      { name: "Library", value: jsP5.name },
     ],
   },
   {
@@ -566,7 +578,7 @@ let nftItemsSource: Array<INft> = [
     metaData: [
       { name: "Name", value: "Cool jesus" },
       { name: "Language", value: js.name },
-      { name: "Library", value: jsLibrary.name },
+      { name: "Library", value: jsP5.name },
     ],
   },
   {
@@ -588,7 +600,7 @@ let nftItemsSource: Array<INft> = [
     metaData: [
       { name: "Name", value: "Cool jesus" },
       { name: "Language", value: js.name },
-      { name: "Library", value: jsLibrary.name },
+      { name: "Library", value: jsP5.name },
     ],
   },
   {
@@ -613,7 +625,7 @@ let nftItemsSource: Array<INft> = [
     metaData: [
       { name: "Name", value: "Cool jesus" },
       { name: "Language", value: js.name },
-      { name: "Library", value: jsLibrary.name },
+      { name: "Library", value: jsP5.name },
     ],
   },
   {
@@ -836,12 +848,16 @@ let nftItemsSource: Array<INft> = [
 const filterProps: INftFilterProps = {
   blockchains: [ethereum, tron],
   languages: [js, ts, py],
+  libraries: [jsP5],
   categories: categories,
+  types: types,
 };
 const nftFilterDefault: INftFilter = {
   blockchains: [],
   languages: [],
   categories: [],
+  libraries: [],
+  types: [],
 };
 // interface IAppProps {
 //   nftItems : Array<INft>;
@@ -898,6 +914,7 @@ const App = () => {
           <Route path="/" element={<MainScreen />} />
           <Route path="/about" element={<AboutScreen />} />
           <Route path="/browse" element={<BrowseScreen />} />
+          <Route path="/assets/create" element={<CreateAsset />} />
           <Route path="/nft/view/:key" element={<NftScreen />} />
           <Route path="/account/:key" element={<ProfileScreen />} />
           <Route

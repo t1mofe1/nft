@@ -19,6 +19,7 @@ import NFTCardItem from "../comps/nft-card-item";
 import { IInfoTab } from "../models/home";
 import Infotab from "../comps/main/info-tab";
 import AboutSection from "../comps/main/about-section";
+import { BigmintCountdown } from "../comps/main/bigmint-count-down";
 
 const InfoTabsData: Array<IInfoTab> = [
   {
@@ -85,6 +86,7 @@ export const MainScreen = () => {
 
   return (
     <>
+      <BigmintCountdown bigmint={new Date("2022-07-06 08:00:00")} />
       <Container maxWidth="lg" sx={{ my: 10 }}>
         <AboutSection />
         <Grid item xs={12} md={6}></Grid>

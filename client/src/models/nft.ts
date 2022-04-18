@@ -15,6 +15,7 @@ export interface IRenderLibrary {
   name: string;
   logo: string;
   url?: string;
+  language: string;
 }
 export interface IRenderer {
   language: IRenderLanguage;
@@ -84,15 +85,23 @@ export interface INft {
   lastTransactions?: Array<INftTransaction>;
   lastOffers?: Array<INftOffer>;
 }
+export interface INftType {
+  key: number;
+  name: string;
+}
 export interface INftFilterProps {
   blockchains: Array<IBlockChain>;
   languages: Array<IRenderLanguage>;
   categories: Array<INftCategory>;
+  libraries: Array<IRenderLibrary>;
+  types: Array<INftType>;
 }
 export interface INftFilter {
   blockchains: Array<string>;
   languages: Array<string>;
   categories: Array<string>;
+  libraries: Array<IRenderLibrary>;
+  types: Array<INftType>;
 }
 export interface INftCategory {
   key: number;
@@ -120,8 +129,8 @@ export interface INftActionButton {
 }
 export interface INftTimeDifference {
   difference: number;
-  days: number;
-  hours: number;
-  minutes: number;
-  seconds: number;
+  days: string;
+  hours: string;
+  minutes: string;
+  seconds: string;
 }

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import {
   Grid,
   Container,
@@ -35,13 +35,19 @@ export const NftScreen = () => {
     .pop()!;
 
   const calculateTimeLeft = (end: Date) => {
-    const difference = end.getTime() - new Date().getTime();
+    const difference = end.getTime() - new Date().getTime(),
+      days = Math.floor(difference / (1000 * 60 * 60 * 24)),
+      hours = Math.floor((difference / (1000 * 60 * 60)) % 24),
+      minutes = Math.floor((difference / 1000 / 60) % 60),
+      seconds = Math.floor((difference / 1000) % 60);
     return {
       difference: difference > 0 ? difference : 0,
-      days: difference > 0 ? Math.floor(difference / (1000 * 60 * 60 * 24)) : 0,
-      hours: difference > 0 ? Math.floor((difference / (1000 * 60 * 60)) % 24) : 0,
-      minutes: difference > 0 ? Math.floor((difference / 1000 / 60) % 60) : 0,
-      seconds: difference > 0 ? Math.floor((difference / 1000) % 60) : 0,
+      days: difference > 0 ? (days > 9 ? days + "" : "0" + days) : "00",
+      hours: difference > 0 ? (hours > 9 ? hours + "" : "0" + hours) : "00",
+      minutes:
+        difference > 0 ? (minutes > 9 ? minutes + "" : "0" + minutes) : "00",
+      seconds:
+        difference > 0 ? (seconds > 9 ? seconds + "" : "0" + seconds) : "00",
     };
   };
   const [timeLeft, setTimeLeft] = useState<INftTimeDifference>(
@@ -50,9 +56,9 @@ export const NftScreen = () => {
   useEffect(() => {
     if (timeLeft)
       setTimeout(() => {
-        setTimeLeft(calculateTimeLeft(nftItem.saleEnds || new Date()))
+        setTimeLeft(calculateTimeLeft(nftItem.saleEnds || new Date()));
       }, 1000);
-  },[timeLeft, nftItem.saleEnds]);
+  }, [timeLeft, nftItem.saleEnds]);
   return (
     <Container maxWidth="xl" sx={{ contentAlign: "justify-end", mt: 2 }}>
       <Grid container spacing={4}>

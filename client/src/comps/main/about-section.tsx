@@ -6,7 +6,7 @@ const AboutSection = () => {
   return (
     <Grid container spacing={0} sx={{ p: 2 }}>
       <Grid item xs={12}>
-        <Stack sx={{ mb: 5 }}>
+        <Stack sx={{ mb: 5 }} alignItems="center">
           <Typography
             variant="h4"
             sx={{ textTransform: "capitalize" }}
@@ -25,14 +25,14 @@ const AboutSection = () => {
           spacing={2}
           sx={{ mb: 5 }}
         >
-          <Button color="secondary" variant="contained">
+          <Button to="/" component={Link} color="secondary" variant="contained">
             Browse
           </Button>
-          <Button variant="outlined">Create</Button>
+          <Button to="/create" component={Link} variant="outlined">
+            Create
+          </Button>
         </Stack>
-        <Link to="/">Find our more about algomart</Link>
       </Grid>
-      <Grid item xs={12} md={6}></Grid>
     </Grid>
   );
 };

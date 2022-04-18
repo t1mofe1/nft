@@ -1,74 +1,68 @@
 import React from "react";
 import { Typography, Tooltip, Icon, Fade, Stack } from "@mui/material";
+import { INftTimeDifference } from "../models/nft";
 interface INtfCountdown {
   end: Date;
   timeLeft: INftTimeDifference;
   concise?: boolean;
 }
-interface INftTimeDifference {
-  difference: number;
-  days: number;
-  hours: number;
-  minutes: number;
-  seconds: number;
-}
+
 interface INftConciseCounterProps {
   timeLeft: INftTimeDifference;
 }
-const NftConciseCounter = ({timeLeft}: INftConciseCounterProps) => {
-  if (timeLeft.days > 0)
+const NftConciseCounter = ({ timeLeft }: INftConciseCounterProps) => {
+  if (parseInt(timeLeft.days, 10) > 0)
     return (
       <>
         <Typography variant="h6">{timeLeft.days!}</Typography>
         <Typography variant="body2"> days</Typography>
       </>
     );
-  if (timeLeft.hours > 0)
+  if (parseInt(timeLeft.hours, 10) > 0)
     return (
       <>
         <Typography variant="h6">{timeLeft.hours}</Typography>
         <Typography variant="body2"> hours</Typography>
       </>
     );
-  if (timeLeft.minutes > 0)
+  if (parseInt(timeLeft.minutes, 10) > 0)
     return (
       <>
         <Typography variant="h6">{timeLeft.minutes}</Typography>
         <Typography variant="body2"> minutes</Typography>
       </>
     );
-  if (timeLeft.seconds > 0)
+  if (parseInt(timeLeft.seconds, 10) > 0)
     return (
       <>
         <Typography variant="h6">{timeLeft.seconds}</Typography>
         <Typography variant="body2"> seconds</Typography>
       </>
     );
-    return <></>
-    
+  return <></>;
 };
 interface INftCounterProps {
-  end:Date;
+  end: Date;
   timeLeft: INftTimeDifference;
 }
-const NftCounter = ({end, timeLeft}: INftCounterProps) => {
-  if (timeLeft.difference ) 
+const NftCounter = ({ end, timeLeft }: INftCounterProps) => {
+  if (timeLeft.difference)
     return (
       <>
-      <Tooltip
-        title={`Ends on ${end.toLocaleString("en-GB", {
-          timeZone: "CET",
-        })}`}
-        placement="top"
-        arrow
-        PopperProps={{
-          disablePortal: true,
-        }}
-        TransitionComponent={Fade}
-        TransitionProps={{ timeout: 200 }}
-      >
-        <Icon sx={{ marginTop: "-5px" }}>{"alarm"}</Icon>
-      </Tooltip>
+        <Tooltip
+          title={`Ends on ${end.toLocaleString("en-GB", {
+            timeZone: "CET",
+          })}`}
+          placement="top"
+          arrow
+          PopperProps={{
+            disablePortal: true,
+          }}
+          TransitionComponent={Fade}
+          TransitionProps={{ timeout: 200 }}
+        >
+          <Icon sx={{ marginTop: "-5px" }}>{"alarm"}</Icon>
+        </Tooltip>
         <Stack
           direction="row"
           spacing={1}
@@ -84,15 +78,11 @@ const NftCounter = ({end, timeLeft}: INftCounterProps) => {
           <Typography variant="h6">{timeLeft.seconds}</Typography>
           <Typography variant="body2">seconds&nbsp;</Typography>
         </Stack>
-        </>
-
-  )
-  return <></>
-
-
+      </>
+    );
+  return <></>;
 };
 const NftCountdown = ({ end, timeLeft, concise = false }: INtfCountdown) => {
-
   return concise ? (
     <Stack
       direction="row"
@@ -101,8 +91,7 @@ const NftCountdown = ({ end, timeLeft, concise = false }: INtfCountdown) => {
       alignItems="center"
     >
       <Typography variant="body2">in </Typography>
-       <NftConciseCounter timeLeft={timeLeft}/>
-      
+      <NftConciseCounter timeLeft={timeLeft} />
     </Stack>
   ) : (
     <Stack
@@ -111,7 +100,7 @@ const NftCountdown = ({ end, timeLeft, concise = false }: INtfCountdown) => {
       justifyContent="center"
       alignItems="center"
     >
-       <NftCounter timeLeft={timeLeft}   end={end}/>
+      <NftCounter timeLeft={timeLeft} end={end} />
     </Stack>
   );
 };
