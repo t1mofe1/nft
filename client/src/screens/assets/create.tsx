@@ -2,13 +2,10 @@ import React from "react";
 import SplitPane from "react-split";
 import {
   Grid,
-  Step,
   Button,
-  Stepper,
   MenuItem,
   Container,
   TextField,
-  StepButton,
   Typography,
   FormControl,
 } from "@mui/material";
@@ -17,8 +14,7 @@ import { AppCtx } from "../../app";
 import { useState } from "../../helpers/state";
 import { useAuth } from "../../comps/auth-context";
 import { JavascriptEditor } from "../../comps/editor";
-
-const steps = ["Information", "Asset's Code"];
+import { Stepper } from "../../comps/stepper";
 
 const defaultAssetCodes: Array<{ name: string; value: string }> = [
   {
@@ -195,67 +191,11 @@ export const CreateAssetScreen = () => {
     description: "",
     category: "",
     library: "",
-    code: "",
+    code: String(defaultAssetCodes.find((x) => x.name === "none")?.value),
   });
 
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [isNameEmpty, setNameEmpty] = React.useState(false);
-  const [completed, setCompleted] = React.useState<{
-    [k: number]: boolean;
-  }>({});
-
-  const totalSteps = () => {
-    return steps.length;
-  };
-
-  const completedSteps = () => {
-    return Object.keys(completed).length;
-  };
-
-  const isLastStep = () => {
-    return activeStep === totalSteps() - 1;
-  };
-
-  const allStepsCompleted = () => {
-    return completedSteps() === totalSteps();
-  };
-
-  const handleNext = () => {
-    //validation
-    if (name === "") {
-      setNameEmpty(true);
-      return;
-    }
-    const newActiveStep =
-      isLastStep() && !allStepsCompleted()
-        ? // It's the last step, but not all steps have been completed,
-          // find the first step that has been completed
-          steps.findIndex((step, i) => !(i in completed))
-        : activeStep + 1;
-    setActiveStep(newActiveStep);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleStep = (step: number) => () => {
-    setActiveStep(step);
-  };
-
-  const handleComplete = () => {
-    const newCompleted = completed;
-    newCompleted[activeStep] = true;
-    setCompleted(newCompleted);
-    handleNext();
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-    setCompleted({});
-  };
-
   const [outputValue, setOutputValue] = React.useState("");
+  const [isNameEmpty, setNameEmpty] = React.useState(false);
 
   React.useEffect(() => {
     let cdn: string,
@@ -310,158 +250,145 @@ export const CreateAssetScreen = () => {
     );
 
   return (
-    <React.Fragment>
-      <Container maxWidth="md" sx={{ mt: 5 }}>
-        <Stepper activeStep={activeStep}>
-          {steps.map((label, index) => (
-            <Step key={label} completed={completed[index]}>
-              <StepButton color="inherit" onClick={handleStep(index)}>
-                {label}
-              </StepButton>
-            </Step>
-          ))}
-        </Stepper>
-      </Container>
-      {activeStep === steps.length && (
-        <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1 }}>
-            All steps completed - you&apos;re finished
-          </Typography>
-          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-            <Box sx={{ flex: "1 1 auto" }} />
-            <Button onClick={handleReset}>Reset</Button>
-          </Box>
-        </React.Fragment>
-      )}
-      {activeStep === 0 && (
-        <Container maxWidth="md" sx={{ mt: 5 }}>
-          <FormControl fullWidth margin="dense">
-            <TextField
-              required
-              fullWidth
-              value={name}
-              variant="outlined"
-              label="Name"
-              error={isNameEmpty}
-              onChange={(e) => {
-                setNameEmpty(e.target.value === "");
-                updateState({ name: e.target.value });
-              }}
-            />
-          </FormControl>
-          <FormControl fullWidth margin="dense">
-            <TextField
-              select
-              variant="outlined"
-              value={category}
-              onChange={(e) => updateState({ category: e.target.value })}
-              fullWidth
-              label="Category"
-            >
-              {dataContext?.nftFilterProps.categories.map((category, i) => {
-                return (
-                  <MenuItem key={category.key} value={category.name}>
-                    {category.name.charAt(0).toUpperCase() +
-                      category.name.slice(1)}
-                  </MenuItem>
-                );
-              })}
-            </TextField>
-          </FormControl>
-          <FormControl fullWidth margin="dense">
-            <TextField
-              fullWidth
-              multiline
-              value={description}
-              minRows={5}
-              onChange={(e) => updateState({ category: e.target.value })}
-              maxRows="Infinity"
-              variant="outlined"
-              label="Description"
-            />
-          </FormControl>
-          <FormControl fullWidth margin="dense">
-            <TextField
-              fullWidth
-              select
-              variant="outlined"
-              value={library}
-              onChange={(e) => {
-                const newLibrary = e.target.value;
+    <Stepper
+      steps={[
+        {
+          label: "Info",
+          component: (
+            <Container maxWidth="md" sx={{ mt: 5 }}>
+              <FormControl fullWidth margin="dense">
+                <TextField
+                  required
+                  fullWidth
+                  value={name}
+                  variant="outlined"
+                  label="Name"
+                  error={isNameEmpty}
+                  onChange={(e) => {
+                    setNameEmpty(e.target.value === "");
+                    updateState({ name: e.target.value });
+                  }}
+                />
+              </FormControl>
+              <FormControl fullWidth margin="dense">
+                <TextField
+                  select
+                  variant="outlined"
+                  value={category}
+                  onChange={(e) => updateState({ category: e.target.value })}
+                  fullWidth
+                  label="Category"
+                >
+                  {dataContext?.nftFilterProps.categories.map((category, i) => {
+                    return (
+                      <MenuItem key={category.key} value={category.name}>
+                        {category.name.charAt(0).toUpperCase() +
+                          category.name.slice(1)}
+                      </MenuItem>
+                    );
+                  })}
+                </TextField>
+              </FormControl>
+              <FormControl fullWidth margin="dense">
+                <TextField
+                  fullWidth
+                  multiline
+                  value={description}
+                  minRows={5}
+                  onChange={(e) => {
+                    const category = e.target.value;
 
-                if (library !== newLibrary) {
-                  updateState({
-                    library: newLibrary,
-                    code: defaultAssetCodes.filter(
-                      (code) => code.name === newLibrary
-                    )[0].value,
-                  });
-                }
-              }}
-              label="Library"
-            >
-              <MenuItem key={0} value="none">
-                None
-              </MenuItem>
-              {dataContext?.nftFilterProps.libraries.map((library, i) => {
-                return (
-                  <MenuItem key={i} value={library.name}>
-                    {library.name.charAt(0).toUpperCase() +
-                      library.name.slice(1)}
+                    updateState({
+                      category,
+                      code: defaultAssetCodes.find((x) => x.name === category)
+                        ?.value,
+                    });
+                  }}
+                  maxRows="Infinity"
+                  variant="outlined"
+                  label="Description"
+                />
+              </FormControl>
+              <FormControl fullWidth margin="dense">
+                <TextField
+                  fullWidth
+                  select
+                  variant="outlined"
+                  value={library}
+                  onChange={(e) => {
+                    const newLibrary = e.target.value;
+
+                    if (library !== newLibrary) {
+                      updateState({
+                        library: newLibrary,
+                        code: defaultAssetCodes.filter(
+                          (code) => code.name === newLibrary
+                        )[0].value,
+                      });
+                    }
+                  }}
+                  label="Library"
+                >
+                  <MenuItem key={0} value="none">
+                    None
                   </MenuItem>
-                );
-              })}
-            </TextField>
-          </FormControl>
-        </Container>
-      )}
-      {activeStep === 1 && (
-        <Box p={2}>
-          <SplitPane
-            sizes={[50, 45]}
-            className="split"
-            expandToMin={true}
-            gutterSize={15}
-            gutterAlign="center"
-          >
-            <div>
-              <JavascriptEditor
-                value={code}
-                height={530}
-                onChangeAssetCode={(value) => updateState({ code: value })}
-              />
-            </div>
-            <div>
-              <iframe
-                title="Asset rendered"
-                srcDoc={outputValue}
-                style={{
-                  border: 0,
-                  height: 530,
-                }}
-              />
-            </div>
-          </SplitPane>
-        </Box>
-      )}
-      {activeStep < steps.length && (
-        <Container maxWidth="sm" sx={{ mt: 5 }}>
-          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-            <Button
-              color="inherit"
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              sx={{ mr: 1 }}
-            >
-              Back
-            </Button>
-            <Box sx={{ flex: "1 1 auto" }} />
-            <Button onClick={handleNext}>
-              {activeStep === steps.length - 1 ? "Finish" : "Next"}
-            </Button>
-          </Box>
-        </Container>
-      )}
-    </React.Fragment>
+                  {dataContext?.nftFilterProps.libraries.map((library, i) => {
+                    return (
+                      <MenuItem key={i} value={library.name}>
+                        {library.name.charAt(0).toUpperCase() +
+                          library.name.slice(1)}
+                      </MenuItem>
+                    );
+                  })}
+                </TextField>
+              </FormControl>
+            </Container>
+          ),
+        },
+        {
+          label: "Code",
+          component: (
+            <Box p={2}>
+              <SplitPane
+                sizes={[50, 45]}
+                className="split"
+                expandToMin={true}
+                gutterSize={15}
+                gutterAlign="center"
+              >
+                <div>
+                  <JavascriptEditor
+                    value={code}
+                    height={530}
+                    onChangeAssetCode={(value) => updateState({ code: value })}
+                  />
+                </div>
+                <div>
+                  <iframe
+                    title="Asset rendered"
+                    srcDoc={outputValue}
+                    style={{
+                      border: 0,
+                      height: 530,
+                      width: "100%",
+                    }}
+                  />
+                </div>
+              </SplitPane>
+            </Box>
+          ),
+        },
+        {
+          label: "Finish",
+          component: (
+            <Box mt={2}>
+              <Typography align="center" sx={{ mt: 2, mb: 1 }}>
+                All steps completed - you&apos;re finished
+              </Typography>
+            </Box>
+          ),
+        },
+      ]}
+    />
   );
 };
