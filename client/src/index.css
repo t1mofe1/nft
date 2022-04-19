@@ -40,6 +40,12 @@ a {
 }
 
 /* width */
+.ace_scrollbar.ace_scrollbar-h {
+  right: 0px !important;
+}
+.ace_scrollbar.ace_scrollbar-v {
+  bottom: 0px !important;
+}
 .ace_scrollbar-v::-webkit-scrollbar,
 .ace_scrollbar-h::-webkit-scrollbar,
 iframe::-webkit-scrollbar {

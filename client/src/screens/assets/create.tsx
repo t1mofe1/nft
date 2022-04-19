@@ -15,6 +15,7 @@ import { useState } from "../../helpers/state";
 import { useAuth } from "../../comps/auth-context";
 import { JavascriptEditor } from "../../comps/editor";
 import { Stepper } from "../../comps/stepper";
+import { textChangeRangeIsUnchanged } from "typescript";
 
 const defaultAssetCodes: Array<{ name: string; value: string }> = [
   {
@@ -190,12 +191,15 @@ export const CreateAssetScreen = () => {
     name: "",
     description: "",
     category: "",
-    library: "",
+    library: "none",
     code: String(defaultAssetCodes.find((x) => x.name === "none")?.value),
   });
 
   const [outputValue, setOutputValue] = React.useState("");
   const [isNameEmpty, setNameEmpty] = React.useState(false);
+  const [sizes, setSizes] = React.useState([55, 45]);
+  const [editorWrapperWidth, setEditorWrapperWidth] = React.useState(0);
+  const editorWrapper = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     let cdn: string,
@@ -204,7 +208,6 @@ export const CreateAssetScreen = () => {
       case "P5":
         cdn =
           '<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.min.js" integrity="sha512-NxocnqsXP3zm0Xb42zqVMvjQIktKEpTIbCXXyhBPxqGZHqhcOXHs4pXI/GoZ8lE+2NJONRifuBpi9DxC58L0Lw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>';
-
         break;
       default:
         cdn = "";
@@ -240,6 +243,13 @@ export const CreateAssetScreen = () => {
     setOutputValue(output);
   }, [code, library]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  React.useEffect(() => {
+    if (null !== editorWrapper.current) {
+      console.log(editorWrapper);
+      setEditorWrapperWidth(editorWrapper.current.offsetWidth);
+    }
+  });
   if (!isLogged)
     return (
       <Container>
@@ -248,9 +258,15 @@ export const CreateAssetScreen = () => {
         </Grid>
       </Container>
     );
-
   return (
     <Stepper
+      onNext={() => {
+        if (name === "") {
+          setNameEmpty(true);
+          return false;
+        }
+        return true;
+      }}
       steps={[
         {
           label: "Info",
@@ -322,7 +338,7 @@ export const CreateAssetScreen = () => {
                       updateState({
                         library: newLibrary,
                         code: defaultAssetCodes.filter(
-                          (code) => code.name === newLibrary
+                          (x) => x.name === newLibrary
                         )[0].value,
                       });
                     }
@@ -348,28 +364,32 @@ export const CreateAssetScreen = () => {
         {
           label: "Code",
           component: (
-            <Box p={2}>
+            <Box mt={2} p={2}>
               <SplitPane
-                sizes={[50, 45]}
+                onDrag={(sizes: Array<number>) => setSizes(sizes)}
+                sizes={sizes}
                 className="split"
                 expandToMin={true}
                 gutterSize={15}
                 gutterAlign="center"
               >
-                <div>
+                <div style={{ width: `${sizes[0]}%` }} ref={editorWrapper}>
                   <JavascriptEditor
                     value={code}
-                    height={530}
+                    height="530px"
+                    width={
+                      editorWrapperWidth ? editorWrapperWidth + "px" : "100%"
+                    }
                     onChangeAssetCode={(value) => updateState({ code: value })}
                   />
                 </div>
-                <div>
+                <div style={{ width: `${sizes[1]}%` }}>
                   <iframe
                     title="Asset rendered"
                     srcDoc={outputValue}
                     style={{
                       border: 0,
-                      height: 530,
+                      height: "100%",
                       width: "100%",
                     }}
                   />

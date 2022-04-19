@@ -12,14 +12,12 @@ import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
-import WebIcon from "@mui/icons-material/Web";
-import ShareIcon from "@mui/icons-material/Share";
 import Avatar from "@mui/material/Avatar";
 
 // import { AppCtx } from "../../app";
 
 import { INftCollection } from "../../models/nft";
-import { Stack } from "@mui/material";
+import { Icon, Stack } from "@mui/material";
 
 interface INftCollectionDetailsProps {
   collection: INftCollection;
@@ -41,7 +39,7 @@ const NftCollectionDetails = ({ collection }: INftCollectionDetailsProps) => {
       TransitionProps={{ timeout: 200 }}
     >
       <Button>
-        <WebIcon />
+        <Icon sx={{ fontSize: "40px" }}>{"web_asset"}</Icon>
       </Button>
     </Tooltip>,
     <Tooltip
@@ -56,7 +54,7 @@ const NftCollectionDetails = ({ collection }: INftCollectionDetailsProps) => {
       TransitionProps={{ timeout: 200 }}
     >
       <Button>
-        <ShareIcon />
+        <Icon sx={{ fontSize: "40px" }}>{"share"}</Icon>
       </Button>
     </Tooltip>,
   ];

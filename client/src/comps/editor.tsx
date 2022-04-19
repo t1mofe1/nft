@@ -9,8 +9,8 @@ import { Box } from "@mui/material";
 interface IJavaScriptEditorProps {
   onChangeAssetCode: (value: string) => void;
   value: string;
-  width?: number;
-  height: number;
+  width?: string;
+  height: string;
 }
 export const JavascriptEditor = ({
   onChangeAssetCode,
@@ -33,8 +33,8 @@ interface IEditorProps {
   mode: string;
   onChangeAssetCode: (value: string) => void;
   value: string;
-  width?: number;
-  height: number;
+  width?: string;
+  height: string;
 }
 const Editor = ({
   mode,
@@ -44,21 +44,19 @@ const Editor = ({
   width,
 }: IEditorProps) => {
   return (
-    <Box sx={{ zIndex: 10000 }}>
-      <AceEditor
-        mode={mode}
-        theme="monokai"
-        name="Asset Code"
-        fontSize={18}
-        height={height + "px"}
-        width={width + "px"}
-        onChange={onChangeAssetCode}
-        value={value}
-        showPrintMargin={true}
-        showGutter={true}
-        tabSize={2}
-        setOptions={{ useWorker: false }}
-      />
-    </Box>
+    <AceEditor
+      mode={mode}
+      theme="monokai"
+      name="Asset Code"
+      fontSize={18}
+      height={height}
+      width={width}
+      onChange={onChangeAssetCode}
+      value={value}
+      showPrintMargin={true}
+      showGutter={true}
+      tabSize={2}
+      setOptions={{ useWorker: false }}
+    />
   );
 };

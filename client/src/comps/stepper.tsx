@@ -10,9 +10,15 @@ import {
 
 interface IStepperProps {
   steps: Array<{ label: string; component: React.ReactElement }>;
+  onNext?: () => Boolean;
+  onBack?: () => Boolean;
 }
 
-export const Stepper = ({ steps }: IStepperProps) => {
+export const Stepper = ({
+  steps,
+  onNext = () => true,
+  onBack = () => true,
+}: IStepperProps) => {
   const [step, setStep] = React.useState(0);
 
   return (
@@ -43,7 +49,7 @@ export const Stepper = ({ steps }: IStepperProps) => {
           )}
           <Box sx={{ flex: "1 1 auto" }} />
           {step < steps.length - 1 && (
-            <Button onClick={() => setStep(step + 1)}>Next</Button>
+            <Button onClick={() => onNext() && setStep(step + 1)}>Next</Button>
           )}
         </Box>
       </Container>

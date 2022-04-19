@@ -11,10 +11,8 @@ import {
   Button,
   Typography,
   Avatar,
+  Icon,
 } from "@mui/material";
-
-import WebIcon from "@mui/icons-material/Web";
-import ShareIcon from "@mui/icons-material/Share";
 
 import { INftCollection } from "../../models/nft";
 import { Link } from "react-router-dom";
@@ -40,7 +38,7 @@ const NftCollectionHeader = ({ collection }: ICollectionHeaderProps) => {
       TransitionProps={{ timeout: 200 }}
     >
       <Button>
-        <WebIcon />
+        <Icon sx={{ fontSize: "40px" }}>{"web_asset"}</Icon>
       </Button>
     </Tooltip>,
     <Tooltip
@@ -55,7 +53,7 @@ const NftCollectionHeader = ({ collection }: ICollectionHeaderProps) => {
       TransitionProps={{ timeout: 200 }}
     >
       <Button>
-        <ShareIcon />
+        <Icon sx={{ fontSize: "40px" }}>{"share"}</Icon>
       </Button>
     </Tooltip>,
   ];

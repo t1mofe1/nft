@@ -12,12 +12,11 @@ import {
   Typography,
   Avatar,
   IconButton,
+  Icon,
 } from "@mui/material";
 import { ProfileAddress } from "./address";
 import { IAccount } from "../../models/account";
 
-import WebIcon from "@mui/icons-material/Web";
-import ShareIcon from "@mui/icons-material/Share";
 import { ProfileCover } from "../profile-cover";
 import { ProfileAvatar } from "../profile-avatar";
 import { ProfileNickname } from "../profile-nickname";
@@ -61,7 +60,7 @@ export const ProfileHeader = ({ account }: IProfileHeaderProps) => {
               TransitionProps={{ timeout: 200 }}
             >
               <IconButton>
-                <WebIcon />
+                <Icon sx={{ fontSize: "40px" }}>{"web_asset"}</Icon>
               </IconButton>
             </Tooltip>
             ,
@@ -77,7 +76,7 @@ export const ProfileHeader = ({ account }: IProfileHeaderProps) => {
               TransitionProps={{ timeout: 200 }}
             >
               <IconButton>
-                <ShareIcon />
+                <Icon sx={{ fontSize: "40px" }}>{"share"}</Icon>
               </IconButton>
             </Tooltip>
             ,
