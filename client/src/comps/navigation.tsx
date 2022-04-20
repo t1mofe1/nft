@@ -12,6 +12,7 @@ import {
   ListItemText,
   Menu,
   Stack,
+  Avatar,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useAuth } from "./auth-context";
@@ -22,6 +23,7 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import { WalletLogged } from "./wallet-logged";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -230,14 +232,12 @@ export const MainNavigation = () => {
               />
             </Search>
           </Box>
-          <Stack direction="row">
+          <Stack direction="row" alignItems="center">
             <Box
               sx={{
                 display: { xs: "none", md: "block" },
                 flexGrow: 1,
                 justifyContent: "flex-end",
-                p: 1,
-                m: 1,
               }}
             >
               {isLogged && (
@@ -251,17 +251,20 @@ export const MainNavigation = () => {
             </Box>
             <Box sx={{ display: { xs: "none", md: "flex" } }}>
               {isLogged && !inProgress && (
-                <IconButton
-                  size="large"
-                  edge="end"
-                  aria-label="account of current user"
-                  aria-controls={menuId}
-                  aria-haspopup="true"
-                  onClick={handleProfileMenuOpen}
-                  color="inherit"
-                >
-                  <AccountCircle />
-                </IconButton>
+                <>
+                  <IconButton
+                    size="large"
+                    edge="end"
+                    aria-label="account of current user"
+                    aria-controls={menuId}
+                    aria-haspopup="true"
+                    onClick={handleProfileMenuOpen}
+                    color="inherit"
+                  >
+                    <Avatar alt={account?.nickname} src={account?.avatar} />
+                  </IconButton>
+                  <WalletLogged />
+                </>
               )}
               {!isLogged && <WalletAuth />}
             </Box>

@@ -6,10 +6,18 @@ import { IEtherum } from "../models/etherum";
 import {
   Box,
   CircularProgress,
+  Divider,
+  Drawer,
+  Grid,
   IconButton,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
   Menu,
   MenuItem,
+  Typography,
 } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
 import WalletIcon from "@mui/icons-material/AccountBalanceWallet";
 
@@ -53,38 +61,75 @@ export const WalletAuth = () => {
           <CircularProgress size="1rem" color="inherit" />
         </Box>
       )}
-      <Menu
+      <Drawer
+        anchor={"right"}
         open={Boolean(anchor)}
-        anchorEl={anchor}
         onClose={() => setAnchor(null)}
       >
-        {wallets.map(({ name, label, getAccounts, isAvailable }) => (
-          <MenuItem
-            disabled={!isAvailable()}
-            onClick={() => {
-              setAnchor(null);
+        <Box sx={{ display: "flex", width: "300px" }} role="presentation">
+          <Grid container spacing={0} sx={{ justifyContent: "center" }}>
+            <Grid item xs={12} alignItems="center">
+              <Box
+                component="div"
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  py: 1,
+                  px: 2,
+                }}
+              >
+                <Typography sx={{ marginTop: "5px;" }} variant="subtitle1">
+                  Connect Wallet
+                </Typography>
+                <IconButton
+                  aria-label="filter"
+                  sx={{ display: "inline-flex" }}
+                  color="primary"
+                  onClick={() => setAnchor(null)}
+                >
+                  <CloseIcon />
+                </IconButton>
+              </Box>
+              <Divider />
+            </Grid>
+            <Grid item xs={12} sx={{ p: 2 }} alignItems="center">
+              <Typography variant="body2">
+                Connect with one of our wallets
+              </Typography>
+            </Grid>
+            <Grid item xs={12} alignItems="center">
+              {wallets.map(({ name, label, getAccounts, isAvailable }) => (
+                <ListItem
+                  button
+                  disabled={!isAvailable()}
+                  onClick={() => {
+                    setAnchor(null);
 
-              getAccounts().then((accounts) => {
-                if (!Array.isArray(accounts)) {
-                  // TODO hanle it in better way
-                  throw new Error("There is no account");
-                }
+                    getAccounts().then((accounts) => {
+                      if (!Array.isArray(accounts)) {
+                        // TODO hanle it in better way
+                        throw new Error("There is no account");
+                      }
 
-                if (accounts.length === 0) {
-                  // TODO hanle it in better way
-                  throw new Error("There is no account");
-                }
-                signIn(accounts[0]);
-              });
-            }}
-          >
-            <Box sx={{ display: "flex" }}>
-              <img src="/images/metamask-icon.png" width={25} />
-              <Box ml={2}>{label}</Box>
-            </Box>
-          </MenuItem>
-        ))}
-      </Menu>
+                      if (accounts.length === 0) {
+                        // TODO hanle it in better way
+                        throw new Error("There is no account");
+                      }
+                      signIn(accounts[0]);
+                    });
+                  }}
+                >
+                  <ListItemIcon>
+                    <img src="/images/metamask-icon.png" width={25} />
+                  </ListItemIcon>
+                  <ListItemText primary={label} />
+                </ListItem>
+              ))}
+            </Grid>
+          </Grid>
+        </Box>
+      </Drawer>
     </React.Fragment>
   );
 };

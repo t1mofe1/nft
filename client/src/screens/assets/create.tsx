@@ -13,69 +13,22 @@ import { Box } from "@mui/system";
 import { AppCtx } from "../../app";
 import { useState } from "../../helpers/state";
 import { useAuth } from "../../comps/auth-context";
-import { JavascriptEditor } from "../../comps/editor";
+// import { JavascriptEditor } from "../../comps/editor";
+import { Editor } from "../../comps/editor-monaco";
 import { Stepper } from "../../comps/stepper";
 import { textChangeRangeIsUnchanged } from "typescript";
 
 const defaultAssetCodes: Array<{ name: string; value: string }> = [
   {
     name: "P5",
-    value: `let cx, cy;
-        let secondsRadius;
-        let minutesRadius;
-        let hoursRadius;
-        let clockDiameter;
-        
-        function setup() {
-          createCanvas(720, 400);
-          stroke(255);
-        
-          let radius = min(width, height) / 2;
-          secondsRadius = radius * 0.71;
-          minutesRadius = radius * 0.6;
-          hoursRadius = radius * 0.5;
-          clockDiameter = radius * 1.7;
-        
-          cx = width / 2;
-          cy = height / 2;
-        }
-        
-        function draw() {
-          background(230);
-        
-          // Draw the clock background
-          noStroke();
-          fill(244, 122, 158);
-          ellipse(cx, cy, clockDiameter + 25, clockDiameter + 25);
-          fill(237, 34, 93);
-          ellipse(cx, cy, clockDiameter, clockDiameter);
-        
-          // Angles for sin() and cos() start at 3 o'clock;
-          // subtract HALF_PI to make them start at the top
-          let s = map(second(), 0, 60, 0, TWO_PI) - HALF_PI;
-          let m = map(minute() + norm(second(), 0, 60), 0, 60, 0, TWO_PI) - HALF_PI;
-          let h = map(hour() + norm(minute(), 0, 60), 0, 24, 0, TWO_PI * 2) - HALF_PI;
-        
-          // Draw the hands of the clock
-          stroke(255);
-          strokeWeight(1);
-          line(cx, cy, cx + cos(s) * secondsRadius, cy + sin(s) * secondsRadius);
-          strokeWeight(2);
-          line(cx, cy, cx + cos(m) * minutesRadius, cy + sin(m) * minutesRadius);
-          strokeWeight(4);
-          line(cx, cy, cx + cos(h) * hoursRadius, cy + sin(h) * hoursRadius);
-        
-          // Draw the minute ticks
-          strokeWeight(2);
-          beginShape(POINTS);
-          for (let a = 0; a < 360; a += 6) {
-            let angle = radians(a);
-            let x = cx + cos(angle) * secondsRadius;
-            let y = cy + sin(angle) * secondsRadius;
-            vertex(x, y);
-          }
-          endShape();
-        }`,
+    value: `
+    function setup() {
+      createCanvas(400, 400);
+    }
+    
+    function draw() {
+      background(220);
+    }`,
   },
   {
     name: "none",
@@ -211,9 +164,10 @@ export const CreateAssetScreen = () => {
         break;
       default:
         cdn = "";
-        html = `<canvas id="canvas" />`;
+        html = `<canvas id="canvas"></canvas>`;
     }
-
+    const blob = new Blob([code], { type: "text/javascript" });
+    const url = URL.createObjectURL(blob);
     const output = `<html>
                     <head>
                     <style>
@@ -234,10 +188,8 @@ export const CreateAssetScreen = () => {
                         ${cdn}
                     </head>
                     <body style="margin:0;">
-                        ${html}
-                    <script type="text/javascript">
-                        ${code}
-                    </script>
+                      ${html}
+                    <script type="text/javascript" src="${url}"></script>
                     </body>
                   </html>`;
     setOutputValue(output);
@@ -246,7 +198,6 @@ export const CreateAssetScreen = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   React.useEffect(() => {
     if (null !== editorWrapper.current) {
-      console.log(editorWrapper);
       setEditorWrapperWidth(editorWrapper.current.offsetWidth);
     }
   });
@@ -374,13 +325,15 @@ export const CreateAssetScreen = () => {
                 gutterAlign="center"
               >
                 <div style={{ width: `${sizes[0]}%` }} ref={editorWrapper}>
-                  <JavascriptEditor
+                  <Editor
                     value={code}
                     height="530px"
                     width={
                       editorWrapperWidth ? editorWrapperWidth + "px" : "100%"
                     }
-                    onChangeAssetCode={(value) => updateState({ code: value })}
+                    onChangeAssetCode={(value, event) =>
+                      updateState({ code: value })
+                    }
                   />
                 </div>
                 <div style={{ width: `${sizes[1]}%` }}>
