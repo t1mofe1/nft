@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
 import {
   Box,
   AppBar,
@@ -13,17 +15,17 @@ import {
   Menu,
   Stack,
   Avatar,
+  Button,
+  CircularProgress,
 } from "@mui/material";
-import { Link } from "react-router-dom";
 import { useAuth } from "./auth-context";
-import { WalletAuth } from "./wallet-auth";
 import { styled, alpha } from "@mui/material/styles";
 
 import MoreIcon from "@mui/icons-material/MoreVert";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import { WalletLogged } from "./wallet-logged";
+import { AvatarNavigation } from "./avatar-navigation";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -250,23 +252,22 @@ export const MainNavigation = () => {
               )}
             </Box>
             <Box sx={{ display: { xs: "none", md: "flex" } }}>
-              {isLogged && !inProgress && (
-                <>
-                  <IconButton
-                    size="large"
-                    edge="end"
-                    aria-label="account of current user"
-                    aria-controls={menuId}
-                    aria-haspopup="true"
-                    onClick={handleProfileMenuOpen}
-                    color="inherit"
-                  >
-                    <Avatar alt={account?.nickname} src={account?.avatar} />
-                  </IconButton>
-                  <WalletLogged />
-                </>
+              {isLogged && !inProgress && <AvatarNavigation />}
+              {inProgress && (
+                <Box pt={1}>
+                  <CircularProgress size="1rem" color="inherit" />
+                </Box>
               )}
-              {!isLogged && <WalletAuth />}
+              {!isLogged && !inProgress && (
+                <Button
+                  to="sign-in"
+                  component={Link}
+                  color="secondary"
+                  variant="contained"
+                >
+                  Sign in
+                </Button>
+              )}
             </Box>
           </Stack>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
