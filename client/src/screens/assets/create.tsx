@@ -8,7 +8,13 @@ import {
   TextField,
   Typography,
   FormControl,
+  IconButton,
+  Icon,
+  Stack,
+  Tooltip,
 } from "@mui/material";
+import Fade from "@mui/material/Fade";
+
 import { Box } from "@mui/system";
 import { AppCtx } from "../../app";
 import { useState } from "../../helpers/state";
@@ -17,6 +23,7 @@ import { useAuth } from "../../comps/auth-context";
 import { Editor } from "../../comps/editor-monaco";
 import { Stepper } from "../../comps/stepper";
 import { textChangeRangeIsUnchanged } from "typescript";
+import { SignInScreen } from "../sign-in";
 
 const defaultAssetCodes: Array<{ name: string; value: string }> = [
   {
@@ -32,104 +39,8 @@ const defaultAssetCodes: Array<{ name: string; value: string }> = [
   },
   {
     name: "none",
-    value: `function clock() {
-        var now = new Date();
-        var ctx = document.getElementById('canvas').getContext('2d');
-        ctx.save();
-        ctx.clearRect(0, 0, 150, 150);
-        ctx.translate(75, 75);
-        ctx.scale(0.4, 0.4);
-        ctx.rotate(-Math.PI / 2);
-        ctx.strokeStyle = 'black';
-        ctx.fillStyle = 'white';
-        ctx.lineWidth = 8;
-        ctx.lineCap = 'round';
-      
-        // Hour marks
-        ctx.save();
-        for (var i = 0; i < 12; i++) {
-          ctx.beginPath();
-          ctx.rotate(Math.PI / 6);
-          ctx.moveTo(100, 0);
-          ctx.lineTo(120, 0);
-          ctx.stroke();
-        }
-        ctx.restore();
-      
-        // Minute marks
-        ctx.save();
-        ctx.lineWidth = 5;
-        for (i = 0; i < 60; i++) {
-          if (i % 5!= 0) {
-            ctx.beginPath();
-            ctx.moveTo(117, 0);
-            ctx.lineTo(120, 0);
-            ctx.stroke();
-          }
-          ctx.rotate(Math.PI / 30);
-        }
-        ctx.restore();
-      
-        var sec = now.getSeconds();
-        var min = now.getMinutes();
-        var hr  = now.getHours();
-        hr = hr >= 12 ? hr - 12 : hr;
-      
-        ctx.fillStyle = 'black';
-      
-        // write Hours
-        ctx.save();
-        ctx.rotate(hr * (Math.PI / 6) + (Math.PI / 360) * min + (Math.PI / 21600) *sec);
-        ctx.lineWidth = 14;
-        ctx.beginPath();
-        ctx.moveTo(-20, 0);
-        ctx.lineTo(80, 0);
-        ctx.stroke();
-        ctx.restore();
-      
-        // write Minutes
-        ctx.save();
-        ctx.rotate((Math.PI / 30) * min + (Math.PI / 1800) * sec);
-        ctx.lineWidth = 10;
-        ctx.beginPath();
-        ctx.moveTo(-28, 0);
-        ctx.lineTo(112, 0);
-        ctx.stroke();
-        ctx.restore();
-      
-        // Write seconds
-        ctx.save();
-        ctx.rotate(sec * Math.PI / 30);
-        ctx.strokeStyle = '#D40000';
-        ctx.fillStyle = '#D40000';
-        ctx.lineWidth = 6;
-        ctx.beginPath();
-        ctx.moveTo(-30, 0);
-        ctx.lineTo(83, 0);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.arc(0, 0, 10, 0, Math.PI * 2, true);
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(95, 0, 10, 0, Math.PI * 2, true);
-        ctx.stroke();
-        ctx.fillStyle = 'rgba(0, 0, 0, 0)';
-        ctx.arc(0, 0, 3, 0, Math.PI * 2, true);
-        ctx.fill();
-        ctx.restore();
-      
-        ctx.beginPath();
-        ctx.lineWidth = 14;
-        ctx.strokeStyle = '#325FA2';
-        ctx.arc(0, 0, 142, 0, Math.PI * 2, true);
-        ctx.stroke();
-      
-        ctx.restore();
-      
-        window.requestAnimationFrame(clock);
-      }
-      
-      window.requestAnimationFrame(clock);`,
+    value: `var now = new Date();
+        var ctx = document.getElementById('canvas').getContext('2d');`,
   },
 ];
 
@@ -154,7 +65,7 @@ export const CreateAssetScreen = () => {
   const [editorWrapperWidth, setEditorWrapperWidth] = React.useState(0);
   const editorWrapper = React.useRef<HTMLDivElement>(null);
 
-  React.useEffect(() => {
+  const runCode = () => {
     let cdn: string,
       html: string = "";
     switch (library) {
@@ -193,7 +104,7 @@ export const CreateAssetScreen = () => {
                     </body>
                   </html>`;
     setOutputValue(output);
-  }, [code, library]);
+  };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   React.useEffect(() => {
@@ -201,14 +112,7 @@ export const CreateAssetScreen = () => {
       setEditorWrapperWidth(editorWrapper.current.offsetWidth);
     }
   });
-  if (!isLogged)
-    return (
-      <Container>
-        <Grid item xs={12} sx={{ py: 2 }}>
-          here we need to add the link for wallet
-        </Grid>
-      </Container>
-    );
+  if (!isLogged) return <SignInScreen referer={"/assets/create"} />;
   return (
     <Stepper
       onNext={() => {
@@ -263,12 +167,13 @@ export const CreateAssetScreen = () => {
                   value={description}
                   minRows={5}
                   onChange={(e) => {
-                    const category = e.target.value;
+                    const description = e.target.value;
 
                     updateState({
-                      category,
-                      code: defaultAssetCodes.find((x) => x.name === category)
-                        ?.value,
+                      description,
+                      code: defaultAssetCodes.find(
+                        (x) => x.name === description
+                      )?.value,
                     });
                   }}
                   maxRows="Infinity"
@@ -316,6 +221,24 @@ export const CreateAssetScreen = () => {
           label: "Code",
           component: (
             <Box mt={2} p={2}>
+              <Box my={2}>
+                <Stack direction="row">
+                  <Tooltip
+                    title={"Run code"}
+                    placement="top"
+                    arrow
+                    PopperProps={{
+                      disablePortal: true,
+                    }}
+                    TransitionComponent={Fade}
+                    TransitionProps={{ timeout: 200 }}
+                  >
+                    <IconButton onClick={runCode}>
+                      <Icon sx={{ fontSize: "36px" }}>{"play_arrow"}</Icon>
+                    </IconButton>
+                  </Tooltip>
+                </Stack>
+              </Box>
               <SplitPane
                 onDrag={(sizes: Array<number>) => setSizes(sizes)}
                 sizes={sizes}

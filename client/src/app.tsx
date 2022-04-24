@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { NftScreen } from "./screens/nft";
-import { MainScreen } from "./screens/main";
+import { MainScreen } from "./screens/main-landing";
 import { AboutScreen } from "./screens/about";
 import { BrowseScreen } from "./screens/browse";
 import { ProfileScreen } from "./screens/profile";

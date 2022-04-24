@@ -30,7 +30,11 @@ const wallets: IWallet[] = [
     isAvailable: () => window.ethereum && window.ethereum.isMetaMask === true,
   },
 ];
-export const SignInScreen = () => {
+
+interface ISignInScreen {
+  referer?: string;
+}
+export const SignInScreen = ({ referer = "/" }: ISignInScreen) => {
   const navigate = useNavigate();
   const { signIn } = useAuth();
 
@@ -68,7 +72,7 @@ export const SignInScreen = () => {
                     throw new Error("There is no account");
                   }
                   signIn(accounts[0]);
-                  navigate("/", { replace: true });
+                  navigate(referer, { replace: true });
                 });
               }}
             >

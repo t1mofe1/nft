@@ -25,10 +25,15 @@ const AboutSection = () => {
           spacing={2}
           sx={{ mb: 5 }}
         >
-          <Button to="/" component={Link} color="secondary" variant="contained">
+          <Button
+            to="/browse"
+            component={Link}
+            color="secondary"
+            variant="contained"
+          >
             Browse
           </Button>
-          <Button to="/create" component={Link} variant="outlined">
+          <Button to="/assets/create" component={Link} variant="outlined">
             Create
           </Button>
         </Stack>

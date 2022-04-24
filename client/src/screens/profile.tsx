@@ -16,7 +16,7 @@ import { useParams } from "react-router-dom";
 import { useAuth } from "../comps/auth-context";
 import { GetAccountByKey } from "../api/account";
 import { useGraphqlQuery } from "../services/gql/query";
-import { ProfileHeader } from "../comps/profile/header";
+import { ProfileHeader } from "../comps/profile/profile-header";
 
 import NFTCardItem from "../comps/nft-card-item";
 

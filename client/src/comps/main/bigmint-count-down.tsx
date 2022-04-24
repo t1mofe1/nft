@@ -98,20 +98,7 @@ export const BigmintCountdown = ({ bigmint }: IBigmintCountdownProps) => {
           alignItems="center"
           sx={{ mt: 4 }}
         >
-          <Typography variant="body2">
-            Get notified when the mint begins
-          </Typography>
-          <TextField
-            size="small"
-            label="Email"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <Button size="large">Send</Button>
-                </InputAdornment>
-              ),
-            }}
-          />
+          <Typography variant="body2">Something no idea what</Typography>
         </Stack>
       </Grid>
     </Grid>

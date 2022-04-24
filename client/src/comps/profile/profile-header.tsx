@@ -14,7 +14,7 @@ import {
   IconButton,
   Icon,
 } from "@mui/material";
-import { ProfileAddress } from "./address";
+import { ProfileAddress } from "./profile-address";
 import { IAccount } from "../../models/account";
 
 import { ProfileCover } from "../profile-cover";
@@ -63,7 +63,6 @@ export const ProfileHeader = ({ account }: IProfileHeaderProps) => {
                 <Icon sx={{ fontSize: "40px" }}>{"web_asset"}</Icon>
               </IconButton>
             </Tooltip>
-            ,
             <Tooltip
               key={"btn-" + 2}
               title="Share profile"
@@ -79,7 +78,6 @@ export const ProfileHeader = ({ account }: IProfileHeaderProps) => {
                 <Icon sx={{ fontSize: "40px" }}>{"share"}</Icon>
               </IconButton>
             </Tooltip>
-            ,
           </Box>
         </Toolbar>
         <Grid container spacing={1} sx={{ justifyContent: "center" }}>
