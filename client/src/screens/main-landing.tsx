@@ -141,18 +141,17 @@ export const MainScreen = () => {
                           p.background(255);
                           shift = 0;
                           let x,y;
+                          if (p.mouseY > p.height){
+                            x = coordsX[iter];
+                            y = coordsY[iter];
+                            if (Math.random()>0.95 && Math.abs(x-chains[0][0].x)<100) iter++;
+                            if (iter==coordsX.length)
+                              iter = 0;
+                          }else{
+                            y =  p.mouseY;
+                            x =  p.mouseX;
+                          }
                           for (var i = 0; i < chains.length; i++) {
-                            if (p.mouseY > p.height){
-                              x = coordsX[iter];
-                              y = coordsY[iter];
-                              if (x == chains[i][0].x)
-                                iter++;
-                              if (iter==coordsX.length)
-                                iter = 0;
-                            }else{
-                              y =  p.mouseY;
-                              x =  p.mouseX;
-                            }
                             for (var j = 0; j < chains[i].length; j++) {
                               if (j == 0) {
                                 chains[i][j].update(x, y);
