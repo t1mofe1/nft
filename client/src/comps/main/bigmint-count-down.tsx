@@ -50,57 +50,55 @@ export const BigmintCountdown = ({ bigmint }: IBigmintCountdownProps) => {
   }, [timeLeft, bigmint]);
 
   return (
-    <Grid container spacing={0} sx={{ py: 10 }}>
-      <Grid item xs={12}>
-        <Stack
-          direction="row"
-          spacing={2}
-          justifyContent="center"
-          alignItems="center"
-          sx={{ mb: 4 }}
-        >
-          <Typography variant="h2" color="secondary">
-            BIG MINT
-            <Typography variant="h2" component="span">
-              {" "}
-              is neigh!
-            </Typography>
+    <Grid item xs={12} md={6}>
+      <Stack
+        direction="row"
+        spacing={2}
+        justifyContent="center"
+        alignItems="center"
+        sx={{ mb: 4 }}
+      >
+        <Typography variant="h2" color="secondary">
+          BIG MINT
+          <Typography variant="h2" component="span">
+            {" "}
+            is neigh!
           </Typography>
+        </Typography>
+      </Stack>
+      <Stack
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        spacing={6}
+      >
+        <Stack direction="column" alignItems="center">
+          <Typography variant="body2">DAYS</Typography>
+          <Typography variant="h1">{timeLeft.days}</Typography>
         </Stack>
-        <Stack
-          direction="row"
-          justifyContent="center"
-          alignItems="center"
-          spacing={6}
-        >
-          <Stack direction="column" alignItems="center">
-            <Typography variant="body2">DAYS</Typography>
-            <Typography variant="h1">{timeLeft.days}</Typography>
-          </Stack>
 
-          <Stack direction="column" alignItems="center">
-            <Typography variant="body2">HOURS</Typography>
-            <Typography variant="h1">{timeLeft.hours}</Typography>
-          </Stack>
-          <Stack direction="column" alignItems="center">
-            <Typography variant="body2">MINUTES</Typography>
-            <Typography variant="h1">{timeLeft.minutes}</Typography>
-          </Stack>
-          <Stack direction="column" alignItems="center">
-            <Typography variant="body2">SECONDS</Typography>
-            <Typography variant="h1">{timeLeft.seconds}</Typography>
-          </Stack>
+        <Stack direction="column" alignItems="center">
+          <Typography variant="body2">HOURS</Typography>
+          <Typography variant="h1">{timeLeft.hours}</Typography>
         </Stack>
-        <Stack
-          direction={{ xs: "column", sm: "row" }}
-          justifyContent="center"
-          spacing={2}
-          alignItems="center"
-          sx={{ mt: 4 }}
-        >
-          <Typography variant="body2">Something no idea what</Typography>
+        <Stack direction="column" alignItems="center">
+          <Typography variant="body2">MINUTES</Typography>
+          <Typography variant="h1">{timeLeft.minutes}</Typography>
         </Stack>
-      </Grid>
+        <Stack direction="column" alignItems="center">
+          <Typography variant="body2">SECONDS</Typography>
+          <Typography variant="h1">{timeLeft.seconds}</Typography>
+        </Stack>
+      </Stack>
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        justifyContent="center"
+        spacing={2}
+        alignItems="center"
+        sx={{ mt: 4 }}
+      >
+        <Typography variant="body2">Something no idea what</Typography>
+      </Stack>
     </Grid>
   );
 };

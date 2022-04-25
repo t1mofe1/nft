@@ -1,6 +1,6 @@
 import React from "react";
-
 import Carousel from "react-material-ui-carousel";
+import { Script } from "../helpers/script";
 import {
   Grid,
   Typography,
@@ -8,6 +8,7 @@ import {
   Container,
   FormControl,
   MenuItem,
+  Box,
 } from "@mui/material";
 
 import Select, { SelectChangeEvent } from "@mui/material/Select";
@@ -48,7 +49,7 @@ const InfoTabsData: Array<IInfoTab> = [
     key: 3,
     title: "Create programmable NFT",
     description:
-      "Develop your very own NFTs (image, animation, sound) in the programming language you preffer. Find out more about",
+      "Develop your very own NFTs (image, animation, sound, interactive) in the programming language you preffer. Find out more about",
     icon: "code",
     link: {
       url: "/",
@@ -86,11 +87,128 @@ export const MainScreen = () => {
 
   return (
     <>
-      <BigmintCountdown bigmint={new Date("2022-07-06 08:00:00")} />
-      <Container maxWidth="lg" sx={{ my: 10 }}>
-        <AboutSection />
-        <Grid item xs={12} md={6}></Grid>
+      <Box>
+        <Script
+          url="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.min.js"
+          head={true}
+          async={false}
+        />
+        <Script
+          defer={true}
+          script={`var sketchLandingAsset = (p) => {
+                        let chains = [],
+                        chain = [],
+                        shift = 0,
+                        iter=0,
+                        coordsX = [100, 350, 550, 750, 950, 1200, 1450,1650,1850];
+                        coordsY = [50, 300, 50, 300, 50, 300, 50,300,50];
+
+                      
+                        const gravity = 9.0,
+                        mass = 2.0;
+                        p.setup = () => {
+
+                        p.createCanvas(1920, 400);
+
+                          // Inputs: x, y, mass, gravity
+
+                          for (let i = 0; i < 10; i++) {
+                            chain = [];
+                            for (let j = 0; j < 10; j++)
+                              chain.push(
+                                new Spring2D(
+                                  0,
+                                  p.width / 4,
+                                  mass,
+                                  gravity,
+                                  Math.floor(Math.random() * 30 + 10),
+                                  p.color(
+                                    Math.floor(Math.random() * 255),
+                                    Math.floor(Math.random() * 255),
+                                    Math.floor(Math.random() * 255)
+                                  ),
+                                  shift
+                                )
+                              );
+                            chains.push(chain);
+                            shift += 50;
+                          }
+                        }
+
+                        p.draw = () => {
+                          p.background(255);
+                          shift = 0;
+                          let x,y;
+                          for (var i = 0; i < chains.length; i++) {
+                            if (p.mouseY > p.height){
+                              x = coordsX[iter];
+                              y = coordsY[iter];
+                              if (x == chains[i][0].x)
+                                iter++;
+                              if (iter==coordsX.length)
+                                iter = 0;
+                            }else{
+                              y =  p.mouseY;
+                              x =  p.mouseX;
+                            }
+                            for (var j = 0; j < chains[i].length; j++) {
+                              if (j == 0) {
+                                chains[i][j].update(x, y);
+                                chains[i][j].display(x, y);
+                              } else {
+                                chains[i][j].update(chains[i][j - 1].x, chains[i][j - 1].y);
+                                chains[i][j].display(chains[i][j - 1].x , chains[i][j - 1].y);
+                              }
+                              
+                            }
+                            shift += 50;
+                          }
+                      }
+                        function Spring2D(xpos, ypos, m, g, radius, color, shift) {
+
+                          this.x = xpos; // The x- and y-coordinates
+                          this.y = ypos;
+                          this.vx = 0; // The x- and y-axis velocities
+                          this.vy = 0;
+                          this.mass = m;
+                          this.gravity = g;
+                          this.radius = radius;
+                          this.stiffness = 0.2;
+                          this.damping = 0.7;
+                          this.color = color;
+                          this.shift = shift;
+                          this.update = function (targetX, targetY) {
+                            let forceX = (targetX - this.x) * this.stiffness;
+                            let ax = forceX / this.mass;
+                            this.vx = this.damping * (this.vx + ax);
+                            this.x += this.vx;
+                            let forceY = (targetY - this.y) * this.stiffness;
+                            forceY += this.gravity;
+                            let ay = forceY / this.mass;
+                            this.vy = this.damping * (this.vy + ay);
+                            this.y +=this.vy;
+                          };
+                          this.display = function (nx, ny) {
+                            p.noStroke();
+                            p.fill(this.color);
+                            p.ellipse(this.x + this.shift, this.y, this.radius * 2, this.radius * 2);
+                            p.stroke(255);
+                            //line(this.x, this.y, nx, ny);
+                          };
+                        }
+                    }
+                    new p5(sketchLandingAsset, 'landingAsset')
+`}
+          id={"landingAsset"}
+        />
+      </Box>
+      <Container maxWidth="xl" sx={{ my: 15 }}>
+        <Grid container>
+          <AboutSection />
+          {/* <BigmintCountdown bigmint={new Date("2022-07-06 08:00:00")} /> */}
+        </Grid>
       </Container>
+
       <Container maxWidth="lg" sx={{ my: 10 }}>
         <Grid
           container
