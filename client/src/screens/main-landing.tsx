@@ -88,25 +88,16 @@ export const MainScreen = () => {
   return (
     <>
       <Box>
+        <Script url="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.min.js" />
         <Script
-          url="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.min.js"
-          head={true}
-          async={false}
-        />
-        <Script
-          defer={true}
           script={`var sketchLandingAsset = (p) => {
                         let chains = [],
                         chain = [],
                         shift = 0,
                         iter=0,
-                        coordsX = [],
-                        coordsY = [];
-                        for (let i = 0;i<8;i++){
-                          coordsX.push(Math.floor(Math.random()*document.body.clientWidth-200));
-                          coordsY.push(Math.floor(Math.random()*300))
-                        }
-                        const gravity = 9.0,
+                        coordsX = Math.floor(Math.random()*document.body.clientWidth),
+                        coordsY = Math.floor(Math.random()*document.body.clientHeight/2);
+                        let gravity = 9.0,
                         mass = 2.0;
                         p.setup = () => {
 
@@ -136,23 +127,28 @@ export const MainScreen = () => {
                             shift += 50;
                           }
                         }
-
                         p.draw = () => {
                           p.background(255);
                           shift = 0;
                           let x,y;
                           if (p.mouseY > p.height){
-                            x = coordsX[iter];
-                            y = coordsY[iter];
-                            if (Math.random()>0.95 && Math.abs(x-chains[0][0].x)<100) iter++;
-                            if (iter==coordsX.length)
-                              iter = 0;
+                            x = coordsX;
+                            y = coordsY;
+                            if (Math.random()*100> 90 ){
+                              //somehow make it around the prev state :)
+                              coordsX = Math.floor(Math.random()*p.width);
+                              coordsY = Math.floor(Math.random()*p.height);
+                            }
                           }else{
                             y =  p.mouseY;
                             x =  p.mouseX;
                           }
                           for (var i = 0; i < chains.length; i++) {
                             for (var j = 0; j < chains[i].length; j++) {
+                              if (p.mouseY > p.height)
+                                chains[i][j].mass = 8.0;
+                              else
+                                chains[i][j].mass = 2.0
                               if (j == 0) {
                                 chains[i][j].update(x, y);
                                 chains[i][j].display(x, y);
@@ -201,6 +197,7 @@ export const MainScreen = () => {
                     new p5(sketchLandingAsset, 'landingAsset')
 `}
           id={"landingAsset"}
+          defer
         />
       </Box>
       <Container maxWidth="xl" sx={{ my: 15 }}>
