@@ -100,21 +100,23 @@ export const MainScreen = () => {
                         chain = [],
                         shift = 0,
                         iter=0,
-                        coordsX = [100, 350, 550, 750, 950, 1200, 1450,1650,1850];
-                        coordsY = [50, 300, 50, 300, 50, 300, 50,300,50];
-
-                      
+                        coordsX = [],
+                        coordsY = [];
+                        for (let i = 0;i<8;i++){
+                          coordsX.push(Math.floor(Math.random()*document.body.clientWidth-200));
+                          coordsY.push(Math.floor(Math.random()*300))
+                        }
                         const gravity = 9.0,
                         mass = 2.0;
                         p.setup = () => {
 
-                        p.createCanvas(1920, 400);
+                        p.createCanvas(document.body.clientWidth, 400);
 
                           // Inputs: x, y, mass, gravity
 
                           for (let i = 0; i < 10; i++) {
                             chain = [];
-                            for (let j = 0; j < 10; j++)
+                            for (let j = 0; j < 7; j++)
                               chain.push(
                                 new Spring2D(
                                   0,
