@@ -49,7 +49,7 @@ const InfoTabsData: Array<IInfoTab> = [
     key: 3,
     title: "Create programmable NFT",
     description:
-      "Develop your very own NFTs (image, animation, sound, interactive) in the programming language you preffer. Find out more about",
+      "Turn you programing skills into your own and unique art (image, animation, sound, interactive) in the programming language of your choice. Find out more about",
     icon: "code",
     link: {
       url: "/",
@@ -87,10 +87,8 @@ export const MainScreen = () => {
 
   return (
     <>
-      <Box>
-        <Script url="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.min.js" />
-        <Script
-          script={`var sketchLandingAsset = (p) => {
+      <Script
+        script={`var sketchLandingAsset = (p) => {
                         let chains = [],
                         chain = [],
                         shift = 0,
@@ -124,12 +122,11 @@ export const MainScreen = () => {
                                 )
                               );
                             chains.push(chain);
-                            shift += 50;
+                            shift += 80;
                           }
                         }
                         p.draw = () => {
                           p.background(255);
-                          shift = 0;
                           let x,y;
                           if (p.mouseY > p.height){
                             x = coordsX;
@@ -158,7 +155,6 @@ export const MainScreen = () => {
                               }
                               
                             }
-                            shift += 50;
                           }
                       }
                         function Spring2D(xpos, ypos, m, g, radius, color, shift) {
@@ -196,10 +192,9 @@ export const MainScreen = () => {
                     }
                     new p5(sketchLandingAsset, 'landingAsset')
 `}
-          id={"landingAsset"}
-          defer
-        />
-      </Box>
+        id={"landingAsset"}
+        defer
+      />
       <Container maxWidth="xl" sx={{ my: 15 }}>
         <Grid container>
           <AboutSection />
@@ -216,48 +211,6 @@ export const MainScreen = () => {
           {InfoTabsData.map((tab) => (
             <Infotab tab={tab} />
           ))}
-        </Grid>
-        <Grid container spacing={0} sx={{ justifyContent: "center", my: 10 }}>
-          <Grid item xs={12} lg={6}>
-            <Stack direction="row" sx={{ justifyContent: "center" }}>
-              <Typography sx={{ mr: 2, marginTop: "5px" }}>
-                Browse on
-              </Typography>
-              <FormControl>
-                <Select
-                  variant="standard"
-                  labelId="select-status-label"
-                  id="select-status"
-                  value={status}
-                  label="Status"
-                  onChange={handleStatusChange}
-                >
-                  {nftStatuses.map((nftStatus) => (
-                    <MenuItem value={nftStatus}>{nftStatus}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <Typography sx={{ mx: 2, marginTop: "5px" }}>
-                in category
-              </Typography>
-              <FormControl>
-                <Select
-                  variant="standard"
-                  labelId="select-category-label"
-                  id="select-category"
-                  value={category}
-                  label="Category"
-                  onChange={handleChange}
-                >
-                  {dataContext?.categories.map((nftCategory) => (
-                    <MenuItem key={nftCategory.key} value={nftCategory.name}>
-                      {nftCategory.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Stack>
-          </Grid>
         </Grid>
       </Container>
     </>
