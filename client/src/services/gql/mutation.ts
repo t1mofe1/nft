@@ -57,7 +57,8 @@ export class GraphqlMutation extends GraphqlSchema {
   }
 }
 
-interface IGraphqlQueryProps {
+export interface IGraphqlMutationProps {
+  headers?: any;
   onSuccess: () => void;
   mutation?: GraphqlMutation;
   onError: (error: string) => void;
@@ -65,12 +66,12 @@ interface IGraphqlQueryProps {
 }
 
 export const useGraphqlMutation = ({
+  headers,
+  onError,
   mutation,
   onSuccess,
-  onError,
   onNetworkError,
-}: IGraphqlQueryProps) => {
-  let mut = mutation;
+}: IGraphqlMutationProps) => {
 
   const getSchema = function (mutation?: GraphqlMutation) {
     return mutation
@@ -85,9 +86,11 @@ export const useGraphqlMutation = ({
   const { fetch, isLoading } = useFetcher(
     {
       config: {
+        headers,
         url: "/api",
         method: "POST",
         data: mutation ? getSchema(mutation) : undefined,
+
       },
       onSuccess: ({ data, errors }) => {
         const response = GraphqlMutation.fromObject(data);
@@ -106,3 +109,5 @@ export const useGraphqlMutation = ({
     invoke: (mut?: GraphqlMutation) => fetch(getSchema(mut)),
   };
 };
+
+

@@ -4,6 +4,12 @@ import { IAccount } from "../models/account";
 
 const defaultFields = ["id", "avatar", "cover", "nickname", "addresses"];
 
+export class GetNonce extends GraphqlQuery {
+  constructor() {
+    super({}, []);
+  }
+}
+
 export class GetAccount extends GraphqlQuery {
   constructor(id: string) {
     super({ id }, defaultFields);

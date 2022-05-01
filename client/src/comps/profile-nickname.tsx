@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useAuth } from "./auth-context";
 import { UpdateAccount } from "../api/account";
-import { useGraphqlMutation } from "../services/gql/mutation";
+import { useSignedGraphqlMutation } from "../services/signed-mutation";
 
 interface IProfileNicknameProps {
   accountId: string;
@@ -27,7 +27,7 @@ export const ProfileNickname = ({
   const [isHover, setHover] = React.useState(false);
   const [value, setValue] = React.useState(defaultValue);
 
-  const { isLoading, invoke } = useGraphqlMutation({
+  const { isLoading, invoke } = useSignedGraphqlMutation({
     mutation: new UpdateAccount(String(accountId), {
       nickname: value,
     }),
