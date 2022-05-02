@@ -1,8 +1,11 @@
+import { IBlockChain } from "./blockchain";
+
 export interface IWallet {
   name: string;
-  label: string;
   logo: string;
-  sign: () => Promise<void>;
+  label: string;
+  chain: IBlockChain;
+  sign: (nonce: string, address: string) => Promise<any>;
   isAvailable: () => boolean;
   getAccounts: () => Promise<Array<any>>;
 }

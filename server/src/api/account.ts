@@ -1,4 +1,4 @@
-import uuid from "uuid";
+import { v4 } from "uuid";
 import {
   Ctx,
   Arg,
@@ -37,7 +37,7 @@ export class Account extends ObjectBase {
 export default class AccountResolver {
   @Query((r) => String)
   getNonce(): String {
-    return uuid.v4().toString();
+    return v4().toString();
   }
 
   @Query((r) => Account)

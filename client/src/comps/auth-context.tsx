@@ -2,14 +2,17 @@ import React from "react";
 import { IAccount } from "../models/account";
 import { GetAccountByAddress } from "../api/account";
 import { useGraphqlQuery } from "../services/gql/query";
+import { IWallet } from "../models/wallet";
+import { useState } from "../helpers/state";
 
 interface IAuthContext {
   address: string;
+  wallet?: IWallet;
   isLogged: boolean;
   account?: IAccount;
   inProgress?: boolean;
   refresh: () => void;
-  signIn: (address: string) => void;
+  signIn: (address: string, wallet: IWallet) => void;
   signOut: () => void;
 }
 
@@ -28,7 +31,9 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }: React.PropsWithChildren<{}>) => {
-  const [address, setAddress] = React.useState<string | null>(null);
+  const { state: { address, wallet }, updateState } = useState<{address: string | null, wallet?: IWallet}>({
+    address: null
+  })
 
   const { data, isLoading, invoke, reset } = useGraphqlQuery({
     query: [new GetAccountByAddress(address || "")],
@@ -43,15 +48,19 @@ export const AuthProvider = ({ children }: React.PropsWithChildren<{}>) => {
   return (
     <AuthContext.Provider
       value={{
+        wallet,
         account: data,
         inProgress: isLoading,
         isLogged: Boolean(data),
         address: String(address),
         refresh: () => invoke(),
-        signIn: (address) => setAddress(address),
+        signIn: (address, wallet) => updateState({ address, wallet }),
         signOut: () => {
           reset();
-          setAddress(null);
+          updateState({
+            address: null,
+            wallet: undefined
+          });
         },
       }}
     >

@@ -2,8 +2,8 @@ import React from "react";
 import { useAuth } from "./auth-context";
 import { UpdateAccount } from "../api/account";
 import { ImageSelector } from "./image-selector";
-import { useGraphqlMutation } from "../services/gql/mutation";
 import { Box, Backdrop, CircularProgress } from "@mui/material";
+import { useSignedGraphqlMutation } from "../services/signed-mutation";
 
 interface IProfileCoverProps {
   src?: string;
@@ -17,7 +17,7 @@ export const ProfileCover = ({ src, alt, accountId }: IProfileCoverProps) => {
   const [isHover, setHover] = React.useState(false);
   const [value, setValue] = React.useState(String(src));
 
-  const { isLoading, invoke } = useGraphqlMutation({
+  const { isLoading, invoke } = useSignedGraphqlMutation({
     mutation: new UpdateAccount(String(accountId), {
       cover: value,
     }),

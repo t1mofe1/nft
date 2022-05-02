@@ -18,7 +18,16 @@ const wallets: IWallet[] = [
     name: "metamask",
     label: "MetaMask",
     logo: "/images/metamask-icon.png",
-    sign: async () => {},
+    chain: {
+      symbol: "ETH",
+      name: "ethereum",
+      label: "Ethereum"
+    },
+    sign: async (nonce: string, address: string) => {
+      //@ts-ignore
+      const instance = window.ethereum as IEtherum;
+      return instance.request({ method: 'personal_sign', params: [ nonce, address ] });
+    },
     getAccounts: async () => {
       //@ts-ignore
       const instance = window.ethereum as IEtherum;
@@ -34,9 +43,11 @@ const wallets: IWallet[] = [
 interface ISignInScreen {
   referer?: string;
 }
+
 export const SignInScreen = ({ referer = "/" }: ISignInScreen) => {
-  const navigate = useNavigate();
+
   const { signIn } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <Container maxWidth="xs">
@@ -52,16 +63,16 @@ export const SignInScreen = ({ referer = "/" }: ISignInScreen) => {
           Choose one of our available wallets to sign in.
         </Typography>
         <List>
-          {wallets.map(({ name, label, logo, getAccounts, isAvailable }) => (
+          {wallets.map((wallet) => (
             <ListItem
               sx={{ justifyContent: "center", py: 2 }}
               alignItems="center"
-              key={name}
+              key={wallet.name}
               button
               component="li"
-              disabled={!isAvailable()}
+              disabled={!wallet.isAvailable()}
               onClick={() => {
-                getAccounts().then((accounts) => {
+                wallet.getAccounts().then((accounts) => {
                   if (!Array.isArray(accounts)) {
                     // TODO hanle it in better way
                     throw new Error("There is no account");
@@ -71,7 +82,7 @@ export const SignInScreen = ({ referer = "/" }: ISignInScreen) => {
                     // TODO hanle it in better way
                     throw new Error("There is no account");
                   }
-                  signIn(accounts[0]);
+                  signIn(accounts[0], wallet);
                   navigate(referer, { replace: true });
                 });
               }}
@@ -83,9 +94,9 @@ export const SignInScreen = ({ referer = "/" }: ISignInScreen) => {
                 spacing={0}
               >
                 <ListItemIcon>
-                  <img alt={label} src={logo} width={25} />
+                  <img alt={wallet.label} src={wallet.logo} width={25} />
                 </ListItemIcon>
-                <ListItemText primary={label} />
+                <ListItemText primary={wallet.label} />
               </Stack>
             </ListItem>
           ))}

@@ -34,8 +34,8 @@ export class GraphqlQuery extends GraphqlSchema {
 interface IGraphqlQueryProps {
   defaultData: any;
   invokeAtInit?: boolean;
-  cb?: (data: any) => void;
   query: Array<GraphqlQuery>;
+  cb?: (data: any) => void | Promise<void>;
 }
 
 const getGraphqlErrorString = (errors: any) => {
@@ -107,7 +107,7 @@ export const useGraphqlQuery = <T = any>({
   );
 
   React.useEffect(() => {
-    if (data != undefined) cb(data);
+    if (data != undefined && data !== defaultData) cb(data);
   }, [data]);
 
   return {
