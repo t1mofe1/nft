@@ -30,7 +30,11 @@ export const AvatarNavigation = () => {
         onClick={(event: React.MouseEvent) => setDrawerOpen(!drawerOpen)}
         color="inherit"
       >
-        <Avatar alt={account?.nickname} src={account?.avatar} />
+        <Avatar
+          src={account?.avatar}
+          alt={account?.nickname}
+          sx={{ width: 32, height: 32 }}
+        />
       </IconButton>
       <Drawer
         anchor={"right"}
