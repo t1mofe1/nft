@@ -12,6 +12,7 @@ import {
 import { useAuth } from "../comps/auth-context";
 import { IWallet } from "../models/wallet";
 import { IEtherum } from "../models/etherum";
+import { ITronlink } from "../models/tronlink";
 
 const wallets: IWallet[] = [
   {
@@ -21,12 +22,15 @@ const wallets: IWallet[] = [
     chain: {
       symbol: "ETH",
       name: "ethereum",
-      label: "Ethereum"
+      label: "Ethereum",
     },
     sign: async (nonce: string, address: string) => {
       //@ts-ignore
       const instance = window.ethereum as IEtherum;
-      return instance.request({ method: 'personal_sign', params: [ nonce, address ] });
+      return instance.request({
+        method: "personal_sign",
+        params: [nonce, address],
+      });
     },
     getAccounts: async () => {
       //@ts-ignore
@@ -38,6 +42,33 @@ const wallets: IWallet[] = [
     //@ts-ignore
     isAvailable: () => window.ethereum && window.ethereum.isMetaMask === true,
   },
+  {
+    name: "tronlink",
+    label: "TronLink",
+    logo: "/images/tronlink-icon.jpg",
+    chain: {
+      symbol: "TRX",
+      name: "tron",
+      label: "Tron",
+    },
+    sign: async (nonce: string, address: string) => {
+      //@ts-ignore
+      const instance = window.tronWeb as ITronlink;
+      return instance.request({
+        method: "tron_sign",
+        params: [nonce, address],
+      });
+    },
+    getAccounts: async () => {
+      //@ts-ignore
+      const instance = window.tronWeb as ITronlink;
+      return instance.request({
+        method: "tron_requestAccounts",
+      }) as Promise<Array<any>>;
+    },
+    //@ts-ignore
+    isAvailable: () => true,
+  },
 ];
 
 interface ISignInScreen {
@@ -45,7 +76,6 @@ interface ISignInScreen {
 }
 
 export const SignInScreen = ({ referer = "/" }: ISignInScreen) => {
-
   const { signIn } = useAuth();
   const navigate = useNavigate();
 
@@ -73,16 +103,23 @@ export const SignInScreen = ({ referer = "/" }: ISignInScreen) => {
               disabled={!wallet.isAvailable()}
               onClick={() => {
                 wallet.getAccounts().then((accounts) => {
-                  if (!Array.isArray(accounts)) {
-                    // TODO hanle it in better way
-                    throw new Error("There is no account");
-                  }
+                  if (wallet.chain.name === "tron") {
+                    if (accounts.code === 200)
+                      //@ts-ignore
+                      signIn(window.tronWeb.defaultAddress.base58, wallet);
+                    else return false;
+                  } else {
+                    if (!Array.isArray(accounts)) {
+                      // TODO hanle it in better way
+                      throw new Error("There is no account");
+                    }
 
-                  if (accounts.length === 0) {
-                    // TODO hanle it in better way
-                    throw new Error("There is no account");
+                    if (accounts.length === 0) {
+                      // TODO hanle it in better way
+                      throw new Error("There is no account");
+                    }
+                    signIn(accounts[0], wallet);
                   }
-                  signIn(accounts[0], wallet);
                   navigate(referer, { replace: true });
                 });
               }}
