@@ -7,6 +7,7 @@ import { BrowseScreen } from "./screens/browse";
 import { ProfileScreen } from "./screens/profile";
 import { MainNavigation } from "./comps/navigation";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { SnackbarProvider, VariantType, useSnackbar } from "notistack";
 
 import {
   INft,
@@ -877,15 +878,16 @@ interface AppContextInterface {
   nftCollections: Array<INftCollection>;
   updateNftItems: Function;
   updateNftFilter: Function;
+  enqueueSnackbar: (message: any, variant?: any | undefined) => any;
 }
 
 export const AppCtx = React.createContext<AppContextInterface | null>(null);
 
-const App = () => {
+const AppInner = () => {
   //const [profileData, setProfileData ] = useState(profile);
   const [nftItems, setNftItems] = useState(nftItemsSource);
   const [nftFilter, setNftFilter] = useState(nftFilterDefault);
-
+  const { enqueueSnackbar } = useSnackbar();
   const updateNftItems = (nft: INft) => {
     setNftItems(
       nftItems.map((item: INft) => (nft.key === item.key ? nft : item))
@@ -905,27 +907,38 @@ const App = () => {
     nftCollections: collections,
     updateNftItems: updateNftItems,
     updateNftFilter: updateNftFilter,
+    enqueueSnackbar: enqueueSnackbar,
   };
 
   return (
     <AppCtx.Provider value={AppContext}>
-      <BrowserRouter>
-        <MainNavigation />
-        <Routes>
-          <Route path="/" element={<MainScreen />} />
-          <Route path="/about" element={<AboutScreen />} />
-          <Route path="/browse" element={<BrowseScreen />} />
-          <Route path="/assets/create" element={<CreateAssetScreen />} />
-          <Route path="/sign-in" element={<SignInScreen />} />
-          <Route path="/nft/view/:key" element={<NftScreen />} />
-          <Route path="/account/:key" element={<ProfileScreen />} />
-          <Route
-            path="/collection/view/:key"
-            element={<NftCollectionScreen />}
-          />
-        </Routes>
-      </BrowserRouter>
+      <SnackbarProvider maxSnack={3}>
+        <BrowserRouter>
+          <MainNavigation />
+          <Routes>
+            <Route path="/" element={<MainScreen />} />
+            <Route path="/about" element={<AboutScreen />} />
+            <Route path="/browse" element={<BrowseScreen />} />
+            <Route path="/assets/create" element={<CreateAssetScreen />} />
+            <Route path="/sign-in" element={<SignInScreen />} />
+            <Route path="/nft/view/:key" element={<NftScreen />} />
+            <Route path="/account/:key" element={<ProfileScreen />} />
+            <Route
+              path="/collection/view/:key"
+              element={<NftCollectionScreen />}
+            />
+          </Routes>
+        </BrowserRouter>
+      </SnackbarProvider>
     </AppCtx.Provider>
+  );
+};
+
+const App = () => {
+  return (
+    <SnackbarProvider maxSnack={3}>
+      <AppInner />
+    </SnackbarProvider>
   );
 };
 export default App;
