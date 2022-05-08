@@ -10,7 +10,10 @@ import {
   Stack,
   Grid,
   Box,
+  Fade,
   Typography,
+  Chip,
+  Tooltip,
 } from "@mui/material";
 import { useAuth } from "../comps/auth-context";
 import { IWallet } from "../models/wallet";
@@ -134,8 +137,7 @@ export const SignInScreen = ({ referer = "/" }: ISignInScreen) => {
             <List>
               {wallets.map((wallet, i) => (
                 <ListItem
-                  sx={{ justifyContent: "center", py: 2 }}
-                  alignItems="center"
+                  sx={{ justifyContent: "left", py: 2 }}
                   key={wallet.name}
                   button
                   component="li"
@@ -177,33 +179,25 @@ export const SignInScreen = ({ referer = "/" }: ISignInScreen) => {
                     });
                   }}
                 >
-                  <Stack
-                    direction="row"
-                    justifyContent="center"
-                    alignItems="center"
-                    spacing={0}
-                  >
-                    <ListItemIcon>
-                      <img alt={wallet.label} src={wallet.logo} width={25} />
-                    </ListItemIcon>
-                    <ListItemText primary={wallet.label} />
-                  </Stack>
+                  <ListItemIcon>
+                    <img alt={wallet.label} src={wallet.logo} width={25} />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={
+                      <Stack
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        spacing={4}
+                      >
+                        <Typography>{wallet.label}</Typography>
+                        <Chip label={wallet.chain.name} variant="outlined" />
+                      </Stack>
+                    }
+                  />
                 </ListItem>
               ))}
             </List>
-          </Grid>
-          <Grid item xs={12} md={5}>
-            {wallets.map((wallet, i) => (
-              <>
-                {listItemHover[i] && (
-                  <Alert variant="outlined" severity="info">
-                    <Typography variant="body2">
-                      {wallet.description}
-                    </Typography>
-                  </Alert>
-                )}
-              </>
-            ))}
           </Grid>
         </Grid>
       </Stack>
