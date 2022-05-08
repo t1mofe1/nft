@@ -6,6 +6,7 @@ import { IGraphqlMutationProps, useGraphqlMutation } from './gql/mutation';
 
 export const useSignedGraphqlMutation = (props: IGraphqlMutationProps) => {
     const { wallet, isLogged, address } = useAuth();
+
     const { isLoading, invoke } = useGraphqlQuery({
         query: [
             new GetNonce()
@@ -28,8 +29,14 @@ export const useSignedGraphqlMutation = (props: IGraphqlMutationProps) => {
             ...props.headers,
             Authorization: `Bearer ${window.btoa(String(signature))}`
         },
-        onSuccess: () => setSignature(null),
-        onError: () => setSignature(null)
+        onSuccess: () => {
+            setSignature(null);
+            props.onSuccess.call(null);
+        },
+        onError: (error) => {
+            setSignature(null);
+            props.onError.call(null, error);
+        }
     });
 
     React.useEffect(() => {

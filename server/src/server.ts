@@ -4,7 +4,6 @@ import http from "http";
 import dotenv from "dotenv";
 import morgan from "morgan";
 import express from "express";
-import bodyParser from "body-parser";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 
@@ -44,7 +43,7 @@ instance.use(cookieParser());
 
 instance.use("/", indexRouter);
 instance.use("/api", apiRouter);
-instance.use("/grapqhl", graphqlRouter);
+instance.use("/graphql", graphqlRouter);
 instance.use(express.static(path.join(__dirname, "public")));
 
 export default http.createServer(instance);

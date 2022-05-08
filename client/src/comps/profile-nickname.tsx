@@ -31,7 +31,10 @@ export const ProfileNickname = ({
     mutation: new UpdateAccount(String(accountId), {
       nickname: value,
     }),
-    onSuccess: () => refresh(),
+    onSuccess: () => {
+      console.log("success");
+      refresh();
+    },
     onError: () => {},
   });
 

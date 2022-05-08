@@ -5,9 +5,19 @@ export interface IAccount extends IObjectBase {
   cover: string;
   avatar: string;
   nickname: string;
-  addresses: string[];
+  addresses: Array<{
+    chain: string;
+    address: string;
+  }>;
   description: string;
 }
+
+const AddressSchema = new Schema({
+  chain: String,
+  address: String
+}, { 
+  _id: false 
+})
 
 const AccountSchema = new Schema(
   {
@@ -27,7 +37,7 @@ const AccountSchema = new Schema(
       type: String,
       default: "",
     },
-    addresses: [String],
+    addresses: [AddressSchema],
   },
   {
     timestamps: {

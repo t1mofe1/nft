@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import { authChecker } from "../auth-checker";
 import { buildSchemaSync } from "type-graphql";
 
 const pathBase = "../../api";
@@ -8,5 +9,6 @@ if (!fs.existsSync(path.join(__dirname, pathBase))) {
 }
 
 export const gqlSchema = buildSchemaSync({
-  resolvers: [path.join(__dirname, pathBase, "**", "*.ts")],
+  authChecker,
+  resolvers: [path.join(__dirname, pathBase, "**", "*.ts")]
 });

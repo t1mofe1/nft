@@ -1,9 +1,6 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { useTheme } from "@mui/material/styles";
+import React from "react";
 
 import {
-  IconButton,
   Drawer,
   Box,
   Grid,
@@ -11,24 +8,27 @@ import {
   Avatar,
   Button,
   Stack,
+  IconButton,
 } from "@mui/material";
-// import { useAuth } from "./auth-context";
+import { Link } from "react-router-dom";
 import { useAuth } from "./auth-context";
+import { useTheme } from "@mui/material/styles";
 
 export const AvatarNavigation = () => {
   const theme = useTheme();
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const { account, address, isLogged, inProgress, signOut } = useAuth();
+  const { account, signOut } = useAuth();
+  
+  const [drawerOpen, setDrawerOpen] = React.useState(false);
+
   return (
     <>
       <IconButton
-        size="large"
         edge="end"
+        size="large"
+        title={account?.nickname}
         aria-label="account of current user"
-        // aria-controls={1}
         aria-haspopup="true"
         onClick={(event: React.MouseEvent) => setDrawerOpen(!drawerOpen)}
-        color="inherit"
       >
         <Avatar
           src={account?.avatar}
