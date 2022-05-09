@@ -32,31 +32,29 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }: React.PropsWithChildren<{}>) => {
-  const { state: { address, wallet }, updateState } = useState<{address: string | null, wallet?: IWallet}>({
-    address: null
-  })
+  const {
+    state: { address, wallet },
+    updateState,
+  } = useState<{ address: string | null; wallet?: IWallet }>({
+    address: null,
+  });
 
   const { data, isLoading, invoke, reset } = useGraphqlQuery({
-    query: [
-      new GetAccountByAddress(String(address))
-    ],
+    query: [new GetAccountByAddress(String(address))],
     defaultData: null,
     invokeAtInit: false,
     cb: (data, error) => {
       if (error === "ACCOUNT_NOT_FOUND") {
         createAccount.invoke();
       }
-    }
+    },
   });
 
   const createAccount = useGraphqlMutation({
-    mutation: new  CreateAccount(
-      String(address), 
-      String(wallet?.chain.name)
-    ),
+    mutation: new CreateAccount(String(address), String(wallet?.chain.name)),
     onSuccess: () => invoke(),
-    onError: () => {}
-  })
+    onError: () => {},
+  });
 
   React.useEffect(() => {
     if (address !== null) {
@@ -80,7 +78,7 @@ export const AuthProvider = ({ children }: React.PropsWithChildren<{}>) => {
           reset();
           updateState({
             address: null,
-            wallet: undefined
+            wallet: undefined,
           });
         },
       }}

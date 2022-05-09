@@ -39,7 +39,7 @@ export const ProfileNickname = ({
   });
 
   React.useEffect(() => {
-    if (isEdit == false) {
+    if (isEdit === false) {
       if (value !== defaultValue) {
         if (isLogged === true) {
           invoke();
