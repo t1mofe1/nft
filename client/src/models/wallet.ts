@@ -4,8 +4,9 @@ export interface IWallet {
   name: string;
   logo: string;
   label: string;
+  description: string;
   chain: IBlockChain;
   sign: (nonce: string, address: string) => Promise<any>;
   isAvailable: () => boolean;
-  getAccounts: () => Promise<Array<any>>;
+  getAccounts: () => Promise<Array<any>> | Promise<any>;
 }

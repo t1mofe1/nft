@@ -5,9 +5,9 @@ import { IAccount } from "../models/account";
 const defaultFields = [
   "id",
   "cover",
-  "avatar", 
+  "avatar",
   "nickname",
-  "addresses { chain, address }"
+  "addresses { chain, address }",
 ];
 
 export class GetNonce extends GraphqlQuery {

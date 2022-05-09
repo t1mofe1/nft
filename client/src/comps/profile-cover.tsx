@@ -68,7 +68,11 @@ export const ProfileCover = ({ src, alt, accountId }: IProfileCoverProps) => {
           {isLoading ? (
             <CircularProgress />
           ) : (
-            <ImageSelector onChange={(file) => setValue(file.data)} />
+            <ImageSelector
+              onChange={(file) => {
+                setValue(file.data);
+              }}
+            />
           )}
         </Backdrop>
       )}
