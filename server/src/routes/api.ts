@@ -30,7 +30,7 @@ router.use("/", async (req, res) => {
       schema: gqlSchema,
       contextFactory: (ctx: any) => {
         return {
-          //TODO put here smth that you want to share
+            session: req.session
         };
       },
     });

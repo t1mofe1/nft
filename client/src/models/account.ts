@@ -3,5 +3,8 @@ export interface IAccount {
   cover: string;
   avatar: string;
   nickname: string;
-  addresses: string[];
+  addresses: Array<{
+    chain: string;
+    address: string;
+  }>;
 }

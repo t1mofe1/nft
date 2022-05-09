@@ -1,9 +1,10 @@
 import React from "react";
-import { IAccount } from "../models/account";
-import { GetAccountByAddress } from "../api/account";
-import { useGraphqlQuery } from "../services/gql/query";
 import { IWallet } from "../models/wallet";
 import { useState } from "../helpers/state";
+import { IAccount } from "../models/account";
+import { useGraphqlQuery } from "../services/gql/query";
+import { useGraphqlMutation } from "../services/gql/mutation";
+import { CreateAccount, GetAccountByAddress } from "../api/account";
 
 interface IAuthContext {
   address: string;
@@ -36,13 +37,31 @@ export const AuthProvider = ({ children }: React.PropsWithChildren<{}>) => {
   })
 
   const { data, isLoading, invoke, reset } = useGraphqlQuery({
-    query: [new GetAccountByAddress(address || "")],
+    query: [
+      new GetAccountByAddress(String(address))
+    ],
     defaultData: null,
     invokeAtInit: false,
+    cb: (data, error) => {
+      if (error === "ACCOUNT_NOT_FOUND") {
+        createAccount.invoke();
+      }
+    }
   });
 
+  const createAccount = useGraphqlMutation({
+    mutation: new  CreateAccount(
+      String(address), 
+      String(wallet?.chain.name)
+    ),
+    onSuccess: () => invoke(),
+    onError: () => {}
+  })
+
   React.useEffect(() => {
-    if (address !== null) invoke();
+    if (address !== null) {
+      invoke();
+    }
   }, [address]);
 
   return (
@@ -53,7 +72,9 @@ export const AuthProvider = ({ children }: React.PropsWithChildren<{}>) => {
         inProgress: isLoading,
         isLogged: Boolean(data),
         address: String(address),
-        refresh: () => invoke(),
+        refresh: () => {
+          invoke();
+        },
         signIn: (address, wallet) => updateState({ address, wallet }),
         signOut: () => {
           reset();

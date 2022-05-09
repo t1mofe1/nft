@@ -6,10 +6,9 @@ import {
   Query,
   Mutation,
   Resolver,
-  InputType,
   Field,
-  ArgsType,
   ObjectType,
+  Authorized,
 } from "type-graphql";
 import { AccountModel } from "../models/account";
 import { ObjectBase } from "../models/object-base";
@@ -17,6 +16,15 @@ import { InvokeMutation } from "../utils/graphql/mutation";
 import { AccountArgs, CreateAccountArgs } from "./args/account";
 
 import Response from "../utils/graphql/response";
+import { ErrorCode } from "../models/error-code";
+@ObjectType()
+class Address {
+  @Field()
+  chain: string;
+
+  @Field()
+  address: string;
+}
 
 @ObjectType()
 export class Account extends ObjectBase {
@@ -29,8 +37,8 @@ export class Account extends ObjectBase {
   @Field()
   nickname: string;
 
-  @Field((t) => [String])
-  addresses: string[];
+  @Field((t) => [Address])
+  addresses: Address[];
 }
 
 @Resolver(Account)
@@ -45,9 +53,7 @@ export default class AccountResolver {
     const account = await AccountModel.findById(id);
 
     if (!account) {
-      throw new Error(
-        `There is no account associated with provided id "${id}"`
-      );
+      throw new Error(ErrorCode.AccountNotFound);
     }
 
     return account;
@@ -60,9 +66,7 @@ export default class AccountResolver {
     });
 
     if (!account) {
-      throw new Error(
-        `There is no account associated with provided key "${key}"`
-      );
+      throw new Error(ErrorCode.AccountNotFound);
     }
 
     return account;
@@ -70,24 +74,32 @@ export default class AccountResolver {
 
   @Query((r) => Account)
   async getAccountByAddress(@Arg("address") address: String): Promise<Account> {
-    const account = await AccountModel.findOne({ addresses: { $in: address } });
-
-    if (account) {
-      return account;
-    }
-
-    const newAccount = await AccountModel.create({
-      addresses: [address],
+    const account = await AccountModel.findOne({ 
+      "addresses.address": { 
+        $in: address
+      } 
     });
 
-    return newAccount;
+    if (!account) {
+      throw new Error(ErrorCode.AccountNotFound);
+    }
+
+    return account;
   }
 
   @Mutation((r) => Response)
-  async createAccount(@Args() args: CreateAccountArgs): Promise<Response> {
-    return InvokeMutation(async () => {});
+  async createAccount(@Args() { address, chain }: CreateAccountArgs): Promise<Response> {
+    return InvokeMutation(async () => {
+      await AccountModel.create({
+        addresses: [{
+          chain,
+          address
+        }]
+      })
+    });
   }
 
+  @Authorized()
   @Mutation((r) => Response)
   async updateAccount(
     @Arg("id") id: string,

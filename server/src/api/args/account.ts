@@ -14,6 +14,10 @@ export class AccountArgs {
 
 @ArgsType()
 export class CreateAccountArgs {
+  
+  @Field()
+  chain: string;
+
   @Field()
   address: string;
 }

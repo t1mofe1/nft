@@ -20,12 +20,12 @@ import {
 } from "@mui/material";
 import { useAuth } from "./auth-context";
 import { styled, alpha } from "@mui/material/styles";
+import { AvatarNavigation } from "./avatar-navigation";
 
 import MoreIcon from "@mui/icons-material/MoreVert";
 import SearchIcon from "@mui/icons-material/Search";
-import AccountCircle from "@mui/icons-material/AccountCircle";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import { AvatarNavigation } from "./avatar-navigation";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -161,7 +161,7 @@ export const MainNavigation = () => {
           aria-haspopup="true"
           color="inherit"
         >
-          <AccountCircle />
+          <AccountCircleIcon />
         </IconButton>
         <p>Profile</p>
       </MenuItem>

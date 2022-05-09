@@ -14,11 +14,10 @@ import {
   IconButton,
   Icon,
 } from "@mui/material";
-import { ProfileAddress } from "./profile-address";
 import { IAccount } from "../../models/account";
-
 import { ProfileCover } from "../profile-cover";
 import { ProfileAvatar } from "../profile-avatar";
+import { ProfileAddress } from "./profile-address";
 import { ProfileNickname } from "../profile-nickname";
 
 interface IProfileHeaderProps {
@@ -81,7 +80,7 @@ export const ProfileHeader = ({ account }: IProfileHeaderProps) => {
           </Box>
         </Toolbar>
         <Grid container spacing={1} sx={{ justifyContent: "center" }}>
-          {account?.addresses?.map((address) => (
+          {account?.addresses?.map(({ chain, address }) => (
             <Grid
               key={"address-wrapper" + address}
               item
