@@ -13,7 +13,6 @@ import {
   INft,
   IRenderer,
   INftFilter,
-  IBlockChain,
   INftCategory,
   IRenderLibrary,
   INftCollection,
@@ -26,17 +25,21 @@ import { IProfile, IProfileAddress, IProfileStats } from "./models/profile";
 import { NftCollectionScreen } from "./screens/nft-collection";
 import { CreateAssetScreen } from "./screens/assets/create";
 import { SignInScreen } from "./screens/sign-in";
+import { IBlockChain } from "./models/blockchain";
+import { Footer } from "./comps/footer";
 
 const ethereum: IBlockChain = {
-  key: 1,
-  name: "Ethereum",
+  name: "ethereum",
+  label: "Ethereum",
   logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Ethereum-icon-purple.svg/480px-Ethereum-icon-purple.svg.png",
+  symbol: "eth",
 };
 
 const tron: IBlockChain = {
-  key: 2,
-  name: "Tron",
+  name: "tron",
+  label: "Tron",
   logo: "/images/tron-logo.png",
+  symbol: "trx",
 };
 
 const jsP5: IRenderLibrary = {
@@ -928,6 +931,7 @@ const AppInner = () => {
               element={<NftCollectionScreen />}
             />
           </Routes>
+          <Footer />
         </BrowserRouter>
       </SnackbarProvider>
     </AppCtx.Provider>

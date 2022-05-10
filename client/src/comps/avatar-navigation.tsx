@@ -1,7 +1,6 @@
 import React from "react";
 
 import {
-  Drawer,
   Box,
   Grid,
   Divider,
@@ -9,6 +8,7 @@ import {
   Button,
   Stack,
   IconButton,
+  SwipeableDrawer,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useAuth } from "./auth-context";
@@ -17,7 +17,7 @@ import { useTheme } from "@mui/material/styles";
 export const AvatarNavigation = () => {
   const theme = useTheme();
   const { account, signOut } = useAuth();
-  
+
   const [drawerOpen, setDrawerOpen] = React.useState(false);
 
   return (
@@ -36,12 +36,14 @@ export const AvatarNavigation = () => {
           sx={{ width: 32, height: 32 }}
         />
       </IconButton>
-      <Drawer
+      <SwipeableDrawer
         anchor={"right"}
         open={drawerOpen}
         onClose={() => setDrawerOpen(!drawerOpen)}
+        onOpen={() => setDrawerOpen(!drawerOpen)}
+        sx={{ width: { xs: "100%", md: 320 } }}
       >
-        <Box sx={{ width: 350 }} role="presentation">
+        <Box sx={{ width: { xs: 300, md: 320 } }} role="presentation">
           <Grid container spacing={0} sx={{ justifyContent: "center" }}>
             <Grid item xs={12} alignItems="center">
               <Stack
@@ -85,7 +87,7 @@ export const AvatarNavigation = () => {
             </Grid>
           </Grid>
         </Box>
-      </Drawer>
+      </SwipeableDrawer>
     </>
   );
 };

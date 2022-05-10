@@ -1,4 +1,4 @@
-import { IBlockChain } from "./nft";
+import { IBlockChain } from "./blockchain";
 
 export interface IProfileStats {
   key: number;

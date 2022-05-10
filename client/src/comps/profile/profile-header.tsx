@@ -19,12 +19,16 @@ import { ProfileCover } from "../profile-cover";
 import { ProfileAvatar } from "../profile-avatar";
 import { ProfileAddress } from "./profile-address";
 import { ProfileNickname } from "../profile-nickname";
+import { AppCtx } from "../../app";
+import { IBlockChain } from "../../models/blockchain";
 
 interface IProfileHeaderProps {
   account: IAccount;
 }
 
 export const ProfileHeader = ({ account }: IProfileHeaderProps) => {
+  const dataContext = React.useContext(AppCtx);
+
   return (
     <Box key={`nft-user-profile-${account?.id}`}>
       <ProfileCover src={account.cover} accountId={account.id} />
@@ -94,9 +98,17 @@ export const ProfileHeader = ({ account }: IProfileHeaderProps) => {
                   key: 0,
                   address,
                   blockchain: {
-                    key: 1,
-                    name: "Ethereum",
-                    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Ethereum-icon-purple.svg/480px-Ethereum-icon-purple.svg.png",
+                    name: chain,
+                    logo: dataContext?.nftFilterProps.blockchains
+                      .filter((blockchain) => {
+                        return blockchain.name === chain;
+                      })
+                      .pop()?.logo,
+                    symbol: dataContext?.nftFilterProps.blockchains
+                      .filter((blockchain) => {
+                        return blockchain.name === chain;
+                      })
+                      .pop()?.symbol,
                   },
                 }}
               />

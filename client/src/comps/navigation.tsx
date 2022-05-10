@@ -14,7 +14,6 @@ import {
   ListItemText,
   Menu,
   Stack,
-  Avatar,
   Button,
   CircularProgress,
 } from "@mui/material";
@@ -26,6 +25,7 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import { LinkLogo } from "./link-logo";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -131,39 +131,16 @@ export const MainNavigation = () => {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <Link to={`/browse`} style={RightLinkMobileStyle}>
-          Browse
-        </Link>
-      </MenuItem>
-      <MenuItem>
-        <Link to={`/about`} style={RightLinkMobileStyle}>
-          About
-        </Link>
-      </MenuItem>
-      <Divider />
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircleIcon />
-        </IconButton>
-        <p>Profile</p>
+        {isLogged && (
+          <Link to={`/assets/create`} style={RightLinkMobileStyle}>
+            Create
+          </Link>
+        )}
+        {!isLogged && (
+          <Link to={`/sign-in`} style={RightLinkMobileStyle}>
+            Sign in
+          </Link>
+        )}
       </MenuItem>
     </Menu>
   );
@@ -218,9 +195,7 @@ export const MainNavigation = () => {
                 color: "common.white",
               }}
             >
-              <Link to={`/`} style={LogoLinkStyle}>
-                ALGOMART
-              </Link>
+              <LinkLogo to="/">ALGOMART</LinkLogo>
             </Typography>
           </Box>
           <Box sx={{ flexGrow: 1, maxWidth: 850 }}>
@@ -281,11 +256,11 @@ export const MainNavigation = () => {
             >
               <MoreIcon />
             </IconButton>
+            {isLogged && !inProgress && <AvatarNavigation />}
           </Box>
         </Toolbar>
       </AppBar>
       <MobileMenu />
-      <WideScreenMenu />
     </Box>
   );
 };

@@ -5,7 +5,7 @@ import Tooltip from "@mui/material/Tooltip";
 import Fade from "@mui/material/Fade";
 import Typography from "@mui/material/Typography";
 
-import { IBlockChain } from "../../models/nft";
+import { IBlockChain } from "../../models/blockchain";
 import { Stack } from "@mui/material";
 
 interface IAddressProps {

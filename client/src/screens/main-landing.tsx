@@ -1,28 +1,24 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
-import Carousel from "react-material-ui-carousel";
 import { Script } from "../helpers/script";
-import {
-  Grid,
-  Typography,
-  Stack,
-  Container,
-  FormControl,
-  MenuItem,
-  Box,
-} from "@mui/material";
+import { Grid, Typography, Stack, Container, Box } from "@mui/material";
 
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import NftCarouselItem from "../comps/nft-carousel-item";
+import { styled, alpha } from "@mui/material/styles";
 
 import { AppCtx } from "../app";
 //import LoginForm from "../comps/login-form";
-import NFTCardItem from "../comps/nft-card-item";
 import { IInfoTab } from "../models/home";
 import Infotab from "../comps/main/info-tab";
 import AboutSection from "../comps/main/about-section";
-import { BigmintCountdown } from "../comps/main/bigmint-count-down";
+import { Footer } from "../comps/footer";
+
+const LogoLinkStyle = {
+  fontSize: 16,
+  color: "#d1d1d1",
+  textDecoration: "none",
+  marginLeft: 3,
+  marginRight: 3,
+};
 
 const InfoTabsData: Array<IInfoTab> = [
   {
@@ -38,17 +34,6 @@ const InfoTabsData: Array<IInfoTab> = [
   },
   {
     key: 2,
-    title: "Create collections",
-    description:
-      "Create your own collections. Add social links, a description, profile & cover images, and set a secondary sales fee. Find out more",
-    icon: "collections",
-    link: {
-      url: "/",
-      text: "how to create collection.",
-    },
-  },
-  {
-    key: 3,
     title: "Create programmable NFT",
     description:
       "Develop your very own NFTs (image, animation, sound, interactive) in the programming language you preffer. Find out more about",
@@ -58,6 +43,18 @@ const InfoTabsData: Array<IInfoTab> = [
       text: "supported programing languages.",
     },
   },
+  {
+    key: 3,
+    title: "Swap with others",
+    description:
+      "Before the asset gets minted or in case assets reside on the same blockchain, you have option to swap your assets. Find out more on ",
+    icon: "swap_horizontal_circle",
+    link: {
+      url: "/",
+      text: "on how to swap assets.",
+    },
+  },
+
   {
     key: 4,
     title: "List it and sell it!",
@@ -71,22 +68,6 @@ const InfoTabsData: Array<IInfoTab> = [
   },
 ];
 export const MainScreen = () => {
-  const nftStatuses = ["trending", "new", "sale"];
-  const dataContext = React.useContext(AppCtx);
-
-  const handleChange = (event: SelectChangeEvent) => {
-    setCategory(event.target.value as string);
-  };
-
-  const handleStatusChange = (event: SelectChangeEvent) => {
-    setStatus(event.target.value as string);
-  };
-
-  const [category, setCategory] = React.useState(
-    dataContext?.categories[0].name
-  );
-  const [status, setStatus] = React.useState(nftStatuses[0]);
-
   return (
     <>
       <Box>

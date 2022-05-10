@@ -13,7 +13,7 @@ const HomeInfotab = ({ tab }: IHomeInfoTab) => {
       <Icon color="secondary" sx={{ fontSize: "40px" }}>
         {tab.icon}
       </Icon>
-      <Typography variant="h5" sx={{ mr: 2, marginTop: "5px" }}>
+      <Typography variant="h6" sx={{ mr: 2, marginTop: "5px" }}>
         {tab.title}
       </Typography>
       <Typography variant="body2" sx={{ mr: 2, marginTop: "5px" }}>
