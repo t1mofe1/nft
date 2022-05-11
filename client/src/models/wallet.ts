@@ -6,7 +6,11 @@ export interface IWallet {
   label: string;
   description: string;
   chain: IBlockChain;
+  url: string;
+  androidAppUrl?: string;
+  iosAppUr?: string;
   sign: (nonce: string, address: string) => Promise<any>;
   isAvailable: () => boolean;
-  getAccounts: () => Promise<Array<any>> | Promise<any>;
+  connect: () => Promise<any>;
+  getAccount: (resp: any) => string;
 }

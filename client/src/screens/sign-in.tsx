@@ -20,6 +20,8 @@ import { IWallet } from "../models/wallet";
 import { IEtherum } from "../models/etherum";
 import { ITronlink } from "../models/tronlink";
 import { AppCtx } from "../app";
+import { IPhantom } from "../models/phantom";
+import { responsiveProperty } from "@mui/material/styles/cssUtils";
 
 const wallets: IWallet[] = [
   {
@@ -28,6 +30,8 @@ const wallets: IWallet[] = [
     description:
       "MetaMask is a software cryptocurrency wallet used to interact with the Ethereum blockchain.",
     logo: "/images/metamask-icon.png",
+    url: "https://metamask.io/",
+    androidAppUrl: "https://play.google.com/store/apps/details?id=io.metamask",
     chain: {
       symbol: "ETH",
       name: "ethereum",
@@ -41,12 +45,17 @@ const wallets: IWallet[] = [
         params: [nonce, address],
       });
     },
-    getAccounts: async () => {
+    getAccount: (resp) => {
+      console.log(resp);
+      if (Array.isArray(resp)) return resp[0];
+      return "";
+    },
+    connect: async () => {
       //@ts-ignore
       const instance = window.ethereum as IEtherum;
-      return instance.request({ method: "eth_requestAccounts" }) as Promise<
-        Array<any>
-      >;
+      return instance.request({
+        method: "eth_requestAccounts",
+      }) as Promise<any>;
     },
     //@ts-ignore
     isAvailable: () => window.ethereum && window.ethereum.isMetaMask === true,
@@ -57,6 +66,9 @@ const wallets: IWallet[] = [
     description:
       "TronLink is a software cryptocurrency wallet used to interact with the Tron blockchain.",
     logo: "/images/tronlink-icon.jpg",
+    url: "https://www.tronlink.org/",
+    androidAppUrl:
+      "https://play.google.com/store/apps/details?id=com.tronlinkpro.wallet",
     chain: {
       symbol: "TRX",
       name: "tron",
@@ -65,25 +77,59 @@ const wallets: IWallet[] = [
     sign: async (nonce: string, address: string) => {
       //@ts-ignore
       const instance = window.tronWeb as ITronlink;
-      // const signedMessage = await instance.trx.sign(
-      //   instance.address.toHex(address)
-      // );
-      // return instance.trx.verifyMessage(
-      //   instance.address.toHex(address),
-      //   signedMessage,
-      //   address
-      // );
+
       return instance.trx.sign(instance.toHex(nonce));
     },
-    getAccounts: async () => {
+    connect: async () => {
       //@ts-ignore
       const instance = window.tronWeb as ITronlink;
+      //@ts-ignore
       return instance.request({
         method: "tron_requestAccounts",
-      }) as Promise<Array<any>>;
+      }) as Promise<any>;
+    },
+    getAccount: (resp) => {
+      console.log(resp);
+      //@ts-ignore
+      if (window.tronWeb.defaultAddress.base58 && resp.code === 200) {
+        //@ts-ignore
+        return window.tronWeb.defaultAddress.base58;
+      }
+      return "";
     },
     //@ts-ignore
-    isAvailable: () => !!window.tronWeb,
+    isAvailable: () => !!window.tronWeb && window.tronWeb.isTronLink,
+  },
+  {
+    name: "phantom",
+    label: "Phantom",
+    description:
+      "Phantom is a software cryptocurrency wallet used to interact with the Solana blockchain.",
+    logo: "/images/phantom-icon.png",
+    url: "https://phantom.app/",
+
+    chain: {
+      symbol: "SOL",
+      name: "solana",
+      label: "Solana",
+    },
+    sign: async (nonce: string, address: string) => {
+      //@ts-ignore
+      const instance = window.tronWeb as ITronlink;
+
+      return instance.trx.sign(instance.toHex(nonce));
+    },
+    getAccount: (resp: { publicKey: any }) => {
+      return resp.publicKey.toString();
+    },
+    connect: async () => {
+      //@ts-ignore
+      const instance = window.solana as IPhantom;
+      //@ts-ignore
+      return instance.connect() as Promise<any>;
+    },
+    //@ts-ignore
+    isAvailable: () => !!window.solana && window.solana.isPhantom,
   },
 ];
 
@@ -93,30 +139,11 @@ interface ISignInScreen {
 
 export const SignInScreen = ({ referer = "/" }: ISignInScreen) => {
   const { signIn } = useAuth();
-  const [availableWallets, setAvailableWallets] = useState<Array<boolean>>(
-    Array(wallets.length).fill(false)
-  );
-  const [listItemHover, setListItemHover] = useState<Array<boolean>>(
-    Array(wallets.length).fill(false)
-  );
-  const handleListHover = (i: number, hover: boolean) => {
-    listItemHover[i] = hover;
-    setListItemHover(listItemHover);
-  };
 
   const dataContext = React.useContext(AppCtx);
 
   const navigate = useNavigate();
-  useEffect(() => {
-    const interval = setInterval(() => {
-      let available: Array<boolean> = [];
-      wallets.forEach((wallet: IWallet) => {
-        available.push(wallet.isAvailable());
-      });
-      setAvailableWallets(available);
-    }, 100);
-    return () => clearInterval(interval);
-  }, []);
+
   return (
     <Container maxWidth="md">
       <Stack
@@ -141,40 +168,17 @@ export const SignInScreen = ({ referer = "/" }: ISignInScreen) => {
                   key={wallet.name}
                   button
                   component="li"
-                  disabled={!availableWallets[i]}
-                  onMouseEnter={() => handleListHover(i, true)}
-                  onMouseLeave={() => handleListHover(i, false)}
                   onClick={() => {
-                    wallet.getAccounts().then((accounts) => {
-                      if (wallet.chain.name === "tron") {
-                        if (
-                          //@ts-ignore
-                          window.tronWeb.defaultAddress.base58 &&
-                          accounts.code === 200
-                        )
-                          //@ts-ignore
-                          signIn(window.tronWeb.defaultAddress.base58, wallet);
-                        else {
-                          dataContext?.enqueueSnackbar(
-                            "Please log in to TronLink wallet extension.",
-                            {
-                              variant: "warning",
-                            }
-                          );
-                          return false;
-                        }
-                      } else {
-                        if (!Array.isArray(accounts)) {
-                          // TODO hanle it in better way
-                          throw new Error("There is no account");
-                        }
-
-                        if (accounts.length === 0) {
-                          // TODO hanle it in better way
-                          throw new Error("There is no account");
-                        }
-                        signIn(accounts[0], wallet);
-                      }
+                    if (!wallet.isAvailable()) {
+                      //@todo: if user agent is mobile get them to app store link
+                      //@ts-ignore
+                      return window.open(wallet.url, "_blank").focus();
+                    }
+                    wallet.connect().then((resp) => {
+                      const account = wallet.getAccount(resp);
+                      console.log(account);
+                      if (!account) console.log("bad boy");
+                      signIn(account, wallet);
                       navigate(referer, { replace: true });
                     });
                   }}
