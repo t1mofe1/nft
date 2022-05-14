@@ -34,7 +34,12 @@ const ethereum: IBlockChain = {
   logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Ethereum-icon-purple.svg/480px-Ethereum-icon-purple.svg.png",
   symbol: "eth",
 };
-
+const solana: IBlockChain = {
+  name: "solana",
+  label: "Solana",
+  logo: "/images/solana-logo.png",
+  symbol: "sol",
+};
 const tron: IBlockChain = {
   name: "tron",
   label: "Tron",
@@ -851,7 +856,7 @@ let nftItemsSource: Array<INft> = [
   },
 ];
 const filterProps: INftFilterProps = {
-  blockchains: [ethereum, tron],
+  blockchains: [ethereum, tron, solana],
   languages: [js, ts, py],
   libraries: [jsP5],
   categories: categories,

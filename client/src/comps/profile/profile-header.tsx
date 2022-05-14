@@ -1,16 +1,12 @@
 import React from "react";
 
 import {
-  Stack,
   Grid,
   Box,
   Container,
   Toolbar,
   Tooltip,
   Fade,
-  Button,
-  Typography,
-  Avatar,
   IconButton,
   Icon,
 } from "@mui/material";
@@ -20,7 +16,6 @@ import { ProfileAvatar } from "../profile-avatar";
 import { ProfileAddress } from "./profile-address";
 import { ProfileNickname } from "../profile-nickname";
 import { AppCtx } from "../../app";
-import { IBlockChain } from "../../models/blockchain";
 
 interface IProfileHeaderProps {
   account: IAccount;

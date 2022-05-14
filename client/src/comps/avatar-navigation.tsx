@@ -9,17 +9,22 @@ import {
   Stack,
   IconButton,
   SwipeableDrawer,
+  Typography,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useAuth } from "./auth-context";
 import { useTheme } from "@mui/material/styles";
+import { useBalance } from "../rpc/solana/balance-context";
 
 export const AvatarNavigation = () => {
   const theme = useTheme();
   const { account, signOut } = useAuth();
-
+  const { balance, refreshBalance } = useBalance();
   const [drawerOpen, setDrawerOpen] = React.useState(false);
-
+  const handleDrawerOpen = () => {
+    refreshBalance();
+    setDrawerOpen(!drawerOpen);
+  };
   return (
     <>
       <IconButton
@@ -40,7 +45,7 @@ export const AvatarNavigation = () => {
         anchor={"right"}
         open={drawerOpen}
         onClose={() => setDrawerOpen(!drawerOpen)}
-        onOpen={() => setDrawerOpen(!drawerOpen)}
+        onOpen={() => handleDrawerOpen()}
         sx={{ width: { xs: "100%", md: 320 } }}
       >
         <Box sx={{ width: { xs: 300, md: 320 } }} role="presentation">
@@ -68,6 +73,7 @@ export const AvatarNavigation = () => {
               </Stack>
               <Divider />
               <Grid item xs={12} alignItems="center">
+                <Typography variant="h4">{balance}</Typography>
                 <Button
                   color="primary"
                   variant="outlined"

@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  Alert,
   Container,
   List,
   ListItem,
@@ -9,19 +8,14 @@ import {
   ListItemText,
   Stack,
   Grid,
-  Box,
-  Fade,
   Typography,
   Chip,
-  Tooltip,
 } from "@mui/material";
 import { useAuth } from "../comps/auth-context";
 import { IWallet } from "../models/wallet";
 import { IEtherum } from "../models/etherum";
 import { ITronlink } from "../models/tronlink";
-import { AppCtx } from "../app";
 import { IPhantom } from "../models/phantom";
-import { responsiveProperty } from "@mui/material/styles/cssUtils";
 
 const wallets: IWallet[] = [
   {
@@ -57,6 +51,7 @@ const wallets: IWallet[] = [
         method: "eth_requestAccounts",
       }) as Promise<any>;
     },
+
     //@ts-ignore
     isAvailable: () => window.ethereum && window.ethereum.isMetaMask === true,
   },
@@ -89,7 +84,6 @@ const wallets: IWallet[] = [
       }) as Promise<any>;
     },
     getAccount: (resp) => {
-      console.log(resp);
       //@ts-ignore
       if (window.tronWeb.defaultAddress.base58 && resp.code === 200) {
         //@ts-ignore
@@ -115,9 +109,11 @@ const wallets: IWallet[] = [
     },
     sign: async (nonce: string, address: string) => {
       //@ts-ignore
-      const instance = window.tronWeb as ITronlink;
-
-      return instance.trx.sign(instance.toHex(nonce));
+      const instance = window.solana as IPhantom;
+      return await instance.signMessage(
+        new TextEncoder().encode(address),
+        "utf8"
+      );
     },
     getAccount: (resp: { publicKey: any }) => {
       return resp.publicKey.toString();
@@ -139,9 +135,6 @@ interface ISignInScreen {
 
 export const SignInScreen = ({ referer = "/" }: ISignInScreen) => {
   const { signIn } = useAuth();
-
-  const dataContext = React.useContext(AppCtx);
-
   const navigate = useNavigate();
 
   return (
@@ -176,7 +169,6 @@ export const SignInScreen = ({ referer = "/" }: ISignInScreen) => {
                     }
                     wallet.connect().then((resp) => {
                       const account = wallet.getAccount(resp);
-                      console.log(account);
                       if (!account) console.log("bad boy");
                       signIn(account, wallet);
                       navigate(referer, { replace: true });

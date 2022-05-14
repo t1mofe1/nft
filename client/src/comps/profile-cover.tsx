@@ -47,6 +47,7 @@ export const ProfileCover = ({ src, alt, accountId }: IProfileCoverProps) => {
       <Box
         component="img"
         src={value}
+        onError={(e: any) => (e.target.src = "/images/no-cover.jpg")}
         sx={{
           width: "100%",
           height: "100%",
