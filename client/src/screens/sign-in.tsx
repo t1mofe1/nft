@@ -16,6 +16,8 @@ import { IWallet } from "../models/wallet";
 import { IEtherum } from "../models/etherum";
 import { ITronlink } from "../models/tronlink";
 import { IPhantom } from "../models/phantom";
+import { Connection, clusterApiUrl, PublicKey } from "@solana/web3.js";
+import { resolve } from "path";
 
 const wallets: IWallet[] = [
   {
@@ -44,6 +46,10 @@ const wallets: IWallet[] = [
       if (Array.isArray(resp)) return resp[0];
       return "";
     },
+    getBalance: (address: string) =>
+      new Promise(function (resolve, reject) {
+        resolve(0);
+      }),
     connect: async () => {
       //@ts-ignore
       const instance = window.ethereum as IEtherum;
@@ -69,6 +75,10 @@ const wallets: IWallet[] = [
       name: "tron",
       label: "Tron",
     },
+    getBalance: (address: string) =>
+      new Promise(function (resolve, reject) {
+        resolve(0);
+      }),
     sign: async (nonce: string, address: string) => {
       //@ts-ignore
       const instance = window.tronWeb as ITronlink;
@@ -114,6 +124,14 @@ const wallets: IWallet[] = [
         new TextEncoder().encode(address),
         "utf8"
       );
+    },
+    getBalance: async (address: string) => {
+      const configRpcUrl = clusterApiUrl("mainnet-beta");
+      console.log(configRpcUrl);
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+      const publicKey: PublicKey = new PublicKey(address);
+      const connection = new Connection(configRpcUrl, "confirmed");
+      return connection.getBalance(publicKey) as Promise<any>;
     },
     getAccount: (resp: { publicKey: any }) => {
       return resp.publicKey.toString();

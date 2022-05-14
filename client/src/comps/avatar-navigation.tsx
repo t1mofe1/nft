@@ -14,16 +14,15 @@ import {
 import { Link } from "react-router-dom";
 import { useAuth } from "./auth-context";
 import { useTheme } from "@mui/material/styles";
-import { useBalance } from "../rpc/solana/balance-context";
 
 export const AvatarNavigation = () => {
   const theme = useTheme();
-  const { account, signOut } = useAuth();
-  const { balance, refreshBalance } = useBalance();
+  const { account, signOut, wallet, address } = useAuth();
+  const [balance, setBalance] = React.useState(0);
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   const handleDrawerOpen = () => {
-    refreshBalance();
     setDrawerOpen(!drawerOpen);
+    wallet?.getBalance(address).then((balance) => setBalance(balance));
   };
   return (
     <>
@@ -33,7 +32,7 @@ export const AvatarNavigation = () => {
         title={account?.nickname}
         aria-label="account of current user"
         aria-haspopup="true"
-        onClick={(event: React.MouseEvent) => setDrawerOpen(!drawerOpen)}
+        onClick={(event: React.MouseEvent) => handleDrawerOpen()}
       >
         <Avatar
           src={account?.avatar}
@@ -45,7 +44,7 @@ export const AvatarNavigation = () => {
         anchor={"right"}
         open={drawerOpen}
         onClose={() => setDrawerOpen(!drawerOpen)}
-        onOpen={() => handleDrawerOpen()}
+        onOpen={() => setDrawerOpen(!drawerOpen)}
         sx={{ width: { xs: "100%", md: 320 } }}
       >
         <Box sx={{ width: { xs: 300, md: 320 } }} role="presentation">

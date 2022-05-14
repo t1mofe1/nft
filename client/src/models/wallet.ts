@@ -13,4 +13,5 @@ export interface IWallet {
   isAvailable: () => boolean;
   connect: () => Promise<any>;
   getAccount: (resp: any) => string;
+  getBalance: (address: string) => Promise<any>;
 }
