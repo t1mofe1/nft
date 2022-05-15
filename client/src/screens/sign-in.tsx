@@ -17,8 +17,7 @@ import { IEtherum } from "../models/etherum";
 import { ITronlink } from "../models/tronlink";
 import { IPhantom } from "../models/phantom";
 import { Connection, clusterApiUrl, PublicKey } from "@solana/web3.js";
-import { resolve } from "path";
-
+import { AppCtx } from "../app";
 const wallets: IWallet[] = [
   {
     name: "metamask",
@@ -46,10 +45,19 @@ const wallets: IWallet[] = [
       if (Array.isArray(resp)) return resp[0];
       return "";
     },
-    getBalance: (address: string) =>
-      new Promise(function (resolve, reject) {
-        resolve(0);
-      }),
+    convertBalance: (balance: string) => {
+      let eth = parseInt(balance, 16);
+      return eth * Math.pow(10, -18);
+    },
+
+    getBalance: async (address: string) => {
+      //@ts-ignore
+      const instance = window.ethereum as IEtherum;
+      return instance.request({
+        method: "eth_getBalance",
+        params: [address, "latest"],
+      }) as Promise<any>;
+    },
     connect: async () => {
       //@ts-ignore
       const instance = window.ethereum as IEtherum;
@@ -75,9 +83,12 @@ const wallets: IWallet[] = [
       name: "tron",
       label: "Tron",
     },
-    getBalance: (address: string) =>
+    convertBalance: (balance) => parseFloat(balance),
+    getBalance: async (address: string) =>
       new Promise(function (resolve, reject) {
-        resolve(0);
+        //@ts-ignore
+        const instance = window.tronWeb as ITronlink;
+        resolve(instance.trx.getBalance(address));
       }),
     sign: async (nonce: string, address: string) => {
       //@ts-ignore
@@ -117,6 +128,7 @@ const wallets: IWallet[] = [
       name: "solana",
       label: "Solana",
     },
+    convertBalance: (balance) => parseFloat(balance),
     sign: async (nonce: string, address: string) => {
       //@ts-ignore
       const instance = window.solana as IPhantom;
@@ -154,7 +166,7 @@ interface ISignInScreen {
 export const SignInScreen = ({ referer = "/" }: ISignInScreen) => {
   const { signIn } = useAuth();
   const navigate = useNavigate();
-
+  const dataContext = React.useContext(AppCtx);
   return (
     <Container maxWidth="md">
       <Stack
@@ -187,7 +199,15 @@ export const SignInScreen = ({ referer = "/" }: ISignInScreen) => {
                     }
                     wallet.connect().then((resp) => {
                       const account = wallet.getAccount(resp);
-                      if (!account) console.log("bad boy");
+                      if (!account) {
+                        dataContext?.enqueueSnackbar(
+                          `Please log in to ${wallet?.label}  wallet extension.`,
+                          {
+                            variant: "warning",
+                          }
+                        );
+                        return false;
+                      }
                       signIn(account, wallet);
                       navigate(referer, { replace: true });
                     });

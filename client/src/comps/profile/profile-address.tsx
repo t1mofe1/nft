@@ -6,6 +6,7 @@ import Fade from "@mui/material/Fade";
 import Typography from "@mui/material/Typography";
 
 import { IProfileAddress } from "../../models/profile";
+import { Address } from "../address";
 
 interface IAddressProps {
   address: IProfileAddress;
@@ -46,38 +47,11 @@ export const ProfileAddress = ({ address }: IAddressProps) => {
           <Box
             component="img"
             src={address.blockchain.logo}
-            sx={{ width: "16px", height: "16px;" }}
+            sx={{ width: "18px" }}
           />
         </Tooltip>
       }
-      label={
-        <Tooltip
-          title={tooltipCopiedOpen ? "Copied" : "Click to copy"}
-          placement="top"
-          arrow
-          PopperProps={{
-            disablePortal: true,
-          }}
-          open={tooltipCopyOpen || tooltipCopiedOpen}
-          TransitionComponent={Fade}
-          TransitionProps={{ timeout: 200 }}
-          disableFocusListener
-          disableHoverListener
-          disableTouchListener
-        >
-          <Typography
-            variant="body1"
-            style={{ cursor: "pointer" }}
-            onClick={handleTooltipCopiedOpen}
-            onMouseEnter={handleTootltipCopyOpen}
-            onMouseLeave={handleTooltipsClose}
-          >
-            {address.address.substr(0, 6) +
-              " ... " +
-              address.address.substr(-4)}
-          </Typography>
-        </Tooltip>
-      }
+      label={<Address address={address.address} variant="body2" />}
       sx={{ px: 2, py: 2, mr: 2 }}
       size="medium"
     />

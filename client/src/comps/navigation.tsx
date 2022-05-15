@@ -1,15 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 import {
   Box,
   AppBar,
-  Divider,
-  Toolbar,
   IconButton,
   Typography,
   InputBase,
-  Badge,
   MenuItem,
   ListItemText,
   Menu,
@@ -19,13 +15,15 @@ import {
 } from "@mui/material";
 import { useAuth } from "./auth-context";
 import { styled, alpha } from "@mui/material/styles";
-import { AvatarNavigation } from "./avatar-navigation";
+import { WalletDrawer } from "./wallet-drawer";
 
 import MoreIcon from "@mui/icons-material/MoreVert";
 import SearchIcon from "@mui/icons-material/Search";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+
+import { Link } from "react-router-dom";
 import { LinkLogo } from "./link-logo";
+import { LinkNav } from "./link-navigation";
+import Toolbar from "./toolbar";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -42,24 +40,6 @@ const Search = styled("div")(({ theme }) => ({
     width: "auto",
   },
 }));
-
-const LogoLinkStyle = {
-  fontSize: 18,
-  color: "#fff",
-  textDecoration: "none",
-  marginLeft: 3,
-  marginRight: 3,
-};
-
-const LinkStyle = {
-  fontSize: 14,
-  textDecoration: "none",
-  marginRight: 10,
-};
-
-const RightLinkMobileStyle = {
-  display: "block",
-};
 
 const SearchIconWrapper = styled("div")(({ theme }) => ({
   padding: theme.spacing(0, 2),
@@ -131,16 +111,8 @@ export const MainNavigation = () => {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        {isLogged && (
-          <Link to={`/assets/create`} style={RightLinkMobileStyle}>
-            Create
-          </Link>
-        )}
-        {!isLogged && (
-          <Link to={`/sign-in`} style={RightLinkMobileStyle}>
-            Sign in
-          </Link>
-        )}
+        {isLogged && <LinkNav to={`/assets/create`}>Create</LinkNav>}
+        {!isLogged && <LinkNav to={`/sign-in`}>Sign in</LinkNav>}
       </MenuItem>
     </Menu>
   );
@@ -162,13 +134,12 @@ export const MainNavigation = () => {
       onClose={handleMenuClose}
     >
       <MenuItem>
-        <Link
-          style={LinkStyle}
+        <LinkNav
           to={`/account/${account?.id}`}
           onClick={() => handleMenuClose()}
         >
           <ListItemText>Profile</ListItemText>
-        </Link>
+        </LinkNav>
       </MenuItem>
       <MenuItem
         onClick={() => {
@@ -217,17 +188,10 @@ export const MainNavigation = () => {
                 justifyContent: "flex-end",
               }}
             >
-              {isLogged && (
-                <Link
-                  to={`/assets/create`}
-                  style={{ ...LinkStyle, color: "#fff" }}
-                >
-                  Create
-                </Link>
-              )}
+              {isLogged && <LinkNav to={`/assets/create`}>Create</LinkNav>}
             </Box>
             <Box sx={{ display: { xs: "none", md: "flex" } }}>
-              {isLogged && !inProgress && <AvatarNavigation />}
+              {isLogged && !inProgress && <WalletDrawer />}
               {inProgress && (
                 <Box pt={1}>
                   <CircularProgress size="1rem" color="inherit" />
@@ -256,7 +220,7 @@ export const MainNavigation = () => {
             >
               <MoreIcon />
             </IconButton>
-            {isLogged && !inProgress && <AvatarNavigation />}
+            {isLogged && !inProgress && <WalletDrawer />}
           </Box>
         </Toolbar>
       </AppBar>

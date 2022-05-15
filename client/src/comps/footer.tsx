@@ -1,7 +1,7 @@
 import { Typography, Stack, Container, Box } from "@mui/material";
 import { styled, alpha } from "@mui/material/styles";
 import { LinkLogo } from "./link-logo";
-import { LinkMain } from "./link-main";
+import { LinkNav } from "./link-navigation";
 
 const FooterStyled = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.primary.dark,
@@ -38,27 +38,27 @@ export const Footer = () => {
               <Typography variant="body2" sx={{ color: "#fff" }}>
                 Useful links
               </Typography>
-              <LinkMain to="/">How to create asset</LinkMain>
-              <LinkMain to="/">How to swap assets</LinkMain>
-              <LinkMain to="/">How to add wallets</LinkMain>
+              <LinkNav to="/">How to create asset</LinkNav>
+              <LinkNav to="/">How to swap assets</LinkNav>
+              <LinkNav to="/">How to add wallets</LinkNav>
             </Stack>
             <Stack direction="column" spacing={2} sx={{ flexGrow: 1 }}>
               <Typography variant="body2" sx={{ color: "#fff" }}>
                 Information
               </Typography>
-              <LinkMain to="/">huhu</LinkMain>
-              <LinkMain to="/">huhu</LinkMain>
-              <LinkMain to="/">huhu</LinkMain>
-              <LinkMain to="/">huhu</LinkMain>
+              <LinkNav to="/">huhu</LinkNav>
+              <LinkNav to="/">huhu</LinkNav>
+              <LinkNav to="/">huhu</LinkNav>
+              <LinkNav to="/">huhu</LinkNav>
             </Stack>
             <Stack direction="column" spacing={2} sx={{ flexGrow: 1 }}>
               <Typography variant="body2" sx={{ color: "#fff" }}>
                 Support
               </Typography>
-              <LinkMain to="/">huhu</LinkMain>
-              <LinkMain to="/">huhu</LinkMain>
-              <LinkMain to="/">huhu</LinkMain>
-              <LinkMain to="/">huhu</LinkMain>
+              <LinkNav to="/">huhu</LinkNav>
+              <LinkNav to="/">huhu</LinkNav>
+              <LinkNav to="/">huhu</LinkNav>
+              <LinkNav to="/">huhu</LinkNav>
             </Stack>
           </Stack>
         </Stack>

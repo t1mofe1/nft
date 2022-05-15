@@ -31,7 +31,7 @@ import { Footer } from "./comps/footer";
 const ethereum: IBlockChain = {
   name: "ethereum",
   label: "Ethereum",
-  logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Ethereum-icon-purple.svg/480px-Ethereum-icon-purple.svg.png",
+  logo: "/images/ethereum-logo.png",
   symbol: "eth",
 };
 const solana: IBlockChain = {
