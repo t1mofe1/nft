@@ -14,8 +14,20 @@ import { Link } from "react-router-dom";
 import { useAuth } from "./auth-context";
 import { useTheme } from "@mui/material/styles";
 
+<<<<<<< Updated upstream:client/src/comps/avatar-navigation.tsx
 export const AvatarNavigation = () => {
   const theme = useTheme();
+=======
+const LinkProfile = styled(LinkMain)(({ theme }) => ({
+  color: theme.palette.primary.light,
+  fontSize: theme.typography.body2.fontSize,
+  "&:hover": {
+    color: theme.palette.secondary.main,
+  },
+}));
+
+export const WalletDrawer = () => {
+>>>>>>> Stashed changes:client/src/comps/wallet-drawer.tsx
   const { account, signOut } = useAuth();
   
   const [drawerOpen, setDrawerOpen] = React.useState(false);

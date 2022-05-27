@@ -58,6 +58,7 @@ export const SignInScreen = ({ referer = "/" }: ISignInScreen) => {
         spacing={2}
         sx={{ height: "80vh" }}
       >
+<<<<<<< Updated upstream
         <Typography variant="h3">Sign in</Typography>
         <Typography variant="body2">
           Choose one of our available wallets to sign in.
@@ -101,6 +102,70 @@ export const SignInScreen = ({ referer = "/" }: ISignInScreen) => {
             </ListItem>
           ))}
         </List>
+=======
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Typography variant="h3">Sign in</Typography>
+            <Typography variant="body2">
+              Choose one of our available wallets to sign in.
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={7}>
+            <List>
+              {wallets.map((wallet, i) => (
+                <ListItem
+                  sx={{ justifyContent: "left", py: 2 }}
+                  key={wallet.name}
+                  button
+                  component="li"
+                  onClick={() => {
+                    if (!wallet.isAvailable()) {
+                      //@todo: if user agent is mobile get them to app store link
+                      //@ts-ignore
+                      return window.open(wallet.url, "_blank").focus();
+                    }
+
+                    wallet.connect().then((resp) => {
+                      console.log(resp);
+                      const account = wallet.getAccount(resp);
+                      console.log(account);
+                      if (!account) {
+                        dataContext?.enqueueSnackbar(
+                          `Please log in to ${wallet?.label}  wallet extension.`,
+                          {
+                            variant: "warning",
+                          }
+                        );
+                        return false;
+                      }
+
+                      signIn(account, wallet);
+                      navigate(referer, { replace: true });
+                    });
+                  }}
+                >
+                  <ListItemIcon>
+                    <img alt={wallet.label} src={wallet.logo} width={25} />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={
+                      <Stack
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        spacing={4}
+                      >
+                        <Typography>{wallet.label}</Typography>
+                        <Chip label={wallet.chain.name} variant="outlined" />
+                      </Stack>
+                    }
+                  />
+                </ListItem>
+              ))}
+            </List>
+          </Grid>
+        </Grid>
+>>>>>>> Stashed changes
       </Stack>
     </Container>
   );

@@ -11,8 +11,11 @@ const defaultFields = [
 ];
 
 export class GetNonce extends GraphqlQuery {
-  constructor() {
-    super({}, []);
+  constructor(address: string) {
+    super({ address }, [
+      "value",
+      "expiration"
+    ]);
   }
 }
 
