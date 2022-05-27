@@ -17,16 +17,6 @@ import { AccountArgs, CreateAccountArgs } from "./args/account";
 
 import Response from "../utils/graphql/response";
 import { ErrorCode } from "../models/error-code";
-import { IContext } from "../models/context";
-
-@ObjectType()
-class Nonce {
-  @Field()
-  value: string;
-
-  @Field()
-  expiration: number;
-}
 @ObjectType()
 class Address {
   @Field()
@@ -37,7 +27,7 @@ class Address {
 }
 
 @ObjectType()
-class Account extends ObjectBase {
+export class Account extends ObjectBase {
   @Field()
   avatar: string;
 
@@ -51,27 +41,11 @@ class Account extends ObjectBase {
   addresses: Address[];
 }
 
-
 @Resolver(Account)
 export default class AccountResolver {
-
-  @Query((r) => Nonce)
-  getNonce(@Arg("address") address: string, @Ctx() ctx: IContext): Nonce {
-    const value = v4().toString();
-
-    const timestamp = new Date();
-    const expiration = (timestamp.setHours(timestamp.getHours() + 1)).valueOf();
-
-    ctx.updateSession({
-      address,
-      expiration,
-      nonce: value
-    });
-
-    return {
-      value,
-      expiration
-    };
+  @Query((r) => String)
+  getNonce(): String {
+    return v4().toString();
   }
 
   @Query((r) => Account)
@@ -99,7 +73,7 @@ export default class AccountResolver {
   }
 
   @Query((r) => Account)
-  async getAccountByAddress(@Arg("address") address: string, @Ctx() ctx: IContext): Promise<Account> {
+  async getAccountByAddress(@Arg("address") address: String): Promise<Account> {
     const account = await AccountModel.findOne({ 
       "addresses.address": { 
         $in: address
@@ -119,8 +93,7 @@ export default class AccountResolver {
       await AccountModel.create({
         addresses: [{
           chain,
-          address,
-          isDefault: true
+          address
         }]
       })
     });

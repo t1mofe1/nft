@@ -1,5 +1,5 @@
 import React from "react";
-import { IBlockChain } from "../models/nft";
+import { IBlockChain } from "../models/blockchain";
 import { GetBlockChains } from "../api/blockchain";
 import { useGraphqlQuery } from "../services/gql/query";
 

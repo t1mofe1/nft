@@ -1,5 +1,6 @@
 export interface IBlockChain {
-    name: string;
-    label?: string;
-    symbol: string;
+  name: string;
+  label?: string;
+  logo?: string;
+  symbol?: string;
 }

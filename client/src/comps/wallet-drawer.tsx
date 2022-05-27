@@ -1,23 +1,24 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import {
-  Drawer,
   Box,
   Grid,
   Divider,
   Avatar,
   Button,
   Stack,
+  SwipeableDrawer,
   IconButton,
+  Icon,
 } from "@mui/material";
-import { Link } from "react-router-dom";
-import { useAuth } from "./auth-context";
-import { useTheme } from "@mui/material/styles";
+import { useTheme, styled } from "@mui/material/styles";
 
-<<<<<<< Updated upstream:client/src/comps/avatar-navigation.tsx
-export const AvatarNavigation = () => {
-  const theme = useTheme();
-=======
+import { useAuth } from "./auth-context";
+import { AppCtx } from "../app";
+import { WalletDetails } from "./wallet-details";
+import { LinkMain } from "./link-main";
+
 const LinkProfile = styled(LinkMain)(({ theme }) => ({
   color: theme.palette.primary.light,
   fontSize: theme.typography.body2.fontSize,
@@ -25,11 +26,8 @@ const LinkProfile = styled(LinkMain)(({ theme }) => ({
     color: theme.palette.secondary.main,
   },
 }));
-
 export const WalletDrawer = () => {
->>>>>>> Stashed changes:client/src/comps/wallet-drawer.tsx
   const { account, signOut } = useAuth();
-  
   const [drawerOpen, setDrawerOpen] = React.useState(false);
 
   return (
@@ -48,12 +46,14 @@ export const WalletDrawer = () => {
           sx={{ width: 32, height: 32 }}
         />
       </IconButton>
-      <Drawer
+      <SwipeableDrawer
         anchor={"right"}
         open={drawerOpen}
         onClose={() => setDrawerOpen(!drawerOpen)}
+        onOpen={() => setDrawerOpen(!drawerOpen)}
+        sx={{ width: { xs: "100%", md: 320 } }}
       >
-        <Box sx={{ width: 350 }} role="presentation">
+        <Box sx={{ width: { xs: 300, md: 320 } }} role="presentation">
           <Grid container spacing={0} sx={{ justifyContent: "center" }}>
             <Grid item xs={12} alignItems="center">
               <Stack
@@ -65,19 +65,48 @@ export const WalletDrawer = () => {
                 sx={{ p: 2 }}
               >
                 <Avatar alt={account?.nickname} src={account?.avatar} />
-                <Link
-                  style={{
-                    color: theme.palette.primary.light,
-                    fontSize: theme.typography.body2.fontSize,
-                  }}
+                <LinkProfile
                   to={`/account/${account?.id}`}
                   onClick={() => setDrawerOpen(false)}
                 >
                   View profile
-                </Link>
+                </LinkProfile>
               </Stack>
               <Divider />
               <Grid item xs={12} alignItems="center">
+                <Stack direction="column">
+                  <Stack
+                    direction={{ xs: "column", md: "row" }}
+                    justifyContent="center"
+                    alignItems="center"
+                    spacing={2}
+                    sx={{ p: 2 }}
+                  >
+                    <WalletDetails />
+                  </Stack>
+                  <Stack direction="column" alignItems="center" spacing={1}>
+                    <Button
+                      variant="text"
+                      color="primary"
+                      component={Link}
+                      to={"/"}
+                      size="large"
+                      startIcon={<Icon>{"account_balance_wallet"}</Icon>}
+                    >
+                      Add wallet
+                    </Button>
+                    <Button
+                      variant="text"
+                      color="primary"
+                      component={Link}
+                      to={"/"}
+                      size="large"
+                      startIcon={<Icon>{"person"}</Icon>}
+                    >
+                      Edit profile
+                    </Button>
+                  </Stack>
+                </Stack>
                 <Button
                   color="primary"
                   variant="outlined"
@@ -97,7 +126,7 @@ export const WalletDrawer = () => {
             </Grid>
           </Grid>
         </Box>
-      </Drawer>
+      </SwipeableDrawer>
     </>
   );
 };

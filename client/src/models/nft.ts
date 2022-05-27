@@ -1,11 +1,6 @@
+import { IBlockChain } from "./blockchain";
 import { IProfile, IProfileAddress } from "./profile";
 
-export interface IBlockChain {
-  key: number;
-  name: string;
-  logo: string;
-  //url : string
-}
 export interface IRenderLanguage {
   name: string;
   logo: string;
