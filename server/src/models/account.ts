@@ -8,13 +8,18 @@ export interface IAccount extends IObjectBase {
   addresses: Array<{
     chain: string;
     address: string;
+    isDefault: boolean;
   }>;
   description: string;
 }
 
 const AddressSchema = new Schema({
   chain: String,
-  address: String
+  address: String,
+  isDefault: {
+    type: String,
+    default: false
+  }
 }, { 
   _id: false 
 })

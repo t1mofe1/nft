@@ -1,24 +1,11 @@
 import React from "react";
-import { GetNonce } from "../api/account";
-import { useGraphqlQuery } from "./gql/query";
+import { useSignature } from "./signature";
 import { useAuth } from "../comps/auth-context";
 import { IGraphqlMutationProps, useGraphqlMutation } from "./gql/mutation";
 
 export const useSignedGraphqlMutation = (props: IGraphqlMutationProps) => {
-  const { wallet, isLogged, address } = useAuth();
-
-  const { isLoading, invoke } = useGraphqlQuery({
-    query: [new GetNonce()],
-    defaultData: "",
-    invokeAtInit: false,
-    cb: async (data: string) => {
-      const signedMessage = await wallet?.sign(data, address);
-
-      setSignature(signedMessage);
-    },
-  });
-
-  const [signature, setSignature] = React.useState<string | null>(null);
+  const { isLogged } = useAuth();
+  const { sign, signature, isLoading, isExpired } = useSignature();
 
   const mutation = useGraphqlMutation({
     ...props,
@@ -27,11 +14,9 @@ export const useSignedGraphqlMutation = (props: IGraphqlMutationProps) => {
       Authorization: `Bearer ${window.btoa(String(signature))}`,
     },
     onSuccess: () => {
-      setSignature(null);
       props.onSuccess.call(null);
     },
     onError: (error) => {
-      setSignature(null);
       props.onError.call(null, error);
     },
   });
@@ -49,7 +34,7 @@ export const useSignedGraphqlMutation = (props: IGraphqlMutationProps) => {
         return;
       }
 
-      invoke();
+      isExpired() ? sign() : mutation.invoke();
     },
     isLoading: isLoading || mutation.isLoading,
   };

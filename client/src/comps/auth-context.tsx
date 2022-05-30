@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }: React.PropsWithChildren<{}>) => {
     state: { address, wallet },
     updateState,
   } = useState<{ address: string | null; wallet?: IWallet }>({
-    address: null,
+    address: localStorage.getItem("address"),
   });
 
   const { data, isLoading, invoke, reset } = useGraphqlQuery({
@@ -59,6 +59,7 @@ export const AuthProvider = ({ children }: React.PropsWithChildren<{}>) => {
   React.useEffect(() => {
     if (address !== null) {
       invoke();
+      localStorage.setItem("address", address);
     }
   }, [address]);
 
@@ -80,6 +81,7 @@ export const AuthProvider = ({ children }: React.PropsWithChildren<{}>) => {
             address: null,
             wallet: undefined,
           });
+          localStorage.removeItem("address");
         },
       }}
     >

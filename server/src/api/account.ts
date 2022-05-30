@@ -10,6 +10,7 @@ import {
   ObjectType,
   Authorized,
 } from "type-graphql";
+import { IContext } from "../models/context";
 import { AccountModel } from "../models/account";
 import { ObjectBase } from "../models/object-base";
 import { InvokeMutation } from "../utils/graphql/mutation";
@@ -17,6 +18,14 @@ import { AccountArgs, CreateAccountArgs } from "./args/account";
 
 import Response from "../utils/graphql/response";
 import { ErrorCode } from "../models/error-code";
+
+@ObjectType()
+class Nonce {
+  @Field()
+  value: string;
+  @Field()
+  expiration: number;
+}
 @ObjectType()
 class Address {
   @Field()
@@ -27,7 +36,7 @@ class Address {
 }
 
 @ObjectType()
-export class Account extends ObjectBase {
+class Account extends ObjectBase {
   @Field()
   avatar: string;
 
@@ -43,10 +52,26 @@ export class Account extends ObjectBase {
 
 @Resolver(Account)
 export default class AccountResolver {
-  @Query((r) => String)
-  getNonce(): String {
-    return v4().toString();
+
+  @Query((r) => Nonce)
+  getNonce(@Arg("address") address: string, @Ctx() ctx: IContext): Nonce {
+    const ts = new Date();
+    const value = v4().toString();
+
+    const expiration = (ts.setHours(ts.getHours() + 1)).valueOf();
+
+    ctx.updateSession({
+      address,
+      expiration,
+      nonce: value
+    });
+
+    return {
+      value,
+      expiration
+    };
   }
+
 
   @Query((r) => Account)
   async getAccount(@Arg("id") id: String): Promise<Account> {

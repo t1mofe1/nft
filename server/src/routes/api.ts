@@ -1,5 +1,6 @@
 import express from "express";
 import { gqlSchema } from "../utils/graphql/builder";
+import { ISessionData, Session } from "../models/session";
 import { processRequest, getGraphQLParameters } from "graphql-helix";
 
 const router = express.Router();
@@ -29,8 +30,17 @@ router.use("/", async (req, res) => {
       operationName,
       schema: gqlSchema,
       contextFactory: (ctx: any) => {
-        return {
-            session: req.session
+        return  {
+          session: req.session,
+          authorization: req.headers['authorization'],
+          updateSession: (data: ISessionData) => {
+            const session = req.session as Session;
+
+            session.data = {
+              ...session.data,
+              ...data
+            };
+          }
         };
       },
     });

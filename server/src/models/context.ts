@@ -1,5 +1,7 @@
-import { Session, SessionData } from 'express-session';
-
+import express from 'express-session';
+import { ISessionData, Session } from './session';
 export interface IContext {
-    session?: Session & Partial<SessionData>
+    session?: Readonly<Session>;
+    authorization?: Readonly<string>;
+    updateSession: (data: Partial<ISessionData>) => void;
 }
