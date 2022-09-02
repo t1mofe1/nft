@@ -1,1 +1,1 @@
-export type Chain = "eth";
+export type Chain = 'eth';

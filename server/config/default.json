@@ -1,25 +1,25 @@
 {
-  "blockChains": [
-    {
-      "chainId": 1,
-      "name": "ethereum",
-      "label": "Ethereum",
-      "symbol": "ETH",
-      "logo": "https://cryptologos.cc/logos/ethereum-eth-logo.png?v=022"
-    },
-    {
-      "chainId": 137,
-      "name": "polygon",
-      "label": "Polygon",
-      "symbol": "MATIC",
-      "logo": "https://cryptologos.cc/logos/polygon-matic-logo.png?v=022"
-    },
-    {
-      "chainId": 1,
-      "name": "tron",
-      "label": "Tron",
-      "symbol": "TRX",
-      "logo": "https://cryptologos.cc/logos/tron-trx-logo.png?v=022"
-    }
-  ]
+	"blockChains": [
+		{
+			"chainId": 1,
+			"name": "ethereum",
+			"label": "Ethereum",
+			"symbol": "ETH",
+			"logo": "https://cryptologos.cc/logos/ethereum-eth-logo.png?v=022"
+		},
+		{
+			"chainId": 137,
+			"name": "polygon",
+			"label": "Polygon",
+			"symbol": "MATIC",
+			"logo": "https://cryptologos.cc/logos/polygon-matic-logo.png?v=022"
+		},
+		{
+			"chainId": 1,
+			"name": "tron",
+			"label": "Tron",
+			"symbol": "TRX",
+			"logo": "https://cryptologos.cc/logos/tron-trx-logo.png?v=022"
+		}
+	]
 }

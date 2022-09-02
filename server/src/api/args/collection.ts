@@ -1,10 +1,10 @@
-import { ArgsType, Field } from "type-graphql";
+import { ArgsType, Field } from 'type-graphql';
 
 @ArgsType()
 export class CollectionArgs {
-  @Field()
-  name: string;
+	@Field()
+	name: string;
 
-  @Field()
-  description: string;
+	@Field()
+	description: string;
 }

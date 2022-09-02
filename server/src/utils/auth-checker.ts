@@ -1,43 +1,40 @@
-import { AuthChecker } from "type-graphql";
-import { IContext } from "../models/context";
-import { isSignatureValid } from "./signature-verification";
+import { AuthChecker } from 'type-graphql';
+import { IContext } from '../models/context';
+import { isSignatureValid } from './signature-verification';
 
-export const authChecker: AuthChecker<IContext> = ({ root, args, context, info }, roles ) => {
-  const { session, authorization } = context;
+export const authChecker: AuthChecker<IContext> = ({ root, args, context, info }, roles) => {
+	const { session, authorization } = context;
 
-  if (!authorization) {
-    return false;
-  }
+	if (!authorization) {
+		return false;
+	}
 
-  const [type, token] = authorization.split(" ");
+	const [type, token] = authorization.split(' ');
 
-  const _signature = Buffer.from(token).toString("utf-8");
-  
-  const { data: { chain, nonce, address, signature, expiration } } = session;
+	const _signature = Buffer.from(token).toString('utf-8');
 
-  if (signature) {
-    if (expiration < Date.now()) {
-      if (signature === _signature) {
-        return true;
-      }
-    }
-  }
+	const {
+		data: { chain, nonce, address, signature, expiration },
+	} = session;
 
-  const isValid = 
-    isSignatureValid({
-      chain,
-      nonce,
-      address,
-      signature: _signature
-    });
+	if (expiration < Date.now() && signature === _signature) {
+		return true;
+	}
 
-  if (isValid === false) {
-    return false;
-  }
+	const isValid = isSignatureValid({
+		chain,
+		nonce,
+		address,
+		signature: _signature,
+	});
 
-  context.updateSession({
-    signature: _signature
-  });
+	if (!isValid) {
+		return false;
+	}
 
-  return true;
+	context.updateSession({
+		signature: _signature,
+	});
+
+	return true;
 };

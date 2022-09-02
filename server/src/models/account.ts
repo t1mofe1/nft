@@ -1,55 +1,60 @@
-import mongoose, { Schema } from "mongoose";
-import { IObjectBase } from "./object-base";
+import mongoose, { Schema } from 'mongoose';
+import { IObjectBase } from './object-base';
 
-export interface IAccount extends IObjectBase {
-  cover: string;
-  avatar: string;
-  nickname: string;
-  addresses: Array<{
-    chain: string;
-    address: string;
-    isDefault: boolean;
-  }>;
-  description: string;
+interface IAddress {
+	chain: string;
+	address: string;
+	isDefault: boolean;
 }
 
-const AddressSchema = new Schema({
-  chain: String,
-  address: String,
-  isDefault: {
-    type: String,
-    default: false
-  }
-}, { 
-  _id: false 
-})
+export interface IAccount extends IObjectBase {
+	cover: string;
+	avatar: string;
+	nickname: string;
+	addresses: IAddress[];
+	description: string;
+}
 
-const AccountSchema = new Schema(
-  {
-    avatar: {
-      type: String,
-      default: "",
-    },
-    cover: {
-      type: String,
-      default: "",
-    },
-    nickname: {
-      type: String,
-      default: "unnamed",
-    },
-    description: {
-      type: String,
-      default: "",
-    },
-    addresses: [AddressSchema],
-  },
-  {
-    timestamps: {
-      createdAt: true,
-      updatedAt: "modifiedAt",
-    },
-  }
+const AddressSchema = new Schema(
+	{
+		chain: String,
+		address: String,
+		isDefault: {
+			type: String,
+			default: false,
+		},
+	},
+	{
+		_id: false,
+	},
 );
 
-export const AccountModel = mongoose.model<IAccount>("Account", AccountSchema);
+const AccountSchema = new Schema(
+	{
+		avatar: {
+			type: String,
+			default: '',
+		},
+		cover: {
+			type: String,
+			default: '',
+		},
+		nickname: {
+			type: String,
+			default: 'unnamed',
+		},
+		description: {
+			type: String,
+			default: '',
+		},
+		addresses: [AddressSchema],
+	},
+	{
+		timestamps: {
+			createdAt: true,
+			updatedAt: 'modifiedAt',
+		},
+	},
+);
+
+export const AccountModel = mongoose.model<IAccount>('Account', AccountSchema);
