@@ -6,11 +6,13 @@
   "scripts": {
     "client-dev": "cd client && npm start",
     "server-dev": "cd server && npm run dev",
-    "start": "concurrently -c magenta,cyan -n CLIENT,SERVER \"npm run client-dev\" \"npm run server-dev\""
+    "start": "concurrently -c cyan,magenta -n SERVER,CLIENT \"npm run server-dev\" \"npm run client-dev\""
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.36.1",
+    "@typescript-eslint/parser": "^5.36.1",
     "concurrently": "^7.0.0"
   },
   "repository": {

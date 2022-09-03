@@ -1,9 +1,0 @@
-{
-	"rules": {
-		"@typescript-eslint/no-redeclare": "off",
-		"@typescript-eslint/no-unused-vars": "off"
-	},
-	"extends": ["plugin:react-hooks/recommended", "plugin:@typescript-eslint/recommended"],
-	"parser": "@babel/eslint-parser",
-	"plugins": ["@typescript-eslint", "react-hooks"]
-}
